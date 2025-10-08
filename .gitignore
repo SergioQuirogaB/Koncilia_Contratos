@@ -1,0 +1,27 @@
+# Archivos de usuario y configuraciones locales
+.vs/
+*.user
+*.suo
+
+# Binarios y objetos compilados
+bin/
+obj/
+Debug/
+Release/
+
+# Archivos de dependencias
+*.dll
+*.exe
+*.pdb
+
+# Archivos temporales
+*.cache
+*.log
+
+# Archivos de publicación
+.publish/
+
+# Archivos de paquetes NuGet
+*.nupkg
+*.snupkg
+packages/

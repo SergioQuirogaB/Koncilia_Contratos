@@ -1,0 +1,247 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="text-primary"><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+                    <p class="text-muted">Bienvenido, @ViewBag.UserName</p>
+                </div>
+                <div>
+                    <span class="text-muted me-3">@ViewBag.UserEmail</span>
+                    <form method="post" action="@Url.Action("Logout", "Account")" style="display: inline;">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Tarjetas de estadísticas -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Contratos Activos
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">24</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-file-contract fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Contratos Completados
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">156</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Pendientes de Revisión
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clock fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Vencidos
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Tabla de contratos recientes -->
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Contratos Recientes</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Cliente</th>
+                                    <th>Tipo</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#001</td>
+                                    <td>Empresa ABC S.A.</td>
+                                    <td>Servicio</td>
+                                    <td><span class="badge bg-success">Activo</span></td>
+                                    <td>2024-01-15</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#002</td>
+                                    <td>Corporación XYZ</td>
+                                    <td>Suministro</td>
+                                    <td><span class="badge bg-warning">Pendiente</span></td>
+                                    <td>2024-01-14</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#003</td>
+                                    <td>Industrias DEF</td>
+                                    <td>Mantenimiento</td>
+                                    <td><span class="badge bg-danger">Vencido</span></td>
+                                    <td>2024-01-10</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel de acciones rápidas -->
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Acciones Rápidas</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Nuevo Contrato
+                        </button>
+                        <button class="btn btn-success">
+                            <i class="fas fa-file-import"></i> Importar Contratos
+                        </button>
+                        <button class="btn btn-info">
+                            <i class="fas fa-chart-bar"></i> Reportes
+                        </button>
+                        <button class="btn btn-warning">
+                            <i class="fas fa-users"></i> Gestión de Clientes
+                        </button>
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-cog"></i> Configuración
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de notificaciones -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Notificaciones</h6>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <small class="text-muted">Hace 2 horas</small><br>
+                                <span class="text-warning">Contrato #003 vencido</span>
+                            </div>
+                            <span class="badge bg-danger rounded-pill">!</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <small class="text-muted">Hace 5 horas</small><br>
+                                <span class="text-info">Nueva solicitud de contrato</span>
+                            </div>
+                            <span class="badge bg-primary rounded-pill">1</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <small class="text-muted">Ayer</small><br>
+                                <span class="text-success">Contrato #001 aprobado</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.border-left-primary {
+    border-left: 0.25rem solid #4e73df !important;
+}
+.border-left-success {
+    border-left: 0.25rem solid #1cc88a !important;
+}
+.border-left-info {
+    border-left: 0.25rem solid #36b9cc !important;
+}
+.border-left-warning {
+    border-left: 0.25rem solid #f6c23e !important;
+}
+.text-xs {
+    font-size: 0.7rem;
+}
+.font-weight-bold {
+    font-weight: 700 !important;
+}
+.text-gray-800 {
+    color: #5a5c69 !important;
+}
+.text-gray-300 {
+    color: #dddfeb !important;
+}
+</style>
