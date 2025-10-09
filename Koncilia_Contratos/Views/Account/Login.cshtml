@@ -2,54 +2,118 @@
     ViewData["Title"] = "Iniciar Sesión";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white text-center">
-                    <h4><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</h4>
+<div class="min-h-[calc(100vh-16rem)] flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full">
+        <!-- Logo y título -->
+        <div class="text-center mb-8">
+            <div class="flex justify-center mb-4">
+                <div class="bg-gradient-to-br from-blue-500 to-indigo-600 p-4 rounded-2xl shadow-lg">
+                    <i class="fas fa-sign-in-alt text-white text-3xl"></i>
                 </div>
-                <div class="card-body p-4">
-                    @if (!string.IsNullOrEmpty(ViewBag.Error))
-                    {
-                        <div class="alert alert-danger" role="alert">
-                            @ViewBag.Error
+            </div>
+            <h2 class="text-3xl font-bold text-gray-900">Bienvenido</h2>
+            <p class="mt-2 text-sm text-gray-600">Inicia sesión en tu cuenta</p>
+        </div>
+        
+        <!-- Card del formulario -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="px-6 py-8 sm:px-10">
+                @if (!string.IsNullOrEmpty(ViewBag.Error))
+                {
+                    <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-exclamation-circle text-red-500"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-red-700">@ViewBag.Error</p>
+                            </div>
                         </div>
-                    }
-                    
-                    <form method="post" action="@Url.Action("Login", "Account")">
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-                        
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe" value="true">
-                            <label class="form-check-label" for="rememberMe">
-                                Recordarme
-                            </label>
-                        </div>
-                        
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
-                            </button>
-                        </div>
-                    </form>
-                    
-                    <hr>
-                    <div class="text-center">
-                        <p>¿No tienes cuenta? <a href="@Url.Action("Register", "Account")" class="text-primary">Regístrate aquí</a></p>
-                        <a href="@Url.Action("Index", "Home")" class="btn btn-outline-secondary btn-sm">
-                            <i class="fas fa-arrow-left"></i> Volver al inicio
-                        </a>
                     </div>
+                }
+                
+                <form method="post" action="@Url.Action("Login", "Account")" class="space-y-6">
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-envelope mr-1 text-gray-400"></i> Correo Electrónico
+                        </label>
+                        <input type="email" 
+                               id="email" 
+                               name="email" 
+                               required
+                               class="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                               placeholder="tu@email.com">
+                    </div>
+                    
+                    <!-- Contraseña -->
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-lock mr-1 text-gray-400"></i> Contraseña
+                        </label>
+                        <input type="password" 
+                               id="password" 
+                               name="password" 
+                               required
+                               class="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                               placeholder="••••••••">
+                    </div>
+                    
+                    <!-- Recordarme -->
+                    <div class="flex items-center">
+                        <input type="checkbox" 
+                               id="rememberMe" 
+                               name="rememberMe" 
+                               value="true"
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="rememberMe" class="ml-2 block text-sm text-gray-700">
+                            Recordarme
+                        </label>
+                    </div>
+                    
+                    <!-- Botón de login -->
+                    <div>
+                        <button type="submit" 
+                                class="w-full flex justify-center items-center px-4 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition">
+                            <i class="fas fa-sign-in-alt mr-2"></i>
+                            Iniciar Sesión
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Footer del card -->
+            <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 sm:px-10">
+                <div class="text-center space-y-3">
+                    <p class="text-sm text-gray-600">
+                        ¿No tienes cuenta? 
+                        <a href="@Url.Action("Register", "Account")" 
+                           class="font-medium text-blue-600 hover:text-blue-500 transition">
+                            Regístrate aquí
+                        </a>
+                    </p>
+                    <a href="@Url.Action("Index", "Home")" 
+                       class="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 transition">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Volver al inicio
+                    </a>
                 </div>
+            </div>
+        </div>
+        
+        <!-- Características -->
+        <div class="mt-8 grid grid-cols-3 gap-4 text-center">
+            <div class="bg-white rounded-lg p-3 shadow-sm">
+                <i class="fas fa-shield-alt text-blue-600 text-xl mb-1"></i>
+                <p class="text-xs text-gray-600">Seguro</p>
+            </div>
+            <div class="bg-white rounded-lg p-3 shadow-sm">
+                <i class="fas fa-bolt text-yellow-500 text-xl mb-1"></i>
+                <p class="text-xs text-gray-600">Rápido</p>
+            </div>
+            <div class="bg-white rounded-lg p-3 shadow-sm">
+                <i class="fas fa-check-circle text-green-500 text-xl mb-1"></i>
+                <p class="text-xs text-gray-600">Confiable</p>
             </div>
         </div>
     </div>

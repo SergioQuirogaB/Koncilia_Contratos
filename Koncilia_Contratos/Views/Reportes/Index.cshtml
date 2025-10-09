@@ -2,160 +2,200 @@
     ViewData["Title"] = "Reportes y Análisis";
 }
 
-<div class="container-fluid">
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <h1 class="display-4">@ViewData["Title"]</h1>
-            <hr />
+<!-- Header -->
+<div class="mb-6">
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center mb-2">
+        <span class="bg-gradient-to-br from-indigo-500 to-purple-600 text-white p-2 rounded-lg mr-3">
+            <i class="fas fa-chart-bar"></i>
+        </span>
+        Reportes y Análisis
+    </h1>
+    <p class="text-sm text-gray-600">Visualiza las estadísticas y métricas de tus contratos</p>
+</div>
+
+<!-- Tarjetas de resumen principales -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6">
+    <!-- Total Contratos -->
+    <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg overflow-hidden">
+        <div class="p-5 text-white">
+            <div class="flex items-center justify-between mb-2">
+                <h5 class="text-sm font-semibold uppercase tracking-wider opacity-90">Total Contratos</h5>
+                <i class="fas fa-file-contract text-2xl opacity-75"></i>
+            </div>
+            <h2 class="text-4xl font-bold mb-1">@ViewBag.TotalContratos</h2>
+            <p class="text-xs opacity-75">@ViewBag.ContratosActivos activos</p>
         </div>
     </div>
-
-    <!-- Tarjetas de resumen -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card text-white bg-primary">
-                <div class="card-body">
-                    <h5 class="card-title">Total Contratos</h5>
-                    <h2 class="card-text">@ViewBag.TotalContratos</h2>
-                    <p class="card-text"><small>@ViewBag.ContratosActivos activos</small></p>
-                </div>
+    
+    <!-- Valor Total -->
+    <div class="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl shadow-lg overflow-hidden">
+        <div class="p-5 text-white">
+            <div class="flex items-center justify-between mb-2">
+                <h5 class="text-sm font-semibold uppercase tracking-wider opacity-90">Valor Total</h5>
+                <i class="fas fa-dollar-sign text-2xl opacity-75"></i>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-success">
-                <div class="card-body">
-                    <h5 class="card-title">Valor Total</h5>
-                    <h2 class="card-text">@(((decimal)ViewBag.ValorTotalPesos).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h2>
-                    <p class="card-text"><small>En todos los contratos</small></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-warning">
-                <div class="card-body">
-                    <h5 class="card-title">Por Vencer</h5>
-                    <h2 class="card-text">@ViewBag.ContratosPorVencer</h2>
-                    <p class="card-text"><small>En los próximos 30 días</small></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-danger">
-                <div class="card-body">
-                    <h5 class="card-title">Vencidos</h5>
-                    <h2 class="card-text">@ViewBag.ContratosVencidos</h2>
-                    <p class="card-text"><small>Requieren atención</small></p>
-                </div>
-            </div>
+            <h2 class="text-3xl font-bold mb-1">@(((decimal)ViewBag.ValorTotalPesos).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h2>
+            <p class="text-xs opacity-75">En todos los contratos</p>
         </div>
     </div>
-
-    <!-- Segunda fila de tarjetas -->
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card text-white bg-info">
-                <div class="card-body">
-                    <h5 class="card-title">Facturado</h5>
-                    <h2 class="card-text">@(((decimal)ViewBag.ValorTotalFacturado).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h2>
-                    <p class="card-text"><small>Total ejecutado</small></p>
-                </div>
+    
+    <!-- Por Vencer -->
+    <div class="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl shadow-lg overflow-hidden">
+        <div class="p-5 text-white">
+            <div class="flex items-center justify-between mb-2">
+                <h5 class="text-sm font-semibold uppercase tracking-wider opacity-90">Por Vencer</h5>
+                <i class="fas fa-clock text-2xl opacity-75"></i>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card text-white bg-secondary">
-                <div class="card-body">
-                    <h5 class="card-title">Pendiente</h5>
-                    <h2 class="card-text">@(((decimal)ViewBag.ValorTotalPendiente).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h2>
-                    <p class="card-text"><small>Por ejecutar</small></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card text-white" style="background-color: #6f42c1;">
-                <div class="card-body">
-                    <h5 class="card-title">% Ejecución Promedio</h5>
-                    <h2 class="card-text">@(((decimal)ViewBag.PromedioEjecucion).ToString("F2"))%</h2>
-                    <p class="card-text"><small>De todos los contratos</small></p>
-                </div>
-            </div>
+            <h2 class="text-4xl font-bold mb-1">@ViewBag.ContratosPorVencer</h2>
+            <p class="text-xs opacity-75">En los próximos 30 días</p>
         </div>
     </div>
-
-    <!-- Gráficas -->
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Contratos por Estado</h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="chartEstados"></canvas>
-                </div>
+    
+    <!-- Vencidos -->
+    <div class="bg-gradient-to-br from-red-500 to-red-600 rounded-xl shadow-lg overflow-hidden">
+        <div class="p-5 text-white">
+            <div class="flex items-center justify-between mb-2">
+                <h5 class="text-sm font-semibold uppercase tracking-wider opacity-90">Vencidos</h5>
+                <i class="fas fa-exclamation-triangle text-2xl opacity-75"></i>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0">Contratos por Categoría</h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="chartCategorias"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header bg-info text-white">
-                    <h5 class="mb-0">Evolución de Contratos por Año</h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="chartAnios"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-warning">
-                    <h5 class="mb-0">Top 10 Empresas por Valor</h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="chartEmpresas"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-danger text-white">
-                    <h5 class="mb-0">Top 10 Clientes por Valor</h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="chartClientes"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-md-12 text-center">
-            <a asp-controller="Reportes" asp-action="Clientes" class="btn btn-primary btn-lg me-2">
-                <i class="bi bi-people"></i> Reporte de Clientes
-            </a>
-            <a asp-controller="Reportes" asp-action="Ejecutivo" class="btn btn-success btn-lg">
-                <i class="bi bi-graph-up"></i> Reporte Ejecutivo
-            </a>
+            <h2 class="text-4xl font-bold mb-1">@ViewBag.ContratosVencidos</h2>
+            <p class="text-xs opacity-75">Requieren atención</p>
         </div>
     </div>
 </div>
 
+<!-- Tarjetas financieras -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6">
+    <!-- Facturado -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="p-5 border-l-4 border-cyan-500">
+            <div class="flex items-center justify-between mb-2">
+                <h5 class="text-sm font-semibold text-gray-600 uppercase tracking-wider">Facturado</h5>
+                <i class="fas fa-check-circle text-cyan-500 text-2xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-cyan-600 mb-1">@(((decimal)ViewBag.ValorTotalFacturado).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h2>
+            <p class="text-xs text-gray-500">Total ejecutado</p>
+        </div>
+    </div>
+    
+    <!-- Pendiente -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="p-5 border-l-4 border-gray-500">
+            <div class="flex items-center justify-between mb-2">
+                <h5 class="text-sm font-semibold text-gray-600 uppercase tracking-wider">Pendiente</h5>
+                <i class="fas fa-hourglass-half text-gray-500 text-2xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-600 mb-1">@(((decimal)ViewBag.ValorTotalPendiente).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h2>
+            <p class="text-xs text-gray-500">Por ejecutar</p>
+        </div>
+    </div>
+    
+    <!-- % Ejecución -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="p-5 border-l-4 border-purple-500">
+            <div class="flex items-center justify-between mb-2">
+                <h5 class="text-sm font-semibold text-gray-600 uppercase tracking-wider">% Ejecución</h5>
+                <i class="fas fa-percentage text-purple-500 text-2xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-purple-600 mb-1">@(((decimal)ViewBag.PromedioEjecucion).ToString("F2"))%</h2>
+            <p class="text-xs text-gray-500">Promedio general</p>
+        </div>
+    </div>
+</div>
+
+<!-- Gráficas -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+    <!-- Contratos por Estado -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-5 py-4 bg-gradient-to-r from-blue-500 to-blue-600 border-b border-blue-700">
+            <h3 class="text-lg font-semibold text-white flex items-center">
+                <i class="fas fa-chart-pie mr-2"></i>
+                Contratos por Estado
+            </h3>
+        </div>
+        <div class="p-6">
+            <canvas id="chartEstados" class="max-h-64"></canvas>
+        </div>
+    </div>
+    
+    <!-- Contratos por Categoría -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-5 py-4 bg-gradient-to-r from-green-500 to-emerald-600 border-b border-green-700">
+            <h3 class="text-lg font-semibold text-white flex items-center">
+                <i class="fas fa-chart-pie mr-2"></i>
+                Contratos por Categoría
+            </h3>
+        </div>
+        <div class="p-6">
+            <canvas id="chartCategorias" class="max-h-64"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Evolución por año -->
+<div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+    <div class="px-5 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 border-b border-purple-700">
+        <h3 class="text-lg font-semibold text-white flex items-center">
+            <i class="fas fa-chart-line mr-2"></i>
+            Evolución de Contratos por Año
+        </h3>
+    </div>
+    <div class="p-6">
+        <canvas id="chartAnios"></canvas>
+    </div>
+</div>
+
+<!-- Top 10 -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+    <!-- Top Empresas -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-5 py-4 bg-gradient-to-r from-yellow-500 to-orange-500 border-b border-yellow-700">
+            <h3 class="text-lg font-semibold text-white flex items-center">
+                <i class="fas fa-building mr-2"></i>
+                Top 10 Empresas por Valor
+            </h3>
+        </div>
+        <div class="p-6">
+            <canvas id="chartEmpresas"></canvas>
+        </div>
+    </div>
+    
+    <!-- Top Clientes -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-5 py-4 bg-gradient-to-r from-red-500 to-red-600 border-b border-red-700">
+            <h3 class="text-lg font-semibold text-white flex items-center">
+                <i class="fas fa-users mr-2"></i>
+                Top 10 Clientes por Valor
+            </h3>
+        </div>
+        <div class="p-6">
+            <canvas id="chartClientes"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Botones de reportes específicos -->
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+    <a asp-action="Clientes" 
+       class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition">
+        <i class="fas fa-users text-2xl mr-3"></i>
+        <div class="text-left">
+            <div class="text-sm opacity-90">Ver Reporte de</div>
+            <div class="text-lg">Clientes</div>
+        </div>
+    </a>
+    <a asp-action="Ejecutivo" 
+       class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition">
+        <i class="fas fa-chart-line text-2xl mr-3"></i>
+        <div class="text-left">
+            <div class="text-sm opacity-90">Ver Reporte</div>
+            <div class="text-lg">Ejecutivo</div>
+        </div>
+    </a>
+</div>
+
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     
     <script>
         @{
@@ -184,11 +224,12 @@
                 labels: [@Html.Raw(estadosLabels)],
                 datasets: [{
                     data: [@Html.Raw(estadosCantidades)],
-                    backgroundColor: ['#28a745', '#dc3545', '#ffc107', '#6c757d']
+                    backgroundColor: ['#10b981', '#ef4444', '#f59e0b', '#6b7280']
                 }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
                         position: 'bottom'
@@ -205,11 +246,12 @@
                 labels: [@Html.Raw(categoriasLabels)],
                 datasets: [{
                     data: [@Html.Raw(categoriasCantidades)],
-                    backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#17a2b8', '#6610f2', '#e83e8c', '#fd7e14']
+                    backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4', '#8b5cf6', '#ec4899', '#f97316']
                 }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
                         position: 'bottom'
@@ -227,12 +269,12 @@
                 datasets: [{
                     label: 'Cantidad de Contratos',
                     data: [@Html.Raw(aniosCantidades)],
-                    backgroundColor: '#007bff',
+                    backgroundColor: '#3b82f6',
                     yAxisID: 'y'
                 }, {
                     label: 'Valor (Millones COP)',
                     data: [@Html.Raw(aniosValores)],
-                    backgroundColor: '#28a745',
+                    backgroundColor: '#10b981',
                     yAxisID: 'y1'
                 }]
             },
@@ -267,13 +309,13 @@
         // Gráfica de Empresas
         const ctxEmpresas = document.getElementById('chartEmpresas').getContext('2d');
         new Chart(ctxEmpresas, {
-            type: 'horizontalBar',
+            type: 'bar',
             data: {
                 labels: [@Html.Raw(empresasLabels)],
                 datasets: [{
                     label: 'Valor (Millones COP)',
                     data: [@Html.Raw(empresasValores)],
-                    backgroundColor: '#ffc107'
+                    backgroundColor: '#f59e0b'
                 }]
             },
             options: {
@@ -290,13 +332,13 @@
         // Gráfica de Clientes
         const ctxClientes = document.getElementById('chartClientes').getContext('2d');
         new Chart(ctxClientes, {
-            type: 'horizontalBar',
+            type: 'bar',
             data: {
                 labels: [@Html.Raw(clientesLabels)],
                 datasets: [{
                     label: 'Valor (Millones COP)',
                     data: [@Html.Raw(clientesValores)],
-                    backgroundColor: '#dc3545'
+                    backgroundColor: '#ef4444'
                 }]
             },
             options: {
@@ -311,4 +353,3 @@
         });
     </script>
 }
-

@@ -4,211 +4,223 @@
     ViewData["Title"] = "Editar Contrato";
 }
 
-<div class="container">
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <h1 class="display-4">@ViewData["Title"]</h1>
-            <hr />
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <form asp-action="Edit" method="post">
-                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-                <input type="hidden" asp-for="Id" />
-                
-                <div class="card mb-3">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">Información General</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label asp-for="Anio" class="form-label"></label>
-                                    <input asp-for="Anio" class="form-control" />
-                                    <span asp-validation-for="Anio" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label asp-for="Empresa" class="form-label"></label>
-                                    <input asp-for="Empresa" class="form-control" />
-                                    <span asp-validation-for="Empresa" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="mb-3">
-                                    <label asp-for="Cliente" class="form-label"></label>
-                                    <input asp-for="Cliente" class="form-control" />
-                                    <span asp-validation-for="Cliente" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label asp-for="NumeroContrato" class="form-label"></label>
-                                    <input asp-for="NumeroContrato" class="form-control" />
-                                    <span asp-validation-for="NumeroContrato" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label asp-for="Categoria" class="form-label"></label>
-                                    <input asp-for="Categoria" class="form-control" />
-                                    <span asp-validation-for="Categoria" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label asp-for="Estado" class="form-label"></label>
-                                    <select asp-for="Estado" class="form-select">
-                                        <option value="Activo">Activo</option>
-                                        <option value="Inactivo">Inactivo</option>
-                                        <option value="Finalizado">Finalizado</option>
-                                        <option value="Suspendido">Suspendido</option>
-                                    </select>
-                                    <span asp-validation-for="Estado" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="mb-3">
-                                    <label asp-for="Descripcion" class="form-label"></label>
-                                    <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
-                                    <span asp-validation-for="Descripcion" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-3">
-                    <div class="card-header bg-success text-white">
-                        <h5 class="mb-0">Información Financiera</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label asp-for="ValorPesos" class="form-label"></label>
-                                    <input asp-for="ValorPesos" class="form-control" type="number" step="0.01" />
-                                    <span asp-validation-for="ValorPesos" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label asp-for="ValorDolares" class="form-label"></label>
-                                    <input asp-for="ValorDolares" class="form-control" type="number" step="0.01" />
-                                    <span asp-validation-for="ValorDolares" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label asp-for="ValorMensual" class="form-label"></label>
-                                    <input asp-for="ValorMensual" class="form-control" type="number" step="0.01" />
-                                    <span asp-validation-for="ValorMensual" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label asp-for="ValorFacturado" class="form-label"></label>
-                                    <input asp-for="ValorFacturado" class="form-control" type="number" step="0.01" />
-                                    <span asp-validation-for="ValorFacturado" class="text-danger"></span>
-                                    <small class="form-text text-muted">El % de ejecución y valor pendiente se calculan automáticamente</small>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label asp-for="NumeroFactura" class="form-label"></label>
-                                    <input asp-for="NumeroFactura" class="form-control" />
-                                    <span asp-validation-for="NumeroFactura" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label asp-for="NumeroHoras" class="form-label"></label>
-                                    <input asp-for="NumeroHoras" class="form-control" type="number" />
-                                    <span asp-validation-for="NumeroHoras" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-3">
-                    <div class="card-header bg-info text-white">
-                        <h5 class="mb-0">Fechas y Póliza</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label asp-for="FechaInicio" class="form-label"></label>
-                                    <input asp-for="FechaInicio" class="form-control" type="date" />
-                                    <span asp-validation-for="FechaInicio" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label asp-for="FechaVencimiento" class="form-label"></label>
-                                    <input asp-for="FechaVencimiento" class="form-control" type="date" />
-                                    <span asp-validation-for="FechaVencimiento" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label asp-for="NumeroPoliza" class="form-label"></label>
-                                    <input asp-for="NumeroPoliza" class="form-control" />
-                                    <span asp-validation-for="NumeroPoliza" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label asp-for="FechaVencimientoPoliza" class="form-label"></label>
-                                    <input asp-for="FechaVencimientoPoliza" class="form-control" type="date" />
-                                    <span asp-validation-for="FechaVencimientoPoliza" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-3">
-                    <div class="card-header bg-warning">
-                        <h5 class="mb-0">Observaciones</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label asp-for="Observaciones" class="form-label"></label>
-                            <textarea asp-for="Observaciones" class="form-control" rows="3"></textarea>
-                            <span asp-validation-for="Observaciones" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-primary btn-lg">
-                        <i class="bi bi-save"></i> Actualizar Contrato
-                    </button>
-                    <a asp-action="Index" class="btn btn-secondary btn-lg">
-                        <i class="bi bi-x-circle"></i> Cancelar
-                    </a>
-                </div>
-            </form>
-        </div>
-    </div>
+<!-- Header -->
+<div class="mb-6">
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center mb-2">
+        <span class="bg-gradient-to-br from-yellow-500 to-orange-600 text-white p-2 rounded-lg mr-3">
+            <i class="fas fa-edit"></i>
+        </span>
+        Editar Contrato
+    </h1>
+    <p class="text-sm text-gray-600">Modifique los datos del contrato</p>
 </div>
+
+<form asp-action="Edit" method="post" class="space-y-6">
+    <div asp-validation-summary="ModelOnly" class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <i class="fas fa-exclamation-circle text-red-500"></i>
+            </div>
+            <div class="ml-3">
+                <p class="text-sm text-red-700">Por favor corrija los errores antes de continuar.</p>
+            </div>
+        </div>
+    </div>
+    
+    <input type="hidden" asp-for="Id" />
+    
+    <!-- Información General -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-4 py-3 bg-gradient-to-r from-blue-500 to-blue-600 border-b border-blue-700">
+            <h3 class="text-lg font-semibold text-white flex items-center">
+                <i class="fas fa-info-circle mr-2"></i>
+                Información General
+            </h3>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Año -->
+                <div>
+                    <label asp-for="Anio" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                    <input asp-for="Anio" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                    <span asp-validation-for="Anio" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+                
+                <!-- Empresa -->
+                <div class="sm:col-span-2 lg:col-span-1">
+                    <label asp-for="Empresa" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                    <input asp-for="Empresa" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                    <span asp-validation-for="Empresa" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+                
+                <!-- Cliente -->
+                <div class="sm:col-span-2 lg:col-span-1">
+                    <label asp-for="Cliente" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                    <input asp-for="Cliente" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                    <span asp-validation-for="Cliente" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+                
+                <!-- Número Contrato -->
+                <div>
+                    <label asp-for="NumeroContrato" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                    <input asp-for="NumeroContrato" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                    <span asp-validation-for="NumeroContrato" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+                
+                <!-- Categoría -->
+                <div>
+                    <label asp-for="Categoria" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                    <input asp-for="Categoria" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                    <span asp-validation-for="Categoria" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+                
+                <!-- Estado -->
+                <div>
+                    <label asp-for="Estado" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                    <select asp-for="Estado" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        <option value="Activo">Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                        <option value="Finalizado">Finalizado</option>
+                        <option value="Suspendido">Suspendido</option>
+                    </select>
+                    <span asp-validation-for="Estado" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+                
+                <!-- Descripción -->
+                <div class="sm:col-span-2 lg:col-span-3">
+                    <label asp-for="Descripcion" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                    <textarea asp-for="Descripcion" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"></textarea>
+                    <span asp-validation-for="Descripcion" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Información Financiera -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-600 border-b border-green-700">
+            <h3 class="text-lg font-semibold text-white flex items-center">
+                <i class="fas fa-dollar-sign mr-2"></i>
+                Información Financiera
+            </h3>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Valor Pesos -->
+                <div>
+                    <label asp-for="ValorPesos" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                    <input asp-for="ValorPesos" type="number" step="0.01" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition" />
+                    <span asp-validation-for="ValorPesos" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+                
+                <!-- Valor Dólares -->
+                <div>
+                    <label asp-for="ValorDolares" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                    <input asp-for="ValorDolares" type="number" step="0.01" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition" />
+                    <span asp-validation-for="ValorDolares" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+                
+                <!-- Valor Mensual -->
+                <div>
+                    <label asp-for="ValorMensual" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                    <input asp-for="ValorMensual" type="number" step="0.01" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition" />
+                    <span asp-validation-for="ValorMensual" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+                
+                <!-- Valor Facturado -->
+                <div>
+                    <label asp-for="ValorFacturado" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                    <input asp-for="ValorFacturado" type="number" step="0.01" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition" />
+                    <span asp-validation-for="ValorFacturado" class="text-red-600 text-xs mt-1 block"></span>
+                    <p class="text-xs text-gray-500 mt-1">El % de ejecución y valor pendiente se calculan automáticamente</p>
+                </div>
+                
+                <!-- Número Factura -->
+                <div>
+                    <label asp-for="NumeroFactura" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                    <input asp-for="NumeroFactura" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition" />
+                    <span asp-validation-for="NumeroFactura" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+                
+                <!-- Número Horas -->
+                <div>
+                    <label asp-for="NumeroHoras" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                    <input asp-for="NumeroHoras" type="number" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition" />
+                    <span asp-validation-for="NumeroHoras" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Fechas y Póliza -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-4 py-3 bg-gradient-to-r from-purple-500 to-purple-600 border-b border-purple-700">
+            <h3 class="text-lg font-semibold text-white flex items-center">
+                <i class="fas fa-calendar-alt mr-2"></i>
+                Fechas y Póliza
+            </h3>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Fecha Inicio -->
+                <div>
+                    <label asp-for="FechaInicio" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                    <input asp-for="FechaInicio" type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition" />
+                    <span asp-validation-for="FechaInicio" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+                
+                <!-- Fecha Vencimiento -->
+                <div>
+                    <label asp-for="FechaVencimiento" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                    <input asp-for="FechaVencimiento" type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition" />
+                    <span asp-validation-for="FechaVencimiento" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+                
+                <!-- Número Póliza -->
+                <div>
+                    <label asp-for="NumeroPoliza" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                    <input asp-for="NumeroPoliza" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition" />
+                    <span asp-validation-for="NumeroPoliza" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+                
+                <!-- Fecha Vencimiento Póliza -->
+                <div>
+                    <label asp-for="FechaVencimientoPoliza" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                    <input asp-for="FechaVencimientoPoliza" type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition" />
+                    <span asp-validation-for="FechaVencimientoPoliza" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Observaciones -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-4 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 border-b border-yellow-700">
+            <h3 class="text-lg font-semibold text-white flex items-center">
+                <i class="fas fa-sticky-note mr-2"></i>
+                Observaciones
+            </h3>
+        </div>
+        <div class="p-6">
+            <label asp-for="Observaciones" class="block text-sm font-medium text-gray-700 mb-2"></label>
+            <textarea asp-for="Observaciones" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition"></textarea>
+            <span asp-validation-for="Observaciones" class="text-red-600 text-xs mt-1 block"></span>
+        </div>
+    </div>
+    
+    <!-- Botones -->
+    <div class="flex flex-col sm:flex-row gap-3">
+        <button type="submit" class="flex-1 sm:flex-initial inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition">
+            <i class="fas fa-save mr-2"></i>
+            Actualizar Contrato
+        </button>
+        <a asp-action="Index" class="flex-1 sm:flex-initial inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-700 font-semibold rounded-lg transition">
+            <i class="fas fa-times mr-2"></i>
+            Cancelar
+        </a>
+    </div>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 }
-

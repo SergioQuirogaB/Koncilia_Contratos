@@ -4,73 +4,108 @@
     ViewData["Title"] = "Crear Configuración";
 }
 
-<div class="container">
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <h1 class="display-4">@ViewData["Title"]</h1>
-            <hr />
+<!-- Header -->
+<div class="mb-6">
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center mb-2">
+        <span class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-2 rounded-lg mr-3">
+            <i class="fas fa-plus-circle"></i>
+        </span>
+        Nueva Configuración
+    </h1>
+    <p class="text-sm text-gray-600">Crea un nuevo parámetro de configuración del sistema</p>
+</div>
+
+<div class="max-w-3xl mx-auto">
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-4 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 border-b border-blue-700">
+            <h3 class="text-lg font-semibold text-white flex items-center">
+                <i class="fas fa-cog mr-2"></i>
+                Nueva Configuración del Sistema
+            </h3>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Nueva Configuración del Sistema</h5>
+        
+        <div class="p-6">
+            <form asp-action="Create" method="post" class="space-y-6">
+                <div asp-validation-summary="ModelOnly" class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-exclamation-circle text-red-500"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-red-700">Por favor corrija los errores antes de continuar.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <form asp-action="Create" method="post">
-                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-                        
-                        <div class="mb-3">
-                            <label asp-for="Categoria" class="form-label"></label>
-                            <select asp-for="Categoria" class="form-select">
-                                <option value="">Seleccionar categoría...</option>
-                                <option value="General">General</option>
-                                <option value="Email">Email</option>
-                                <option value="Sistema">Sistema</option>
-                                <option value="Reportes">Reportes</option>
-                                <option value="Notificaciones">Notificaciones</option>
-                            </select>
-                            <span asp-validation-for="Categoria" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Clave" class="form-label"></label>
-                            <input asp-for="Clave" class="form-control" placeholder="ej. DiasAlertaVencimiento" />
-                            <span asp-validation-for="Clave" class="text-danger"></span>
-                            <small class="form-text text-muted">Identificador único para esta configuración</small>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Valor" class="form-label"></label>
-                            <input asp-for="Valor" class="form-control" placeholder="ej. 30" />
-                            <span asp-validation-for="Valor" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Descripcion" class="form-label"></label>
-                            <textarea asp-for="Descripcion" class="form-control" rows="3" placeholder="Descripción de la configuración"></textarea>
-                            <span asp-validation-for="Descripcion" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-save"></i> Guardar Configuración
-                            </button>
-                            <a asp-action="Index" class="btn btn-secondary">
-                                <i class="bi bi-x-circle"></i> Cancelar
-                            </a>
-                        </div>
-                    </form>
+                
+                <!-- Categoría -->
+                <div>
+                    <label asp-for="Categoria" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-folder text-gray-400 mr-1"></i> Categoría
+                    </label>
+                    <select asp-for="Categoria" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        <option value="">Seleccionar categoría...</option>
+                        <option value="General">General</option>
+                        <option value="Email">Email</option>
+                        <option value="Sistema">Sistema</option>
+                        <option value="Reportes">Reportes</option>
+                        <option value="Notificaciones">Notificaciones</option>
+                    </select>
+                    <span asp-validation-for="Categoria" class="text-red-600 text-xs mt-1 block"></span>
                 </div>
-            </div>
+                
+                <!-- Clave -->
+                <div>
+                    <label asp-for="Clave" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-key text-gray-400 mr-1"></i> Clave
+                    </label>
+                    <input asp-for="Clave" 
+                           placeholder="ej. DiasAlertaVencimiento"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                    <span asp-validation-for="Clave" class="text-red-600 text-xs mt-1 block"></span>
+                    <p class="text-xs text-gray-500 mt-1">Identificador único para esta configuración</p>
+                </div>
+                
+                <!-- Valor -->
+                <div>
+                    <label asp-for="Valor" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-tag text-gray-400 mr-1"></i> Valor
+                    </label>
+                    <input asp-for="Valor" 
+                           placeholder="ej. 30"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                    <span asp-validation-for="Valor" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+                
+                <!-- Descripción -->
+                <div>
+                    <label asp-for="Descripcion" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-align-left text-gray-400 mr-1"></i> Descripción
+                    </label>
+                    <textarea asp-for="Descripcion" 
+                              rows="4" 
+                              placeholder="Descripción de la configuración"
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"></textarea>
+                    <span asp-validation-for="Descripcion" class="text-red-600 text-xs mt-1 block"></span>
+                </div>
+                
+                <!-- Botones -->
+                <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200">
+                    <button type="submit" 
+                            class="flex-1 sm:flex-initial inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition">
+                        <i class="fas fa-save mr-2"></i>
+                        Guardar Configuración
+                    </button>
+                    <a asp-action="Index" 
+                       class="flex-1 sm:flex-initial inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-700 font-semibold rounded-lg transition">
+                        <i class="fas fa-times mr-2"></i>
+                        Cancelar
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 }
-

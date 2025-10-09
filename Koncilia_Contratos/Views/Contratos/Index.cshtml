@@ -4,168 +4,239 @@
     ViewData["Title"] = "Gestión de Contratos";
 }
 
-<div class="container-fluid">
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <h1 class="display-4">@ViewData["Title"]</h1>
-            <hr />
-        </div>
-    </div>
+<!-- Header -->
+<div class="mb-6">
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center mb-2">
+        <span class="bg-gradient-to-br from-purple-500 to-indigo-600 text-white p-2 rounded-lg mr-3">
+            <i class="fas fa-file-contract"></i>
+        </span>
+        Gestión de Contratos
+    </h1>
+    <p class="text-sm text-gray-600">Administra y visualiza todos tus contratos</p>
+</div>
 
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            @TempData["Success"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-
-    <div class="row mb-3">
-        <div class="col-md-12">
-            <div class="btn-toolbar" role="toolbar">
-                <div class="btn-group me-2" role="group">
-                    <a asp-action="Create" class="btn btn-primary">
-                        <i class="bi bi-plus-circle"></i> Nuevo Contrato
-                    </a>
-                    <a asp-action="Importar" class="btn btn-success">
-                        <i class="bi bi-file-earmark-excel"></i> Importar
-                    </a>
-                    <a asp-action="Exportar" class="btn btn-info">
-                        <i class="bi bi-download"></i> Exportar
-                    </a>
-                </div>
+@if (TempData["Success"] != null)
+{
+    <div class="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                <i class="fas fa-check-circle text-green-500"></i>
             </div>
+            <div class="ml-3">
+                <p class="text-sm text-green-700">@TempData["Success"]</p>
+            </div>
+            <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                    class="ml-auto -mx-1.5 -my-1.5 text-green-500 hover:text-green-700">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     </div>
+}
 
-    <div class="row mb-3">
-        <div class="col-md-12">
-            <form asp-action="Index" method="get" class="row g-3">
-                <div class="col-md-4">
-                    <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" 
-                           class="form-control" placeholder="Buscar por Cliente, Empresa o N° Contrato" />
-                </div>
-                <div class="col-md-3">
-                    <select name="estado" class="form-select">
-                        <option value="">Todos los estados</option>
-                        <option value="Activo" selected="@(ViewData["CurrentEstado"]?.ToString() == "Activo")">Activo</option>
-                        <option value="Inactivo" selected="@(ViewData["CurrentEstado"]?.ToString() == "Inactivo")">Inactivo</option>
-                        <option value="Finalizado" selected="@(ViewData["CurrentEstado"]?.ToString() == "Finalizado")">Finalizado</option>
-                        <option value="Suspendido" selected="@(ViewData["CurrentEstado"]?.ToString() == "Suspendido")">Suspendido</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <input type="number" name="anio" value="@ViewData["CurrentAnio"]" 
-                           class="form-control" placeholder="Año" min="2000" max="2100" />
-                </div>
-                <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-search"></i> Buscar
-                    </button>
-                    <a asp-action="Index" class="btn btn-secondary">
-                        <i class="bi bi-x-circle"></i> Limpiar
-                    </a>
-                </div>
-            </form>
+<!-- Botones de acción -->
+<div class="mb-6 flex flex-wrap gap-3">
+    <a asp-action="Create" 
+       class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition">
+        <i class="fas fa-plus mr-2"></i>
+        Nuevo Contrato
+    </a>
+    <a asp-action="Importar" 
+       class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition">
+        <i class="fas fa-file-excel mr-2"></i>
+        Importar
+    </a>
+    <a asp-action="Exportar" 
+       class="inline-flex items-center px-4 py-2 bg-white hover:bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-700 font-medium rounded-lg transition">
+        <i class="fas fa-download mr-2"></i>
+        Exportar
+    </a>
+</div>
+
+<!-- Filtros de búsqueda -->
+<div class="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-6">
+    <form asp-action="Index" method="get" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4">
+        <!-- Búsqueda -->
+        <div class="sm:col-span-2 lg:col-span-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                <i class="fas fa-search text-gray-400 mr-1"></i> Búsqueda
+            </label>
+            <input type="text" 
+                   name="searchString" 
+                   value="@ViewData["CurrentFilter"]" 
+                   placeholder="Cliente, Empresa o N° Contrato"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
         </div>
-    </div>
+        
+        <!-- Estado -->
+        <div class="lg:col-span-3">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                <i class="fas fa-filter text-gray-400 mr-1"></i> Estado
+            </label>
+            <select name="estado" 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                <option value="">Todos los estados</option>
+                <option value="Activo" selected="@(ViewData["CurrentEstado"]?.ToString() == "Activo")">Activo</option>
+                <option value="Inactivo" selected="@(ViewData["CurrentEstado"]?.ToString() == "Inactivo")">Inactivo</option>
+                <option value="Finalizado" selected="@(ViewData["CurrentEstado"]?.ToString() == "Finalizado")">Finalizado</option>
+                <option value="Suspendido" selected="@(ViewData["CurrentEstado"]?.ToString() == "Suspendido")">Suspendido</option>
+            </select>
+        </div>
+        
+        <!-- Año -->
+        <div class="lg:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                <i class="fas fa-calendar text-gray-400 mr-1"></i> Año
+            </label>
+            <input type="number" 
+                   name="anio" 
+                   value="@ViewData["CurrentAnio"]" 
+                   placeholder="2024" 
+                   min="2000" 
+                   max="2100"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+        </div>
+        
+        <!-- Botones -->
+        <div class="sm:col-span-2 lg:col-span-3 flex items-end gap-2">
+            <button type="submit" 
+                    class="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition">
+                <i class="fas fa-search mr-2"></i>
+                Buscar
+            </button>
+            <a asp-action="Index" 
+               class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-lg transition">
+                <i class="fas fa-times"></i>
+            </a>
+        </div>
+    </form>
+</div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Año</th>
-                            <th>Empresa</th>
-                            <th>Cliente</th>
-                            <th>N° Contrato</th>
-                            <th>Valor (COP)</th>
-                            <th>Categoría</th>
-                            <th>Fecha Inicio</th>
-                            <th>Fecha Vencimiento</th>
-                            <th>% Ejecución</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr class="@(item.EstaVencido && item.Estado == "Activo" ? "table-danger" : "")">
-                                <td>@item.Anio</td>
-                                <td>@item.Empresa</td>
-                                <td>@item.Cliente</td>
-                                <td>@item.NumeroContrato</td>
-                                <td>@item.ValorPesos.ToString("C0", new System.Globalization.CultureInfo("es-CO"))</td>
-                                <td>@item.Categoria</td>
-                                <td>@item.FechaInicio.ToString("dd/MM/yyyy")</td>
-                                <td>
-                                    @item.FechaVencimiento.ToString("dd/MM/yyyy")
+<!-- Tabla de contratos -->
+@if (Model.Any())
+{
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Año</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Empresa</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden md:table-cell">Cliente</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">N° Contrato</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden lg:table-cell">Valor</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden xl:table-cell">Categoría</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden sm:table-cell">F. Inicio</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden lg:table-cell">F. Vencimiento</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden xl:table-cell">Ejecución</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Estado</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-blue-50 transition @(item.EstaVencido && item.Estado == "Activo" ? "bg-red-50" : "")">
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">@item.Anio</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">@item.Empresa</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 hidden md:table-cell">@item.Cliente</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-blue-600">@item.NumeroContrato</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 hidden lg:table-cell">
+                                @item.ValorPesos.ToString("C0", new System.Globalization.CultureInfo("es-CO"))
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 hidden xl:table-cell">
+                                <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded-md text-xs">@item.Categoria</span>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 hidden sm:table-cell">
+                                @item.FechaInicio.ToString("dd/MM/yyyy")
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 hidden lg:table-cell">
+                                <div class="flex flex-col space-y-1">
+                                    <span>@item.FechaVencimiento.ToString("dd/MM/yyyy")</span>
                                     @if (item.DiasRestantes > 0 && item.DiasRestantes <= 30 && item.Estado == "Activo")
                                     {
-                                        <span class="badge bg-warning text-dark">@item.DiasRestantes días</span>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                            <i class="fas fa-clock mr-1" style="font-size: 8px;"></i>
+                                            @item.DiasRestantes días
+                                        </span>
                                     }
                                     else if (item.EstaVencido && item.Estado == "Activo")
                                     {
-                                        <span class="badge bg-danger">Vencido</span>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                            <i class="fas fa-exclamation-triangle mr-1" style="font-size: 8px;"></i>
+                                            Vencido
+                                        </span>
                                     }
-                                </td>
-                                <td>
-                                    @if (item.PorcentajeEjecucion.HasValue)
-                                    {
-                                        <div class="progress" style="min-width: 100px;">
-                                            <div class="progress-bar @(item.PorcentajeEjecucion >= 75 ? "bg-success" : item.PorcentajeEjecucion >= 50 ? "bg-info" : item.PorcentajeEjecucion >= 25 ? "bg-warning" : "bg-danger")" 
-                                                 role="progressbar" 
-                                                 style="width: @(item.PorcentajeEjecucion)%" 
-                                                 aria-valuenow="@item.PorcentajeEjecucion" 
-                                                 aria-valuemin="0" 
-                                                 aria-valuemax="100">
-                                                @item.PorcentajeEjecucion.Value.ToString("F2")%
-                                            </div>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <span>-</span>
-                                    }
-                                </td>
-                                <td>
-                                    <span class="badge @(item.Estado == "Activo" ? "bg-success" : item.Estado == "Finalizado" ? "bg-secondary" : item.Estado == "Suspendido" ? "bg-warning" : "bg-danger")">
-                                        @item.Estado
-                                    </span>
-                                </td>
-                                <td>
-                                    <div class="btn-group btn-group-sm" role="group">
-                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info" title="Detalles">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning" title="Editar">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" title="Eliminar">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap hidden xl:table-cell">
+                                @if (item.PorcentajeEjecucion.HasValue)
+                                {
+                                    <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                                        <div class="h-full rounded-full @(item.PorcentajeEjecucion >= 75 ? "bg-green-500" : item.PorcentajeEjecucion >= 50 ? "bg-blue-500" : item.PorcentajeEjecucion >= 25 ? "bg-yellow-500" : "bg-red-500")" 
+                                             style="width: @(item.PorcentajeEjecucion)%"></div>
                                     </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                                    <span class="text-xs text-gray-600 mt-1">@item.PorcentajeEjecucion.Value.ToString("F2")%</span>
+                                }
+                                else
+                                {
+                                    <span class="text-xs text-gray-400">-</span>
+                                }
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium @(item.Estado == "Activo" ? "bg-green-100 text-green-800" : item.Estado == "Finalizado" ? "bg-gray-100 text-gray-800" : item.Estado == "Suspendido" ? "bg-yellow-100 text-yellow-800" : "bg-red-100 text-red-800")">
+                                    <i class="fas fa-circle mr-1" style="font-size: 6px;"></i>
+                                    @item.Estado
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm">
+                                <div class="flex space-x-2">
+                                    <a asp-action="Details" asp-route-id="@item.Id" 
+                                       class="text-blue-600 hover:text-blue-800 transition" 
+                                       title="Detalles">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" 
+                                       class="text-yellow-600 hover:text-yellow-800 transition" 
+                                       title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" 
+                                       class="text-red-600 hover:text-red-800 transition" 
+                                       title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
-
-    @if (!Model.Any())
-    {
-        <div class="alert alert-info text-center" role="alert">
-            <h4>No se encontraron contratos</h4>
-            <p>Comienza creando tu primer contrato o importando contratos desde un archivo Excel.</p>
+}
+else
+{
+    <div class="bg-white rounded-xl shadow-md p-8 sm:p-12 text-center">
+        <div class="flex justify-center mb-4">
+            <div class="bg-blue-100 rounded-full p-6">
+                <i class="fas fa-folder-open text-blue-600 text-5xl"></i>
+            </div>
         </div>
-    }
-</div>
-
-@section Scripts {
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+        <h3 class="text-xl font-bold text-gray-900 mb-2">No se encontraron contratos</h3>
+        <p class="text-gray-600 mb-6">Comienza creando tu primer contrato o importando contratos desde un archivo Excel.</p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+            <a asp-action="Create" 
+               class="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition">
+                <i class="fas fa-plus mr-2"></i>
+                Crear Contrato
+            </a>
+            <a asp-action="Importar" 
+               class="inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-700 font-medium rounded-lg transition">
+                <i class="fas fa-file-import mr-2"></i>
+                Importar Contratos
+            </a>
+        </div>
+    </div>
 }
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />

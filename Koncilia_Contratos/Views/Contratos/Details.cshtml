@@ -4,185 +4,231 @@
     ViewData["Title"] = "Detalles del Contrato";
 }
 
-<div class="container">
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <h1 class="display-4">@ViewData["Title"]</h1>
-            <hr />
-        </div>
-    </div>
+<!-- Header -->
+<div class="mb-6">
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center mb-2">
+        <span class="bg-gradient-to-br from-indigo-500 to-purple-600 text-white p-2 rounded-lg mr-3">
+            <i class="fas fa-file-alt"></i>
+        </span>
+        Detalles del Contrato
+    </h1>
+    <p class="text-sm text-gray-600">Información completa del contrato seleccionado</p>
+</div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card mb-3">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Información General</h5>
+<div class="space-y-6">
+    <!-- Información General -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-4 py-3 bg-gradient-to-r from-blue-500 to-blue-600 border-b border-blue-700">
+            <h3 class="text-lg font-semibold text-white flex items-center">
+                <i class="fas fa-info-circle mr-2"></i>
+                Información General
+            </h3>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div>
+                    <dt class="text-sm font-medium text-gray-500 mb-1">@Html.DisplayNameFor(model => model.Anio)</dt>
+                    <dd class="text-lg font-semibold text-gray-900">@Html.DisplayFor(model => model.Anio)</dd>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <strong>@Html.DisplayNameFor(model => model.Anio):</strong><br />
-                            @Html.DisplayFor(model => model.Anio)
-                        </div>
-                        <div class="col-md-4">
-                            <strong>@Html.DisplayNameFor(model => model.Empresa):</strong><br />
-                            @Html.DisplayFor(model => model.Empresa)
-                        </div>
-                        <div class="col-md-5">
-                            <strong>@Html.DisplayNameFor(model => model.Cliente):</strong><br />
-                            @Html.DisplayFor(model => model.Cliente)
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row">
-                        <div class="col-md-4">
-                            <strong>@Html.DisplayNameFor(model => model.NumeroContrato):</strong><br />
-                            @Html.DisplayFor(model => model.NumeroContrato)
-                        </div>
-                        <div class="col-md-4">
-                            <strong>@Html.DisplayNameFor(model => model.Categoria):</strong><br />
+                
+                <div>
+                    <dt class="text-sm font-medium text-gray-500 mb-1">@Html.DisplayNameFor(model => model.Empresa)</dt>
+                    <dd class="text-lg font-semibold text-gray-900">@Html.DisplayFor(model => model.Empresa)</dd>
+                </div>
+                
+                <div>
+                    <dt class="text-sm font-medium text-gray-500 mb-1">@Html.DisplayNameFor(model => model.Cliente)</dt>
+                    <dd class="text-lg font-semibold text-gray-900">@Html.DisplayFor(model => model.Cliente)</dd>
+                </div>
+                
+                <div>
+                    <dt class="text-sm font-medium text-gray-500 mb-1">@Html.DisplayNameFor(model => model.NumeroContrato)</dt>
+                    <dd class="text-lg font-semibold text-blue-600">@Html.DisplayFor(model => model.NumeroContrato)</dd>
+                </div>
+                
+                <div>
+                    <dt class="text-sm font-medium text-gray-500 mb-1">@Html.DisplayNameFor(model => model.Categoria)</dt>
+                    <dd class="text-lg">
+                        <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-sm font-medium">
                             @Html.DisplayFor(model => model.Categoria)
-                        </div>
-                        <div class="col-md-4">
-                            <strong>@Html.DisplayNameFor(model => model.Estado):</strong><br />
-                            <span class="badge @(Model.Estado == "Activo" ? "bg-success" : Model.Estado == "Finalizado" ? "bg-secondary" : Model.Estado == "Suspendido" ? "bg-warning" : "bg-danger")">
-                                @Html.DisplayFor(model => model.Estado)
-                            </span>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row">
-                        <div class="col-md-12">
-                            <strong>@Html.DisplayNameFor(model => model.Descripcion):</strong><br />
-                            @Html.DisplayFor(model => model.Descripcion)
-                        </div>
-                    </div>
+                        </span>
+                    </dd>
+                </div>
+                
+                <div>
+                    <dt class="text-sm font-medium text-gray-500 mb-1">@Html.DisplayNameFor(model => model.Estado)</dt>
+                    <dd class="text-lg">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium @(Model.Estado == "Activo" ? "bg-green-100 text-green-800" : Model.Estado == "Finalizado" ? "bg-gray-100 text-gray-800" : Model.Estado == "Suspendido" ? "bg-yellow-100 text-yellow-800" : "bg-red-100 text-red-800")">
+                            <i class="fas fa-circle mr-2" style="font-size: 8px;"></i>
+                            @Html.DisplayFor(model => model.Estado)
+                        </span>
+                    </dd>
+                </div>
+                
+                <div class="sm:col-span-2 lg:col-span-3">
+                    <dt class="text-sm font-medium text-gray-500 mb-1">@Html.DisplayNameFor(model => model.Descripcion)</dt>
+                    <dd class="text-base text-gray-700 bg-gray-50 p-4 rounded-lg">
+                        @Html.DisplayFor(model => model.Descripcion)
+                    </dd>
                 </div>
             </div>
-
-            <div class="card mb-3">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0">Información Financiera</h5>
+        </div>
+    </div>
+    
+    <!-- Información Financiera -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-600 border-b border-green-700">
+            <h3 class="text-lg font-semibold text-white flex items-center">
+                <i class="fas fa-dollar-sign mr-2"></i>
+                Información Financiera
+            </h3>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                <div class="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl">
+                    <dt class="text-sm font-medium text-green-700 mb-1">@Html.DisplayNameFor(model => model.ValorPesos)</dt>
+                    <dd class="text-2xl font-bold text-green-900">@Model.ValorPesos.ToString("C0", new System.Globalization.CultureInfo("es-CO"))</dd>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <strong>@Html.DisplayNameFor(model => model.ValorPesos):</strong><br />
-                            <h4 class="text-success">@Model.ValorPesos.ToString("C0", new System.Globalization.CultureInfo("es-CO"))</h4>
-                        </div>
-                        <div class="col-md-4">
-                            <strong>@Html.DisplayNameFor(model => model.ValorDolares):</strong><br />
-                            <h4 class="text-info">@(Model.ValorDolares.HasValue ? Model.ValorDolares.Value.ToString("C2") : "N/A")</h4>
-                        </div>
-                        <div class="col-md-4">
-                            <strong>@Html.DisplayNameFor(model => model.ValorMensual):</strong><br />
-                            <h4 class="text-primary">@(Model.ValorMensual.HasValue ? Model.ValorMensual.Value.ToString("C0", new System.Globalization.CultureInfo("es-CO")) : "N/A")</h4>
-                        </div>
+                
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl">
+                    <dt class="text-sm font-medium text-blue-700 mb-1">@Html.DisplayNameFor(model => model.ValorDolares)</dt>
+                    <dd class="text-2xl font-bold text-blue-900">@(Model.ValorDolares.HasValue ? Model.ValorDolares.Value.ToString("C2") : "N/A")</dd>
+                </div>
+                
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl">
+                    <dt class="text-sm font-medium text-purple-700 mb-1">@Html.DisplayNameFor(model => model.ValorMensual)</dt>
+                    <dd class="text-2xl font-bold text-purple-900">@(Model.ValorMensual.HasValue ? Model.ValorMensual.Value.ToString("C0", new System.Globalization.CultureInfo("es-CO")) : "N/A")</dd>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-200 pt-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500 mb-1">@Html.DisplayNameFor(model => model.ValorFacturado)</dt>
+                        <dd class="text-lg font-semibold text-gray-900">@(Model.ValorFacturado.HasValue ? Model.ValorFacturado.Value.ToString("C0", new System.Globalization.CultureInfo("es-CO")) : "N/A")</dd>
                     </div>
-                    <hr />
-                    <div class="row">
-                        <div class="col-md-4">
-                            <strong>@Html.DisplayNameFor(model => model.ValorFacturado):</strong><br />
-                            @(Model.ValorFacturado.HasValue ? Model.ValorFacturado.Value.ToString("C0", new System.Globalization.CultureInfo("es-CO")) : "N/A")
-                        </div>
-                        <div class="col-md-4">
-                            <strong>@Html.DisplayNameFor(model => model.PorcentajeEjecucion):</strong><br />
-                            @if (Model.PorcentajeEjecucion.HasValue)
-                            {
-                                <div class="progress" style="height: 25px;">
-                                    <div class="progress-bar @(Model.PorcentajeEjecucion >= 75 ? "bg-success" : Model.PorcentajeEjecucion >= 50 ? "bg-info" : Model.PorcentajeEjecucion >= 25 ? "bg-warning" : "bg-danger")" 
-                                         role="progressbar" 
-                                         style="width: @(Model.PorcentajeEjecucion)%" 
-                                         aria-valuenow="@Model.PorcentajeEjecucion" 
-                                         aria-valuemin="0" 
-                                         aria-valuemax="100">
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500 mb-2">@Html.DisplayNameFor(model => model.PorcentajeEjecucion)</dt>
+                        @if (Model.PorcentajeEjecucion.HasValue)
+                        {
+                            <dd>
+                                <div class="w-full bg-gray-200 rounded-full h-6 overflow-hidden">
+                                    <div class="h-full flex items-center justify-center text-xs font-semibold text-white @(Model.PorcentajeEjecucion >= 75 ? "bg-green-500" : Model.PorcentajeEjecucion >= 50 ? "bg-blue-500" : Model.PorcentajeEjecucion >= 25 ? "bg-yellow-500" : "bg-red-500")" 
+                                         style="width: @(Model.PorcentajeEjecucion)%">
                                         @Model.PorcentajeEjecucion.Value.ToString("F2")%
                                     </div>
                                 </div>
-                            }
-                            else
-                            {
-                                <span>N/A</span>
-                            }
-                        </div>
-                        <div class="col-md-4">
-                            <strong>@Html.DisplayNameFor(model => model.ValorPendiente):</strong><br />
-                            @(Model.ValorPendiente.HasValue ? Model.ValorPendiente.Value.ToString("C0", new System.Globalization.CultureInfo("es-CO")) : "N/A")
-                        </div>
+                            </dd>
+                        }
+                        else
+                        {
+                            <dd class="text-lg font-semibold text-gray-400">N/A</dd>
+                        }
                     </div>
-                    <hr />
-                    <div class="row">
-                        <div class="col-md-4">
-                            <strong>@Html.DisplayNameFor(model => model.NumeroFactura):</strong><br />
-                            @Html.DisplayFor(model => model.NumeroFactura)
-                        </div>
-                        <div class="col-md-4">
-                            <strong>@Html.DisplayNameFor(model => model.NumeroHoras):</strong><br />
-                            @Html.DisplayFor(model => model.NumeroHoras)
-                        </div>
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500 mb-1">@Html.DisplayNameFor(model => model.ValorPendiente)</dt>
+                        <dd class="text-lg font-semibold text-gray-900">@(Model.ValorPendiente.HasValue ? Model.ValorPendiente.Value.ToString("C0", new System.Globalization.CultureInfo("es-CO")) : "N/A")</dd>
                     </div>
-                </div>
-            </div>
-
-            <div class="card mb-3">
-                <div class="card-header bg-info text-white">
-                    <h5 class="mb-0">Fechas y Póliza</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <strong>@Html.DisplayNameFor(model => model.FechaInicio):</strong><br />
-                            @Model.FechaInicio.ToString("dd/MM/yyyy")
-                        </div>
-                        <div class="col-md-6">
-                            <strong>@Html.DisplayNameFor(model => model.FechaVencimiento):</strong><br />
-                            @Model.FechaVencimiento.ToString("dd/MM/yyyy")
-                            @if (Model.DiasRestantes > 0 && Model.DiasRestantes <= 30 && Model.Estado == "Activo")
-                            {
-                                <span class="badge bg-warning text-dark">Vence en @Model.DiasRestantes días</span>
-                            }
-                            else if (Model.EstaVencido && Model.Estado == "Activo")
-                            {
-                                <span class="badge bg-danger">Vencido</span>
-                            }
-                        </div>
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500 mb-1">@Html.DisplayNameFor(model => model.NumeroFactura)</dt>
+                        <dd class="text-lg font-semibold text-gray-900">@Html.DisplayFor(model => model.NumeroFactura)</dd>
                     </div>
-                    <hr />
-                    <div class="row">
-                        <div class="col-md-6">
-                            <strong>@Html.DisplayNameFor(model => model.NumeroPoliza):</strong><br />
-                            @Html.DisplayFor(model => model.NumeroPoliza)
-                        </div>
-                        <div class="col-md-6">
-                            <strong>@Html.DisplayNameFor(model => model.FechaVencimientoPoliza):</strong><br />
-                            @(Model.FechaVencimientoPoliza.HasValue ? Model.FechaVencimientoPoliza.Value.ToString("dd/MM/yyyy") : "N/A")
-                        </div>
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500 mb-1">@Html.DisplayNameFor(model => model.NumeroHoras)</dt>
+                        <dd class="text-lg font-semibold text-gray-900">@Html.DisplayFor(model => model.NumeroHoras)</dd>
                     </div>
                 </div>
-            </div>
-
-            <div class="card mb-3">
-                <div class="card-header bg-warning">
-                    <h5 class="mb-0">Observaciones</h5>
-                </div>
-                <div class="card-body">
-                    @Html.DisplayFor(model => model.Observaciones)
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
-                    <i class="bi bi-pencil"></i> Editar
-                </a>
-                <a asp-action="Index" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Regresar al Listado
-                </a>
             </div>
         </div>
     </div>
+    
+    <!-- Fechas y Póliza -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-4 py-3 bg-gradient-to-r from-purple-500 to-purple-600 border-b border-purple-700">
+            <h3 class="text-lg font-semibold text-white flex items-center">
+                <i class="fas fa-calendar-alt mr-2"></i>
+                Fechas y Póliza
+            </h3>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                    <dt class="text-sm font-medium text-gray-500 mb-1">@Html.DisplayNameFor(model => model.FechaInicio)</dt>
+                    <dd class="text-lg font-semibold text-gray-900 flex items-center">
+                        <i class="fas fa-calendar-day text-purple-500 mr-2"></i>
+                        @Model.FechaInicio.ToString("dd/MM/yyyy")
+                    </dd>
+                </div>
+                
+                <div>
+                    <dt class="text-sm font-medium text-gray-500 mb-1">@Html.DisplayNameFor(model => model.FechaVencimiento)</dt>
+                    <dd class="text-lg font-semibold text-gray-900">
+                        <div class="flex flex-col space-y-2">
+                            <span class="flex items-center">
+                                <i class="fas fa-calendar-times text-purple-500 mr-2"></i>
+                                @Model.FechaVencimiento.ToString("dd/MM/yyyy")
+                            </span>
+                            @if (Model.DiasRestantes > 0 && Model.DiasRestantes <= 30 && Model.Estado == "Activo")
+                            {
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 self-start">
+                                    <i class="fas fa-clock mr-1"></i>
+                                    Vence en @Model.DiasRestantes días
+                                </span>
+                            }
+                            else if (Model.EstaVencido && Model.Estado == "Activo")
+                            {
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 self-start">
+                                    <i class="fas fa-exclamation-triangle mr-1"></i>
+                                    Vencido
+                                </span>
+                            }
+                        </div>
+                    </dd>
+                </div>
+                
+                <div>
+                    <dt class="text-sm font-medium text-gray-500 mb-1">@Html.DisplayNameFor(model => model.NumeroPoliza)</dt>
+                    <dd class="text-lg font-semibold text-gray-900">@Html.DisplayFor(model => model.NumeroPoliza)</dd>
+                </div>
+                
+                <div>
+                    <dt class="text-sm font-medium text-gray-500 mb-1">@Html.DisplayNameFor(model => model.FechaVencimientoPoliza)</dt>
+                    <dd class="text-lg font-semibold text-gray-900">@(Model.FechaVencimientoPoliza.HasValue ? Model.FechaVencimientoPoliza.Value.ToString("dd/MM/yyyy") : "N/A")</dd>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Observaciones -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-4 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 border-b border-yellow-700">
+            <h3 class="text-lg font-semibold text-white flex items-center">
+                <i class="fas fa-sticky-note mr-2"></i>
+                Observaciones
+            </h3>
+        </div>
+        <div class="p-6">
+            <p class="text-base text-gray-700 bg-gray-50 p-4 rounded-lg">
+                @Html.DisplayFor(model => model.Observaciones)
+            </p>
+        </div>
+    </div>
+    
+    <!-- Botones de acción -->
+    <div class="flex flex-col sm:flex-row gap-3">
+        <a asp-action="Edit" asp-route-id="@Model.Id" 
+           class="flex-1 sm:flex-initial inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition">
+            <i class="fas fa-edit mr-2"></i>
+            Editar
+        </a>
+        <a asp-action="Index" 
+           class="flex-1 sm:flex-initial inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-700 font-semibold rounded-lg transition">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Regresar al Listado
+        </a>
+    </div>
 </div>
-
-@section Scripts {
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-}
-

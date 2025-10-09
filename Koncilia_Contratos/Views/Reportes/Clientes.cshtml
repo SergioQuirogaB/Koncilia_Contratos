@@ -4,109 +4,138 @@
     ViewData["Title"] = "Reporte de Gestión de Clientes";
 }
 
-<div class="container-fluid">
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <h1 class="display-4">@ViewData["Title"]</h1>
-            <hr />
-        </div>
-    </div>
+<!-- Header -->
+<div class="mb-6">
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center mb-2">
+        <span class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-2 rounded-lg mr-3">
+            <i class="fas fa-users"></i>
+        </span>
+        Reporte de Gestión de Clientes
+    </h1>
+    <p class="text-sm text-gray-600">Análisis detallado del desempeño por cliente</p>
+</div>
 
-    <!-- Tarjetas de resumen -->
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="card text-white bg-primary">
-                <div class="card-body">
-                    <h5 class="card-title">Total de Clientes</h5>
-                    <h2 class="card-text">@ViewBag.TotalClientes</h2>
-                    <p class="card-text"><small>En la base de datos</small></p>
+<!-- Tarjetas de resumen -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <!-- Total Clientes -->
+    <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg overflow-hidden">
+        <div class="p-6 text-white">
+            <div class="flex items-center justify-between mb-3">
+                <div>
+                    <h5 class="text-sm font-semibold uppercase tracking-wider opacity-90 mb-2">Total de Clientes</h5>
+                    <h2 class="text-5xl font-bold">@ViewBag.TotalClientes</h2>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-full p-4">
+                    <i class="fas fa-users text-4xl"></i>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card text-white bg-success">
-                <div class="card-body">
-                    <h5 class="card-title">Clientes Activos</h5>
-                    <h2 class="card-text">@ViewBag.ClientesActivos</h2>
-                    <p class="card-text"><small>Con contratos activos</small></p>
-                </div>
-            </div>
+            <p class="text-sm opacity-75">En la base de datos</p>
         </div>
     </div>
-
-    <!-- Tabla de clientes -->
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Detalle por Cliente</h5>
+    
+    <!-- Clientes Activos -->
+    <div class="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl shadow-lg overflow-hidden">
+        <div class="p-6 text-white">
+            <div class="flex items-center justify-between mb-3">
+                <div>
+                    <h5 class="text-sm font-semibold uppercase tracking-wider opacity-90 mb-2">Clientes Activos</h5>
+                    <h2 class="text-5xl font-bold">@ViewBag.ClientesActivos</h2>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover" id="tablaClientes">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Cliente</th>
-                                    <th>Total Contratos</th>
-                                    <th>Activos</th>
-                                    <th>Valor Total</th>
-                                    <th>Facturado</th>
-                                    <th>Pendiente</th>
-                                    <th>% Ejecución</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td><strong>@item.Cliente</strong></td>
-                                        <td>@item.TotalContratos</td>
-                                        <td>
-                                            @if (item.ContratosActivos > 0)
-                                            {
-                                                <span class="badge bg-success">@item.ContratosActivos</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="badge bg-secondary">0</span>
-                                            }
-                                        </td>
-                                        <td>@(((decimal)item.ValorTotal).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</td>
-                                        <td>@(((decimal)item.ValorFacturado).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</td>
-                                        <td>@(((decimal)item.ValorPendiente).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</td>
-                                        <td>
-                                            <div class="progress" style="min-width: 100px;">
-                                                <div class="progress-bar @(item.PromedioEjecucion >= 75 ? "bg-success" : item.PromedioEjecucion >= 50 ? "bg-info" : item.PromedioEjecucion >= 25 ? "bg-warning" : "bg-danger")" 
-                                                     role="progressbar" 
-                                                     style="width: @(item.PromedioEjecucion)%" 
-                                                     aria-valuenow="@item.PromedioEjecucion" 
-                                                     aria-valuemin="0" 
-                                                     aria-valuemax="100">
-                                                    @(((decimal)item.PromedioEjecucion).ToString("F2"))%
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="bg-white bg-opacity-20 rounded-full p-4">
+                    <i class="fas fa-check-circle text-4xl"></i>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-md-12 text-center">
-            <a asp-action="Index" class="btn btn-secondary btn-lg">
-                <i class="bi bi-arrow-left"></i> Volver a Reportes
-            </a>
+            <p class="text-sm opacity-75">Con contratos activos</p>
         </div>
     </div>
 </div>
 
+<!-- Tabla de clientes -->
+<div class="bg-white rounded-xl shadow-md overflow-hidden">
+    <div class="px-5 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 border-b border-blue-700">
+        <h3 class="text-lg font-semibold text-white flex items-center">
+            <i class="fas fa-table mr-2"></i>
+            Detalle por Cliente
+        </h3>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200" id="tablaClientes">
+            <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
+                <tr>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Cliente</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Total Contratos</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Activos</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden md:table-cell">Valor Total</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden lg:table-cell">Facturado</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden lg:table-cell">Pendiente</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">% Ejecución</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @foreach (var item in Model)
+                {
+                    <tr class="hover:bg-blue-50 transition">
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <span class="text-sm font-semibold text-gray-900">@item.Cliente</span>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
+                            @item.TotalContratos
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            @if (item.ContratosActivos > 0)
+                            {
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <i class="fas fa-circle mr-1" style="font-size: 6px;"></i>
+                                    @item.ContratosActivos
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    <i class="fas fa-circle mr-1" style="font-size: 6px;"></i>
+                                    0
+                                </span>
+                            }
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 hidden md:table-cell">
+                            @(((decimal)item.ValorTotal).ToString("C0", new System.Globalization.CultureInfo("es-CO")))
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 hidden lg:table-cell">
+                            @(((decimal)item.ValorFacturado).ToString("C0", new System.Globalization.CultureInfo("es-CO")))
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 hidden lg:table-cell">
+                            @(((decimal)item.ValorPendiente).ToString("C0", new System.Globalization.CultureInfo("es-CO")))
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <div class="w-full bg-gray-200 rounded-full h-6 overflow-hidden">
+                                <div class="h-full flex items-center justify-center text-xs font-semibold text-white @(item.PromedioEjecucion >= 75 ? "bg-green-500" : item.PromedioEjecucion >= 50 ? "bg-blue-500" : item.PromedioEjecucion >= 25 ? "bg-yellow-500" : "bg-red-500")" 
+                                     style="width: @(item.PromedioEjecucion)%">
+                                    @(item.PromedioEjecucion > 5 ? $"{((decimal)item.PromedioEjecucion).ToString("F2")}%" : "")
+                                </div>
+                            </div>
+                            @if (item.PromedioEjecucion <= 5)
+                            {
+                                <span class="text-xs text-gray-600">@(((decimal)item.PromedioEjecucion).ToString("F2"))%</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Botón volver -->
+<div class="mt-6 text-center">
+    <a asp-action="Index" 
+       class="inline-flex items-center justify-center px-8 py-3 bg-white hover:bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-700 font-semibold rounded-lg transition">
+        <i class="fas fa-arrow-left mr-2"></i>
+        Volver a Reportes
+    </a>
+</div>
+
 @section Scripts {
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
@@ -123,4 +152,3 @@
         });
     </script>
 }
-

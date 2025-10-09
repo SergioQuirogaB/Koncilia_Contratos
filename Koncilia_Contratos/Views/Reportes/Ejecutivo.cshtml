@@ -2,201 +2,245 @@
     ViewData["Title"] = "Reporte Ejecutivo";
 }
 
-<div class="container-fluid">
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <h1 class="display-4">@ViewData["Title"]</h1>
-            <p class="lead">Resumen ejecutivo de la gestión de contratos</p>
-            <hr />
+<!-- Header -->
+<div class="mb-6">
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center mb-2">
+        <span class="bg-gradient-to-br from-green-500 to-emerald-600 text-white p-2 rounded-lg mr-3">
+            <i class="fas fa-chart-line"></i>
+        </span>
+        Reporte Ejecutivo
+    </h1>
+    <p class="text-sm text-gray-600">Resumen ejecutivo de la gestión de contratos</p>
+</div>
+
+<!-- KPIs Principales -->
+<div class="mb-6">
+    <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+        <i class="fas fa-trophy text-yellow-500 mr-2"></i>
+        Indicadores Clave de Desempeño (KPIs)
+    </h3>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6">
+    <!-- Total Contratos -->
+    <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg overflow-hidden">
+        <div class="p-5 text-white">
+            <h6 class="text-xs font-semibold uppercase tracking-wider opacity-90 mb-2">Total Contratos</h6>
+            <h2 class="text-4xl font-bold mb-1">@ViewBag.TotalContratos</h2>
+            <p class="text-xs opacity-75">Este año: @ViewBag.ContratosAnioActual</p>
         </div>
     </div>
-
-    <!-- Sección de KPIs principales -->
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <h3 class="mb-3">Indicadores Clave de Desempeño (KPIs)</h3>
+    
+    <!-- Contratos Activos -->
+    <div class="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl shadow-lg overflow-hidden">
+        <div class="p-5 text-white">
+            <h6 class="text-xs font-semibold uppercase tracking-wider opacity-90 mb-2">Contratos Activos</h6>
+            <h2 class="text-4xl font-bold mb-1">@ViewBag.ContratosActivos</h2>
+            <p class="text-xs opacity-75">En ejecución</p>
         </div>
     </div>
-
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card text-white bg-primary">
-                <div class="card-body">
-                    <h6 class="card-title">Total Contratos</h6>
-                    <h2 class="card-text">@ViewBag.TotalContratos</h2>
-                    <small>Este año: @ViewBag.ContratosAnioActual</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-success">
-                <div class="card-body">
-                    <h6 class="card-title">Contratos Activos</h6>
-                    <h2 class="card-text">@ViewBag.ContratosActivos</h2>
-                    <small>En ejecución</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-info">
-                <div class="card-body">
-                    <h6 class="card-title">Valor Total Cartera</h6>
-                    <h3 class="card-text">@(((decimal)ViewBag.ValorTotalCartera).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h3>
-                    <small>Todos los contratos</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-warning">
-                <div class="card-body">
-                    <h6 class="card-title">Cartera Activa</h6>
-                    <h3 class="card-text">@(((decimal)ViewBag.ValorCarteraActiva).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h3>
-                    <small>En ejecución</small>
-                </div>
-            </div>
+    
+    <!-- Valor Total Cartera -->
+    <div class="bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl shadow-lg overflow-hidden">
+        <div class="p-5 text-white">
+            <h6 class="text-xs font-semibold uppercase tracking-wider opacity-90 mb-2">Valor Total Cartera</h6>
+            <h3 class="text-2xl font-bold mb-1">@(((decimal)ViewBag.ValorTotalCartera).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h3>
+            <p class="text-xs opacity-75">Todos los contratos</p>
         </div>
     </div>
-
-    <!-- Sección de ejecución financiera -->
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0">Facturado</h5>
-                </div>
-                <div class="card-body text-center">
-                    <h2 class="text-success">@(((decimal)ViewBag.ValorTotalFacturado).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h2>
-                    <p class="mb-0">Total ejecutado</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header bg-secondary text-white">
-                    <h5 class="mb-0">Pendiente</h5>
-                </div>
-                <div class="card-body text-center">
-                    <h2 class="text-secondary">@(((decimal)ViewBag.ValorTotalPendiente).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h2>
-                    <p class="mb-0">Por ejecutar</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header text-white" style="background-color: #6f42c1;">
-                    <h5 class="mb-0">% Ejecución</h5>
-                </div>
-                <div class="card-body text-center">
-                    <h2 style="color: #6f42c1;">@(((decimal)ViewBag.PromedioEjecucionGeneral).ToString("F2"))%</h2>
-                    <div class="progress" style="height: 25px;">
-                        <div class="progress-bar" style="width: @(ViewBag.PromedioEjecucionGeneral)%; background-color: #6f42c1;">
-                            Promedio General
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Alertas y notificaciones -->
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <h3 class="mb-3">Alertas</h3>
-        </div>
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="alert alert-warning" role="alert">
-                <h4 class="alert-heading"><i class="bi bi-exclamation-triangle"></i> Contratos por Vencer</h4>
-                <p class="mb-0">Hay <strong>@ViewBag.ContratosPorVencer</strong> contrato(s) que vencen en los próximos 30 días.</p>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="alert alert-danger" role="alert">
-                <h4 class="alert-heading"><i class="bi bi-x-circle"></i> Contratos Vencidos</h4>
-                <p class="mb-0">Hay <strong>@ViewBag.ContratosVencidos</strong> contrato(s) vencido(s) que requieren atención inmediata.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Distribución por estado -->
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Distribución por Estado</h5>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Estado</th>
-                                    <th>Cantidad</th>
-                                    <th>Valor Total</th>
-                                    <th>Distribución</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in ViewBag.DistribucionEstado)
-                                {
-                                    var porcentaje = (item.Cantidad * 100.0) / ViewBag.TotalContratos;
-                                    <tr>
-                                        <td><strong>@item.Estado</strong></td>
-                                        <td>@item.Cantidad</td>
-                                        <td>@(((decimal)item.Valor).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</td>
-                                        <td>
-                                            <div class="progress" style="min-width: 200px;">
-                                                <div class="progress-bar @(item.Estado == "Activo" ? "bg-success" : item.Estado == "Finalizado" ? "bg-secondary" : item.Estado == "Suspendido" ? "bg-warning" : "bg-danger")" 
-                                                     role="progressbar" 
-                                                     style="width: @porcentaje%" 
-                                                     aria-valuenow="@porcentaje" 
-                                                     aria-valuemin="0" 
-                                                     aria-valuemax="100">
-                                                    @porcentaje.ToString("F1")%
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Evolución anual -->
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header bg-info text-white">
-                    <h5 class="mb-0">Evolución Anual</h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="chartEvolucion"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-md-12 text-center">
-            <a asp-action="Index" class="btn btn-secondary btn-lg">
-                <i class="bi bi-arrow-left"></i> Volver a Reportes
-            </a>
-            <button onclick="window.print()" class="btn btn-primary btn-lg">
-                <i class="bi bi-printer"></i> Imprimir Reporte
-            </button>
+    
+    <!-- Cartera Activa -->
+    <div class="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl shadow-lg overflow-hidden">
+        <div class="p-5 text-white">
+            <h6 class="text-xs font-semibold uppercase tracking-wider opacity-90 mb-2">Cartera Activa</h6>
+            <h3 class="text-2xl font-bold mb-1">@(((decimal)ViewBag.ValorCarteraActiva).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h3>
+            <p class="text-xs opacity-75">En ejecución</p>
         </div>
     </div>
 </div>
 
+<!-- Ejecución Financiera -->
+<div class="mb-6">
+    <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+        <i class="fas fa-dollar-sign text-green-500 mr-2"></i>
+        Ejecución Financiera
+    </h3>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+    <!-- Facturado -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-5 py-4 bg-gradient-to-r from-green-500 to-emerald-600 border-b border-green-700">
+            <h5 class="text-sm font-semibold text-white">Facturado</h5>
+        </div>
+        <div class="p-6 text-center">
+            <h2 class="text-3xl font-bold text-green-600 mb-2">@(((decimal)ViewBag.ValorTotalFacturado).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h2>
+            <p class="text-sm text-gray-600">Total ejecutado</p>
+        </div>
+    </div>
+    
+    <!-- Pendiente -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-5 py-4 bg-gradient-to-r from-gray-500 to-gray-600 border-b border-gray-700">
+            <h5 class="text-sm font-semibold text-white">Pendiente</h5>
+        </div>
+        <div class="p-6 text-center">
+            <h2 class="text-3xl font-bold text-gray-600 mb-2">@(((decimal)ViewBag.ValorTotalPendiente).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h2>
+            <p class="text-sm text-gray-600">Por ejecutar</p>
+        </div>
+    </div>
+    
+    <!-- % Ejecución -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-5 py-4 bg-gradient-to-r from-purple-500 to-purple-600 border-b border-purple-700">
+            <h5 class="text-sm font-semibold text-white">% Ejecución</h5>
+        </div>
+        <div class="p-6 text-center">
+            <h2 class="text-3xl font-bold text-purple-600 mb-2">@(((decimal)ViewBag.PromedioEjecucionGeneral).ToString("F2"))%</h2>
+            <div class="w-full bg-gray-200 rounded-full h-6 overflow-hidden mt-3">
+                <div class="h-full flex items-center justify-center text-xs font-semibold text-white bg-purple-600" 
+                     style="width: @(ViewBag.PromedioEjecucionGeneral)%">
+                    Promedio General
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alertas -->
+<div class="mb-6">
+    <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+        <i class="fas fa-bell text-red-500 mr-2"></i>
+        Alertas
+    </h3>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <!-- Contratos por Vencer -->
+    <div class="bg-yellow-50 border-l-4 border-yellow-500 rounded-r-xl p-6 shadow-md">
+        <div class="flex items-start">
+            <div class="flex-shrink-0">
+                <div class="bg-yellow-500 rounded-full p-3">
+                    <i class="fas fa-exclamation-triangle text-white text-xl"></i>
+                </div>
+            </div>
+            <div class="ml-4">
+                <h4 class="text-lg font-bold text-yellow-900 mb-2">Contratos por Vencer</h4>
+                <p class="text-yellow-800">
+                    Hay <span class="font-bold text-2xl">@ViewBag.ContratosPorVencer</span> contrato(s) que vencen en los próximos 30 días.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contratos Vencidos -->
+    <div class="bg-red-50 border-l-4 border-red-500 rounded-r-xl p-6 shadow-md">
+        <div class="flex items-start">
+            <div class="flex-shrink-0">
+                <div class="bg-red-500 rounded-full p-3">
+                    <i class="fas fa-times-circle text-white text-xl"></i>
+                </div>
+            </div>
+            <div class="ml-4">
+                <h4 class="text-lg font-bold text-red-900 mb-2">Contratos Vencidos</h4>
+                <p class="text-red-800">
+                    Hay <span class="font-bold text-2xl">@ViewBag.ContratosVencidos</span> contrato(s) vencido(s) que requieren atención inmediata.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Distribución por Estado -->
+<div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+    <div class="px-5 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 border-b border-blue-700">
+        <h3 class="text-lg font-semibold text-white flex items-center">
+            <i class="fas fa-chart-pie mr-2"></i>
+            Distribución por Estado
+        </h3>
+    </div>
+    <div class="p-6">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Estado</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Cantidad</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden md:table-cell">Valor Total</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Distribución</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach (var item in ViewBag.DistribucionEstado)
+                    {
+                        var porcentaje = (item.Cantidad * 100.0) / ViewBag.TotalContratos;
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium @(item.Estado == "Activo" ? "bg-green-100 text-green-800" : item.Estado == "Finalizado" ? "bg-gray-100 text-gray-800" : item.Estado == "Suspendido" ? "bg-yellow-100 text-yellow-800" : "bg-red-100 text-red-800")">
+                                    <i class="fas fa-circle mr-1" style="font-size: 6px;"></i>
+                                    @item.Estado
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-semibold text-gray-900">
+                                @item.Cantidad
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 hidden md:table-cell">
+                                @(((decimal)item.Valor).ToString("C0", new System.Globalization.CultureInfo("es-CO")))
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <div class="flex items-center space-x-2">
+                                    <div class="flex-1 bg-gray-200 rounded-full h-6 overflow-hidden min-w-[120px]">
+                                        <div class="h-full flex items-center justify-center text-xs font-semibold text-white @(item.Estado == "Activo" ? "bg-green-500" : item.Estado == "Finalizado" ? "bg-gray-500" : item.Estado == "Suspendido" ? "bg-yellow-500" : "bg-red-500")" 
+                                             style="width: @porcentaje%">
+                                            @if (porcentaje > 10)
+                                            {
+                                                <text>@porcentaje.ToString("F1")%</text>
+                                            }
+                                        </div>
+                                    </div>
+                                    @if (porcentaje <= 10)
+                                    {
+                                        <span class="text-xs text-gray-600"><text>@porcentaje.ToString("F1")%</text></span>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Evolución Anual -->
+<div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+    <div class="px-5 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 border-b border-purple-700">
+        <h3 class="text-lg font-semibold text-white flex items-center">
+            <i class="fas fa-chart-line mr-2"></i>
+            Evolución Anual
+        </h3>
+    </div>
+    <div class="p-6">
+        <canvas id="chartEvolucion"></canvas>
+    </div>
+</div>
+
+<!-- Botones de acción -->
+<div class="flex flex-col sm:flex-row gap-4 justify-center print:hidden">
+    <a asp-action="Index" 
+       class="inline-flex items-center justify-center px-8 py-3 bg-white hover:bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-700 font-semibold rounded-lg transition">
+        <i class="fas fa-arrow-left mr-2"></i>
+        Volver a Reportes
+    </a>
+    <button onclick="window.print()" 
+            class="inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition">
+        <i class="fas fa-print mr-2"></i>
+        Imprimir Reporte
+    </button>
+</div>
+
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     
     <script>
         @{
@@ -215,24 +259,27 @@
                 datasets: [{
                     label: 'Cantidad de Contratos',
                     data: [@Html.Raw(evolucionCantidades)],
-                    borderColor: '#007bff',
-                    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
                     tension: 0.4,
-                    yAxisID: 'y'
+                    yAxisID: 'y',
+                    fill: true
                 }, {
                     label: 'Valor Total (Millones COP)',
                     data: [@Html.Raw(evolucionValores)],
-                    borderColor: '#28a745',
-                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
                     tension: 0.4,
-                    yAxisID: 'y1'
+                    yAxisID: 'y1',
+                    fill: true
                 }, {
                     label: 'Facturado (Millones COP)',
                     data: [@Html.Raw(evolucionFacturados)],
-                    borderColor: '#ffc107',
-                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                    borderColor: '#f59e0b',
+                    backgroundColor: 'rgba(245, 158, 11, 0.1)',
                     tension: 0.4,
-                    yAxisID: 'y1'
+                    yAxisID: 'y1',
+                    fill: true
                 }]
             },
             options: {
@@ -270,8 +317,15 @@
 
     <style>
         @@media print {
-            .btn, nav, footer { display: none; }
+            .print\\:hidden { 
+                display: none !important; 
+            }
+            nav, footer { 
+                display: none !important; 
+            }
+            body {
+                background: white !important;
+            }
         }
     </style>
 }
-
