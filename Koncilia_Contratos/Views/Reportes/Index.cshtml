@@ -1,0 +1,314 @@
+@{
+    ViewData["Title"] = "Reportes y Análisis";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1 class="display-4">@ViewData["Title"]</h1>
+            <hr />
+        </div>
+    </div>
+
+    <!-- Tarjetas de resumen -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Total Contratos</h5>
+                    <h2 class="card-text">@ViewBag.TotalContratos</h2>
+                    <p class="card-text"><small>@ViewBag.ContratosActivos activos</small></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Valor Total</h5>
+                    <h2 class="card-text">@(((decimal)ViewBag.ValorTotalPesos).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h2>
+                    <p class="card-text"><small>En todos los contratos</small></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Por Vencer</h5>
+                    <h2 class="card-text">@ViewBag.ContratosPorVencer</h2>
+                    <p class="card-text"><small>En los próximos 30 días</small></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-danger">
+                <div class="card-body">
+                    <h5 class="card-title">Vencidos</h5>
+                    <h2 class="card-text">@ViewBag.ContratosVencidos</h2>
+                    <p class="card-text"><small>Requieren atención</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Segunda fila de tarjetas -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">Facturado</h5>
+                    <h2 class="card-text">@(((decimal)ViewBag.ValorTotalFacturado).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h2>
+                    <p class="card-text"><small>Total ejecutado</small></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-secondary">
+                <div class="card-body">
+                    <h5 class="card-title">Pendiente</h5>
+                    <h2 class="card-text">@(((decimal)ViewBag.ValorTotalPendiente).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h2>
+                    <p class="card-text"><small>Por ejecutar</small></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white" style="background-color: #6f42c1;">
+                <div class="card-body">
+                    <h5 class="card-title">% Ejecución Promedio</h5>
+                    <h2 class="card-text">@(((decimal)ViewBag.PromedioEjecucion).ToString("F2"))%</h2>
+                    <p class="card-text"><small>De todos los contratos</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficas -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Contratos por Estado</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartEstados"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Contratos por Categoría</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartCategorias"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Evolución de Contratos por Año</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartAnios"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-warning">
+                    <h5 class="mb-0">Top 10 Empresas por Valor</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartEmpresas"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">Top 10 Clientes por Valor</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartClientes"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-12 text-center">
+            <a asp-controller="Reportes" asp-action="Clientes" class="btn btn-primary btn-lg me-2">
+                <i class="bi bi-people"></i> Reporte de Clientes
+            </a>
+            <a asp-controller="Reportes" asp-action="Ejecutivo" class="btn btn-success btn-lg">
+                <i class="bi bi-graph-up"></i> Reporte Ejecutivo
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <script>
+        @{
+            var estadosLabels = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorEstado).Select(x => $"'{x.Estado}'"));
+            var estadosCantidades = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorEstado).Select(x => x.Cantidad.ToString()));
+            
+            var categoriasLabels = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorCategoria).Select(x => $"'{x.Categoria}'"));
+            var categoriasCantidades = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorCategoria).Select(x => x.Cantidad.ToString()));
+            
+            var aniosLabels = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorAnio).Select(x => $"'{x.Anio}'"));
+            var aniosCantidades = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorAnio).Select(x => x.Cantidad.ToString()));
+            var aniosValores = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorAnio).Select(x => Math.Round(x.Valor / 1000000.0, 2).ToString()));
+            
+            var empresasLabels = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorEmpresa).Select(x => $"'{x.Empresa}'"));
+            var empresasValores = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorEmpresa).Select(x => Math.Round(x.Valor / 1000000.0, 2).ToString()));
+            
+            var clientesLabels = string.Join(",", ((IEnumerable<dynamic>)ViewBag.TopClientes).Select(x => $"'{x.Cliente}'"));
+            var clientesValores = string.Join(",", ((IEnumerable<dynamic>)ViewBag.TopClientes).Select(x => Math.Round(x.Valor / 1000000.0, 2).ToString()));
+        }
+        
+        // Gráfica de Estados
+        const ctxEstados = document.getElementById('chartEstados').getContext('2d');
+        new Chart(ctxEstados, {
+            type: 'pie',
+            data: {
+                labels: [@Html.Raw(estadosLabels)],
+                datasets: [{
+                    data: [@Html.Raw(estadosCantidades)],
+                    backgroundColor: ['#28a745', '#dc3545', '#ffc107', '#6c757d']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Gráfica de Categorías
+        const ctxCategorias = document.getElementById('chartCategorias').getContext('2d');
+        new Chart(ctxCategorias, {
+            type: 'doughnut',
+            data: {
+                labels: [@Html.Raw(categoriasLabels)],
+                datasets: [{
+                    data: [@Html.Raw(categoriasCantidades)],
+                    backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#17a2b8', '#6610f2', '#e83e8c', '#fd7e14']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Gráfica de Años
+        const ctxAnios = document.getElementById('chartAnios').getContext('2d');
+        new Chart(ctxAnios, {
+            type: 'bar',
+            data: {
+                labels: [@Html.Raw(aniosLabels)],
+                datasets: [{
+                    label: 'Cantidad de Contratos',
+                    data: [@Html.Raw(aniosCantidades)],
+                    backgroundColor: '#007bff',
+                    yAxisID: 'y'
+                }, {
+                    label: 'Valor (Millones COP)',
+                    data: [@Html.Raw(aniosValores)],
+                    backgroundColor: '#28a745',
+                    yAxisID: 'y1'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Cantidad'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Valor (Millones)'
+                        },
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfica de Empresas
+        const ctxEmpresas = document.getElementById('chartEmpresas').getContext('2d');
+        new Chart(ctxEmpresas, {
+            type: 'horizontalBar',
+            data: {
+                labels: [@Html.Raw(empresasLabels)],
+                datasets: [{
+                    label: 'Valor (Millones COP)',
+                    data: [@Html.Raw(empresasValores)],
+                    backgroundColor: '#ffc107'
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // Gráfica de Clientes
+        const ctxClientes = document.getElementById('chartClientes').getContext('2d');
+        new Chart(ctxClientes, {
+            type: 'horizontalBar',
+            data: {
+                labels: [@Html.Raw(clientesLabels)],
+                datasets: [{
+                    label: 'Valor (Millones COP)',
+                    data: [@Html.Raw(clientesValores)],
+                    backgroundColor: '#dc3545'
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
+}
+

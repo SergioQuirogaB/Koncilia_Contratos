@@ -1,0 +1,90 @@
+@model Dictionary<string, List<Koncilia_Contratos.Models.Configuracion>>
+
+@{
+    ViewData["Title"] = "Configuración del Sistema";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1 class="display-4">@ViewData["Title"]</h1>
+            <hr />
+        </div>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Nueva Configuración
+            </a>
+        </div>
+    </div>
+
+    @foreach (var categoria in Model)
+    {
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">@categoria.Key</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Clave</th>
+                                        <th>Valor</th>
+                                        <th>Descripción</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in categoria.Value)
+                                    {
+                                        <tr>
+                                            <td><strong>@item.Clave</strong></td>
+                                            <td>@item.Valor</td>
+                                            <td>@item.Descripcion</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm" role="group">
+                                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning" title="Editar">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" title="Eliminar">
+                                                        <i class="bi bi-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center" role="alert">
+            <h4>No hay configuraciones registradas</h4>
+            <p>Comienza creando tu primera configuración del sistema.</p>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+}
+

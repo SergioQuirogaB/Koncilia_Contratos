@@ -1,0 +1,171 @@
+@model IEnumerable<Koncilia_Contratos.Models.Contrato>
+
+@{
+    ViewData["Title"] = "Gestión de Contratos";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1 class="display-4">@ViewData["Title"]</h1>
+            <hr />
+        </div>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group me-2" role="group">
+                    <a asp-action="Create" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i> Nuevo Contrato
+                    </a>
+                    <a asp-action="Importar" class="btn btn-success">
+                        <i class="bi bi-file-earmark-excel"></i> Importar
+                    </a>
+                    <a asp-action="Exportar" class="btn btn-info">
+                        <i class="bi bi-download"></i> Exportar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <form asp-action="Index" method="get" class="row g-3">
+                <div class="col-md-4">
+                    <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" 
+                           class="form-control" placeholder="Buscar por Cliente, Empresa o N° Contrato" />
+                </div>
+                <div class="col-md-3">
+                    <select name="estado" class="form-select">
+                        <option value="">Todos los estados</option>
+                        <option value="Activo" selected="@(ViewData["CurrentEstado"]?.ToString() == "Activo")">Activo</option>
+                        <option value="Inactivo" selected="@(ViewData["CurrentEstado"]?.ToString() == "Inactivo")">Inactivo</option>
+                        <option value="Finalizado" selected="@(ViewData["CurrentEstado"]?.ToString() == "Finalizado")">Finalizado</option>
+                        <option value="Suspendido" selected="@(ViewData["CurrentEstado"]?.ToString() == "Suspendido")">Suspendido</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <input type="number" name="anio" value="@ViewData["CurrentAnio"]" 
+                           class="form-control" placeholder="Año" min="2000" max="2100" />
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Buscar
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i> Limpiar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Año</th>
+                            <th>Empresa</th>
+                            <th>Cliente</th>
+                            <th>N° Contrato</th>
+                            <th>Valor (COP)</th>
+                            <th>Categoría</th>
+                            <th>Fecha Inicio</th>
+                            <th>Fecha Vencimiento</th>
+                            <th>% Ejecución</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="@(item.EstaVencido && item.Estado == "Activo" ? "table-danger" : "")">
+                                <td>@item.Anio</td>
+                                <td>@item.Empresa</td>
+                                <td>@item.Cliente</td>
+                                <td>@item.NumeroContrato</td>
+                                <td>@item.ValorPesos.ToString("C0", new System.Globalization.CultureInfo("es-CO"))</td>
+                                <td>@item.Categoria</td>
+                                <td>@item.FechaInicio.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    @item.FechaVencimiento.ToString("dd/MM/yyyy")
+                                    @if (item.DiasRestantes > 0 && item.DiasRestantes <= 30 && item.Estado == "Activo")
+                                    {
+                                        <span class="badge bg-warning text-dark">@item.DiasRestantes días</span>
+                                    }
+                                    else if (item.EstaVencido && item.Estado == "Activo")
+                                    {
+                                        <span class="badge bg-danger">Vencido</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.PorcentajeEjecucion.HasValue)
+                                    {
+                                        <div class="progress" style="min-width: 100px;">
+                                            <div class="progress-bar @(item.PorcentajeEjecucion >= 75 ? "bg-success" : item.PorcentajeEjecucion >= 50 ? "bg-info" : item.PorcentajeEjecucion >= 25 ? "bg-warning" : "bg-danger")" 
+                                                 role="progressbar" 
+                                                 style="width: @(item.PorcentajeEjecucion)%" 
+                                                 aria-valuenow="@item.PorcentajeEjecucion" 
+                                                 aria-valuemin="0" 
+                                                 aria-valuemax="100">
+                                                @item.PorcentajeEjecucion.Value.ToString("F2")%
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span>-</span>
+                                    }
+                                </td>
+                                <td>
+                                    <span class="badge @(item.Estado == "Activo" ? "bg-success" : item.Estado == "Finalizado" ? "bg-secondary" : item.Estado == "Suspendido" ? "bg-warning" : "bg-danger")">
+                                        @item.Estado
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info" title="Detalles">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" title="Eliminar">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center" role="alert">
+            <h4>No se encontraron contratos</h4>
+            <p>Comienza creando tu primer contrato o importando contratos desde un archivo Excel.</p>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+}
+

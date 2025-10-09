@@ -11,6 +11,9 @@ namespace Koncilia_Contratos.Data
         {
         }
 
+        public DbSet<Contrato> Contratos { get; set; }
+        public DbSet<Configuracion> Configuraciones { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

@@ -1,0 +1,69 @@
+@model Koncilia_Contratos.Models.Contrato
+
+@{
+    ViewData["Title"] = "Eliminar Contrato";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1 class="display-4 text-danger">@ViewData["Title"]</h1>
+            <hr />
+        </div>
+    </div>
+
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">¡Atención!</h4>
+        <p>¿Estás seguro de que deseas eliminar este contrato? Esta acción no se puede deshacer.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Información del Contrato</h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Anio)</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Anio)</dd>
+
+                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Empresa)</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Empresa)</dd>
+
+                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Cliente)</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Cliente)</dd>
+
+                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.NumeroContrato)</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.NumeroContrato)</dd>
+
+                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.ValorPesos)</dt>
+                        <dd class="col-sm-9">@Model.ValorPesos.ToString("C0", new System.Globalization.CultureInfo("es-CO"))</dd>
+
+                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Estado)</dt>
+                        <dd class="col-sm-9">
+                            <span class="badge @(Model.Estado == "Activo" ? "bg-success" : Model.Estado == "Finalizado" ? "bg-secondary" : Model.Estado == "Suspendido" ? "bg-warning" : "bg-danger")">
+                                @Html.DisplayFor(model => model.Estado)
+                            </span>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger btn-lg">
+                    <i class="bi bi-trash"></i> Confirmar Eliminación
+                </button>
+                <a asp-action="Index" class="btn btn-secondary btn-lg">
+                    <i class="bi bi-x-circle"></i> Cancelar
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+}
+

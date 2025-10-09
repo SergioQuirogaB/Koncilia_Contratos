@@ -166,21 +166,24 @@
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2">
-                        <button class="btn btn-primary">
+                        <a asp-controller="Contratos" asp-action="Create" class="btn btn-primary">
                             <i class="fas fa-plus"></i> Nuevo Contrato
-                        </button>
-                        <button class="btn btn-success">
+                        </a>
+                        <a asp-controller="Contratos" asp-action="Index" class="btn btn-success">
+                            <i class="fas fa-list"></i> Ver Todos los Contratos
+                        </a>
+                        <a asp-controller="Contratos" asp-action="Importar" class="btn btn-info">
                             <i class="fas fa-file-import"></i> Importar Contratos
-                        </button>
-                        <button class="btn btn-info">
+                        </a>
+                        <a asp-controller="Reportes" asp-action="Index" class="btn btn-warning">
                             <i class="fas fa-chart-bar"></i> Reportes
-                        </button>
-                        <button class="btn btn-warning">
+                        </a>
+                        <a asp-controller="Reportes" asp-action="Clientes" class="btn btn-primary">
                             <i class="fas fa-users"></i> Gestión de Clientes
-                        </button>
-                        <button class="btn btn-secondary">
+                        </a>
+                        <a asp-controller="Configuracion" asp-action="Index" class="btn btn-secondary">
                             <i class="fas fa-cog"></i> Configuración
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

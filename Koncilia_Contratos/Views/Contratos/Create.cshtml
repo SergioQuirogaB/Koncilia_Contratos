@@ -1,0 +1,213 @@
+@model Koncilia_Contratos.Models.Contrato
+
+@{
+    ViewData["Title"] = "Crear Contrato";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1 class="display-4">@ViewData["Title"]</h1>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                
+                <div class="card mb-3">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Información General</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label asp-for="Anio" class="form-label"></label>
+                                    <input asp-for="Anio" class="form-control" />
+                                    <span asp-validation-for="Anio" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="Empresa" class="form-label"></label>
+                                    <input asp-for="Empresa" class="form-control" />
+                                    <span asp-validation-for="Empresa" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="mb-3">
+                                    <label asp-for="Cliente" class="form-label"></label>
+                                    <input asp-for="Cliente" class="form-control" />
+                                    <span asp-validation-for="Cliente" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="NumeroContrato" class="form-label"></label>
+                                    <input asp-for="NumeroContrato" class="form-control" />
+                                    <span asp-validation-for="NumeroContrato" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="Categoria" class="form-label"></label>
+                                    <input asp-for="Categoria" class="form-control" />
+                                    <span asp-validation-for="Categoria" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="Estado" class="form-label"></label>
+                                    <select asp-for="Estado" class="form-select">
+                                        <option value="Activo">Activo</option>
+                                        <option value="Inactivo">Inactivo</option>
+                                        <option value="Finalizado">Finalizado</option>
+                                        <option value="Suspendido">Suspendido</option>
+                                    </select>
+                                    <span asp-validation-for="Estado" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label asp-for="Descripcion" class="form-label"></label>
+                                    <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+                                    <span asp-validation-for="Descripcion" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Información Financiera</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="ValorPesos" class="form-label"></label>
+                                    <input asp-for="ValorPesos" class="form-control" type="number" step="0.01" />
+                                    <span asp-validation-for="ValorPesos" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="ValorDolares" class="form-label"></label>
+                                    <input asp-for="ValorDolares" class="form-control" type="number" step="0.01" />
+                                    <span asp-validation-for="ValorDolares" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="ValorMensual" class="form-label"></label>
+                                    <input asp-for="ValorMensual" class="form-control" type="number" step="0.01" />
+                                    <span asp-validation-for="ValorMensual" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="ValorFacturado" class="form-label"></label>
+                                    <input asp-for="ValorFacturado" class="form-control" type="number" step="0.01" />
+                                    <span asp-validation-for="ValorFacturado" class="text-danger"></span>
+                                    <small class="form-text text-muted">El % de ejecución y valor pendiente se calculan automáticamente</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="NumeroFactura" class="form-label"></label>
+                                    <input asp-for="NumeroFactura" class="form-control" />
+                                    <span asp-validation-for="NumeroFactura" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="NumeroHoras" class="form-label"></label>
+                                    <input asp-for="NumeroHoras" class="form-control" type="number" />
+                                    <span asp-validation-for="NumeroHoras" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">Fechas y Póliza</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="FechaInicio" class="form-label"></label>
+                                    <input asp-for="FechaInicio" class="form-control" type="date" />
+                                    <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="FechaVencimiento" class="form-label"></label>
+                                    <input asp-for="FechaVencimiento" class="form-control" type="date" />
+                                    <span asp-validation-for="FechaVencimiento" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="NumeroPoliza" class="form-label"></label>
+                                    <input asp-for="NumeroPoliza" class="form-control" />
+                                    <span asp-validation-for="NumeroPoliza" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="FechaVencimientoPoliza" class="form-label"></label>
+                                    <input asp-for="FechaVencimientoPoliza" class="form-control" type="date" />
+                                    <span asp-validation-for="FechaVencimientoPoliza" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-header bg-warning">
+                        <h5 class="mb-0">Observaciones</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label asp-for="Observaciones" class="form-label"></label>
+                            <textarea asp-for="Observaciones" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Observaciones" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-save"></i> Guardar Contrato
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary btn-lg">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+}
+

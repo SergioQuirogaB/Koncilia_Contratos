@@ -1,0 +1,188 @@
+@model Koncilia_Contratos.Models.Contrato
+
+@{
+    ViewData["Title"] = "Detalles del Contrato";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1 class="display-4">@ViewData["Title"]</h1>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Información General</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>@Html.DisplayNameFor(model => model.Anio):</strong><br />
+                            @Html.DisplayFor(model => model.Anio)
+                        </div>
+                        <div class="col-md-4">
+                            <strong>@Html.DisplayNameFor(model => model.Empresa):</strong><br />
+                            @Html.DisplayFor(model => model.Empresa)
+                        </div>
+                        <div class="col-md-5">
+                            <strong>@Html.DisplayNameFor(model => model.Cliente):</strong><br />
+                            @Html.DisplayFor(model => model.Cliente)
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong>@Html.DisplayNameFor(model => model.NumeroContrato):</strong><br />
+                            @Html.DisplayFor(model => model.NumeroContrato)
+                        </div>
+                        <div class="col-md-4">
+                            <strong>@Html.DisplayNameFor(model => model.Categoria):</strong><br />
+                            @Html.DisplayFor(model => model.Categoria)
+                        </div>
+                        <div class="col-md-4">
+                            <strong>@Html.DisplayNameFor(model => model.Estado):</strong><br />
+                            <span class="badge @(Model.Estado == "Activo" ? "bg-success" : Model.Estado == "Finalizado" ? "bg-secondary" : Model.Estado == "Suspendido" ? "bg-warning" : "bg-danger")">
+                                @Html.DisplayFor(model => model.Estado)
+                            </span>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <strong>@Html.DisplayNameFor(model => model.Descripcion):</strong><br />
+                            @Html.DisplayFor(model => model.Descripcion)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Información Financiera</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong>@Html.DisplayNameFor(model => model.ValorPesos):</strong><br />
+                            <h4 class="text-success">@Model.ValorPesos.ToString("C0", new System.Globalization.CultureInfo("es-CO"))</h4>
+                        </div>
+                        <div class="col-md-4">
+                            <strong>@Html.DisplayNameFor(model => model.ValorDolares):</strong><br />
+                            <h4 class="text-info">@(Model.ValorDolares.HasValue ? Model.ValorDolares.Value.ToString("C2") : "N/A")</h4>
+                        </div>
+                        <div class="col-md-4">
+                            <strong>@Html.DisplayNameFor(model => model.ValorMensual):</strong><br />
+                            <h4 class="text-primary">@(Model.ValorMensual.HasValue ? Model.ValorMensual.Value.ToString("C0", new System.Globalization.CultureInfo("es-CO")) : "N/A")</h4>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong>@Html.DisplayNameFor(model => model.ValorFacturado):</strong><br />
+                            @(Model.ValorFacturado.HasValue ? Model.ValorFacturado.Value.ToString("C0", new System.Globalization.CultureInfo("es-CO")) : "N/A")
+                        </div>
+                        <div class="col-md-4">
+                            <strong>@Html.DisplayNameFor(model => model.PorcentajeEjecucion):</strong><br />
+                            @if (Model.PorcentajeEjecucion.HasValue)
+                            {
+                                <div class="progress" style="height: 25px;">
+                                    <div class="progress-bar @(Model.PorcentajeEjecucion >= 75 ? "bg-success" : Model.PorcentajeEjecucion >= 50 ? "bg-info" : Model.PorcentajeEjecucion >= 25 ? "bg-warning" : "bg-danger")" 
+                                         role="progressbar" 
+                                         style="width: @(Model.PorcentajeEjecucion)%" 
+                                         aria-valuenow="@Model.PorcentajeEjecucion" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        @Model.PorcentajeEjecucion.Value.ToString("F2")%
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <span>N/A</span>
+                            }
+                        </div>
+                        <div class="col-md-4">
+                            <strong>@Html.DisplayNameFor(model => model.ValorPendiente):</strong><br />
+                            @(Model.ValorPendiente.HasValue ? Model.ValorPendiente.Value.ToString("C0", new System.Globalization.CultureInfo("es-CO")) : "N/A")
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong>@Html.DisplayNameFor(model => model.NumeroFactura):</strong><br />
+                            @Html.DisplayFor(model => model.NumeroFactura)
+                        </div>
+                        <div class="col-md-4">
+                            <strong>@Html.DisplayNameFor(model => model.NumeroHoras):</strong><br />
+                            @Html.DisplayFor(model => model.NumeroHoras)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Fechas y Póliza</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>@Html.DisplayNameFor(model => model.FechaInicio):</strong><br />
+                            @Model.FechaInicio.ToString("dd/MM/yyyy")
+                        </div>
+                        <div class="col-md-6">
+                            <strong>@Html.DisplayNameFor(model => model.FechaVencimiento):</strong><br />
+                            @Model.FechaVencimiento.ToString("dd/MM/yyyy")
+                            @if (Model.DiasRestantes > 0 && Model.DiasRestantes <= 30 && Model.Estado == "Activo")
+                            {
+                                <span class="badge bg-warning text-dark">Vence en @Model.DiasRestantes días</span>
+                            }
+                            else if (Model.EstaVencido && Model.Estado == "Activo")
+                            {
+                                <span class="badge bg-danger">Vencido</span>
+                            }
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>@Html.DisplayNameFor(model => model.NumeroPoliza):</strong><br />
+                            @Html.DisplayFor(model => model.NumeroPoliza)
+                        </div>
+                        <div class="col-md-6">
+                            <strong>@Html.DisplayNameFor(model => model.FechaVencimientoPoliza):</strong><br />
+                            @(Model.FechaVencimientoPoliza.HasValue ? Model.FechaVencimientoPoliza.Value.ToString("dd/MM/yyyy") : "N/A")
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header bg-warning">
+                    <h5 class="mb-0">Observaciones</h5>
+                </div>
+                <div class="card-body">
+                    @Html.DisplayFor(model => model.Observaciones)
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                    <i class="bi bi-pencil"></i> Editar
+                </a>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Regresar al Listado
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+}
+
