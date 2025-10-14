@@ -114,7 +114,7 @@
             </h3>
         </div>
         <div class="p-6">
-            <canvas id="chartEstados" class="max-h-64"></canvas>
+            <div id="chartEstados"></div>
         </div>
     </div>
     
@@ -127,7 +127,7 @@
             </h3>
         </div>
         <div class="p-6">
-            <canvas id="chartCategorias" class="max-h-64"></canvas>
+            <div id="chartCategorias"></div>
         </div>
     </div>
 </div>
@@ -141,7 +141,7 @@
         </h3>
     </div>
     <div class="p-6">
-        <canvas id="chartAnios"></canvas>
+        <div id="chartAnios"></div>
     </div>
 </div>
 
@@ -156,7 +156,7 @@
             </h3>
         </div>
         <div class="p-6">
-            <canvas id="chartEmpresas"></canvas>
+            <div id="chartEmpresas"></div>
         </div>
     </div>
     
@@ -169,7 +169,7 @@
             </h3>
         </div>
         <div class="p-6">
-            <canvas id="chartClientes"></canvas>
+            <div id="chartClientes"></div>
         </div>
     </div>
 </div>
@@ -195,161 +195,266 @@
 </div>
 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     
     <script>
-        @{
-            var estadosLabels = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorEstado).Select(x => $"'{x.Estado}'"));
-            var estadosCantidades = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorEstado).Select(x => x.Cantidad.ToString()));
-            
-            var categoriasLabels = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorCategoria).Select(x => $"'{x.Categoria}'"));
-            var categoriasCantidades = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorCategoria).Select(x => x.Cantidad.ToString()));
-            
-            var aniosLabels = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorAnio).Select(x => $"'{x.Anio}'"));
-            var aniosCantidades = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorAnio).Select(x => x.Cantidad.ToString()));
-            var aniosValores = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorAnio).Select(x => Math.Round(x.Valor / 1000000.0, 2).ToString()));
-            
-            var empresasLabels = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorEmpresa).Select(x => $"'{x.Empresa}'"));
-            var empresasValores = string.Join(",", ((IEnumerable<dynamic>)ViewBag.ContratosPorEmpresa).Select(x => Math.Round(x.Valor / 1000000.0, 2).ToString()));
-            
-            var clientesLabels = string.Join(",", ((IEnumerable<dynamic>)ViewBag.TopClientes).Select(x => $"'{x.Cliente}'"));
-            var clientesValores = string.Join(",", ((IEnumerable<dynamic>)ViewBag.TopClientes).Select(x => Math.Round(x.Valor / 1000000.0, 2).ToString()));
+        // Función para formatear moneda
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('es-CO', { 
+                style: 'currency', 
+                currency: 'COP',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(value);
         }
+
+        // ==================== GRÁFICA DE ESTADOS ====================
+        var estadosData = @Html.Raw(Json.Serialize(ViewBag.ContratosPorEstado ?? new List<object>()));
         
-        // Gráfica de Estados
-        const ctxEstados = document.getElementById('chartEstados').getContext('2d');
-        new Chart(ctxEstados, {
-            type: 'pie',
-            data: {
-                labels: [@Html.Raw(estadosLabels)],
-                datasets: [{
-                    data: [@Html.Raw(estadosCantidades)],
-                    backgroundColor: ['#10b981', '#ef4444', '#f59e0b', '#6b7280']
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
+        if (estadosData && estadosData.length > 0) {
+            var optionsEstados = {
+                series: estadosData.map(x => x.cantidad),
+                chart: {
+                    type: 'donut',
+                    height: 320,
+                    fontFamily: 'Inter, sans-serif',
+                },
+                labels: estadosData.map(x => x.estado),
+                colors: ['#10b981', '#ef4444', '#f59e0b', '#6b7280', '#3b82f6'],
+                legend: {
+                    position: 'bottom',
+                    fontSize: '14px'
+                },
+                dataLabels: {
+                    enabled: true,
+                    formatter: function(val) {
+                        return Math.round(val) + '%';
                     }
-                }
-            }
-        });
-
-        // Gráfica de Categorías
-        const ctxCategorias = document.getElementById('chartCategorias').getContext('2d');
-        new Chart(ctxCategorias, {
-            type: 'doughnut',
-            data: {
-                labels: [@Html.Raw(categoriasLabels)],
-                datasets: [{
-                    data: [@Html.Raw(categoriasCantidades)],
-                    backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4', '#8b5cf6', '#ec4899', '#f97316']
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }
-        });
-
-        // Gráfica de Años
-        const ctxAnios = document.getElementById('chartAnios').getContext('2d');
-        new Chart(ctxAnios, {
-            type: 'bar',
-            data: {
-                labels: [@Html.Raw(aniosLabels)],
-                datasets: [{
-                    label: 'Cantidad de Contratos',
-                    data: [@Html.Raw(aniosCantidades)],
-                    backgroundColor: '#3b82f6',
-                    yAxisID: 'y'
-                }, {
-                    label: 'Valor (Millones COP)',
-                    data: [@Html.Raw(aniosValores)],
-                    backgroundColor: '#10b981',
-                    yAxisID: 'y1'
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        type: 'linear',
-                        display: true,
-                        position: 'left',
-                        title: {
-                            display: true,
-                            text: 'Cantidad'
+                },
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            size: '65%',
+                            labels: {
+                                show: true,
+                                total: {
+                                    show: true,
+                                    label: 'Total',
+                                    fontSize: '18px',
+                                    fontWeight: 600
+                                }
+                            }
                         }
-                    },
-                    y1: {
-                        type: 'linear',
-                        display: true,
-                        position: 'right',
-                        title: {
-                            display: true,
-                            text: 'Valor (Millones)'
+                    }
+                }
+            };
+            var chartEstados = new ApexCharts(document.querySelector("#chartEstados"), optionsEstados);
+            chartEstados.render();
+        } else {
+            document.querySelector("#chartEstados").innerHTML = '<div class="text-center py-12 text-gray-400"><i class="fas fa-chart-pie text-5xl mb-3"></i><p>No hay datos disponibles</p></div>';
+        }
+
+        // ==================== GRÁFICA DE CATEGORÍAS ====================
+        var categoriasData = @Html.Raw(Json.Serialize(ViewBag.ContratosPorCategoria ?? new List<object>()));
+        
+        if (categoriasData && categoriasData.length > 0) {
+            var optionsCategorias = {
+                series: categoriasData.map(x => x.cantidad),
+                chart: {
+                    type: 'pie',
+                    height: 320,
+                    fontFamily: 'Inter, sans-serif',
+                },
+                labels: categoriasData.map(x => x.categoria),
+                colors: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4', '#8b5cf6', '#ec4899', '#f97316'],
+                legend: {
+                    position: 'bottom',
+                    fontSize: '14px'
+                },
+                dataLabels: {
+                    enabled: true
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            height: 300
                         },
-                        grid: {
-                            drawOnChartArea: false
+                        legend: {
+                            position: 'bottom'
                         }
                     }
-                }
-            }
-        });
-
-        // Gráfica de Empresas
-        const ctxEmpresas = document.getElementById('chartEmpresas').getContext('2d');
-        new Chart(ctxEmpresas, {
-            type: 'bar',
-            data: {
-                labels: [@Html.Raw(empresasLabels)],
-                datasets: [{
-                    label: 'Valor (Millones COP)',
-                    data: [@Html.Raw(empresasValores)],
-                    backgroundColor: '#f59e0b'
                 }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                }
-            }
-        });
+            };
+            var chartCategorias = new ApexCharts(document.querySelector("#chartCategorias"), optionsCategorias);
+            chartCategorias.render();
+        } else {
+            document.querySelector("#chartCategorias").innerHTML = '<div class="text-center py-12 text-gray-400"><i class="fas fa-chart-pie text-5xl mb-3"></i><p>No hay datos disponibles</p></div>';
+        }
 
-        // Gráfica de Clientes
-        const ctxClientes = document.getElementById('chartClientes').getContext('2d');
-        new Chart(ctxClientes, {
-            type: 'bar',
-            data: {
-                labels: [@Html.Raw(clientesLabels)],
-                datasets: [{
-                    label: 'Valor (Millones COP)',
-                    data: [@Html.Raw(clientesValores)],
-                    backgroundColor: '#ef4444'
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
+        // ==================== GRÁFICA DE AÑOS ====================
+        var aniosData = @Html.Raw(Json.Serialize(ViewBag.ContratosPorAnio ?? new List<object>()));
+        
+        if (aniosData && aniosData.length > 0) {
+            var optionsAnios = {
+                series: [{
+                    name: 'Cantidad de Contratos',
+                    type: 'column',
+                    data: aniosData.map(x => x.cantidad)
+                }, {
+                    name: 'Valor (Millones COP)',
+                    type: 'line',
+                    data: aniosData.map(x => Math.round(x.valor / 1000000))
+                }],
+                chart: {
+                    height: 350,
+                    type: 'line',
+                    fontFamily: 'Inter, sans-serif',
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: true,
+                            zoom: true
+                        }
                     }
+                },
+                stroke: {
+                    width: [0, 4],
+                    curve: 'smooth'
+                },
+                dataLabels: {
+                    enabled: true,
+                    enabledOnSeries: [1]
+                },
+                labels: aniosData.map(x => x.anio.toString()),
+                xaxis: {
+                    title: {
+                        text: 'Año'
+                    }
+                },
+                yaxis: [{
+                    title: {
+                        text: 'Cantidad de Contratos',
+                    },
+                }, {
+                    opposite: true,
+                    title: {
+                        text: 'Valor (Millones COP)'
+                    }
+                }],
+                colors: ['#3b82f6', '#10b981'],
+                legend: {
+                    position: 'top'
                 }
-            }
-        });
+            };
+            var chartAnios = new ApexCharts(document.querySelector("#chartAnios"), optionsAnios);
+            chartAnios.render();
+        } else {
+            document.querySelector("#chartAnios").innerHTML = '<div class="text-center py-12 text-gray-400"><i class="fas fa-chart-line text-5xl mb-3"></i><p>No hay datos disponibles</p></div>';
+        }
+
+        // ==================== GRÁFICA DE EMPRESAS ====================
+        var empresasData = @Html.Raw(Json.Serialize(ViewBag.ContratosPorEmpresa ?? new List<object>()));
+        
+        if (empresasData && empresasData.length > 0) {
+            var optionsEmpresas = {
+                series: [{
+                    name: 'Valor (Millones COP)',
+                    data: empresasData.map(x => Math.round(x.valor / 1000000))
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 350,
+                    fontFamily: 'Inter, sans-serif',
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 4,
+                        horizontal: true,
+                        distributed: true,
+                        dataLabels: {
+                            position: 'top'
+                        }
+                    }
+                },
+                colors: ['#f59e0b', '#fb923c', '#fdba74', '#fed7aa', '#ffedd5'],
+                dataLabels: {
+                    enabled: true,
+                    formatter: function(val) {
+                        return '$' + val + 'M';
+                    },
+                    offsetX: 30,
+                    style: {
+                        fontSize: '12px',
+                        colors: ['#333']
+                    }
+                },
+                xaxis: {
+                    categories: empresasData.map(x => x.empresa),
+                    title: {
+                        text: 'Valor (Millones COP)'
+                    }
+                },
+                legend: {
+                    show: false
+                }
+            };
+            var chartEmpresas = new ApexCharts(document.querySelector("#chartEmpresas"), optionsEmpresas);
+            chartEmpresas.render();
+        } else {
+            document.querySelector("#chartEmpresas").innerHTML = '<div class="text-center py-12 text-gray-400"><i class="fas fa-building text-5xl mb-3"></i><p>No hay datos disponibles</p></div>';
+        }
+
+        // ==================== GRÁFICA DE CLIENTES ====================
+        var clientesData = @Html.Raw(Json.Serialize(ViewBag.TopClientes ?? new List<object>()));
+        
+        if (clientesData && clientesData.length > 0) {
+            var optionsClientes = {
+                series: [{
+                    name: 'Valor (Millones COP)',
+                    data: clientesData.map(x => Math.round(x.valor / 1000000))
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 350,
+                    fontFamily: 'Inter, sans-serif',
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 4,
+                        horizontal: true,
+                        distributed: true,
+                        dataLabels: {
+                            position: 'top'
+                        }
+                    }
+                },
+                colors: ['#ef4444', '#f87171', '#fca5a5', '#fecaca', '#fee2e2'],
+                dataLabels: {
+                    enabled: true,
+                    formatter: function(val) {
+                        return '$' + val + 'M';
+                    },
+                    offsetX: 30,
+                    style: {
+                        fontSize: '12px',
+                        colors: ['#333']
+                    }
+                },
+                xaxis: {
+                    categories: clientesData.map(x => x.cliente),
+                    title: {
+                        text: 'Valor (Millones COP)'
+                    }
+                },
+                legend: {
+                    show: false
+                }
+            };
+            var chartClientes = new ApexCharts(document.querySelector("#chartClientes"), optionsClientes);
+            chartClientes.render();
+        } else {
+            document.querySelector("#chartClientes").innerHTML = '<div class="text-center py-12 text-gray-400"><i class="fas fa-users text-5xl mb-3"></i><p>No hay datos disponibles</p></div>';
+        }
     </script>
 }

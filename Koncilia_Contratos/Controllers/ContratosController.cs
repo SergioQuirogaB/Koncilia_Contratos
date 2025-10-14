@@ -19,11 +19,19 @@ namespace Koncilia_Contratos.Controllers
         }
 
         // GET: Contratos
-        public async Task<IActionResult> Index(string searchString, string estado, int? anio)
+        public async Task<IActionResult> Index(string searchString, string estado, int? anio, int pageNumber = 1, int pageSize = 25)
         {
+            // Validar pageSize - solo permitir 25, 50, 100 o 200
+            if (pageSize != 25 && pageSize != 50 && pageSize != 100 && pageSize != 200)
+            {
+                pageSize = 25;
+            }
+            
             ViewData["CurrentFilter"] = searchString;
             ViewData["CurrentEstado"] = estado;
             ViewData["CurrentAnio"] = anio;
+            ViewData["CurrentPage"] = pageNumber;
+            ViewData["PageSize"] = pageSize;
 
             var contratos = from c in _context.Contratos
                            select c;
@@ -45,7 +53,21 @@ namespace Koncilia_Contratos.Controllers
                 contratos = contratos.Where(c => c.Anio == anio.Value);
             }
 
-            return View(await contratos.OrderByDescending(c => c.FechaInicio).ToListAsync());
+            // Ordenar
+            contratos = contratos.OrderByDescending(c => c.FechaInicio);
+
+            // Calcular total de registros y páginas
+            var totalContratos = await contratos.CountAsync();
+            ViewData["TotalPages"] = (int)Math.Ceiling(totalContratos / (double)pageSize);
+            ViewData["TotalContratos"] = totalContratos;
+
+            // Aplicar paginación
+            var contratosPaginados = await contratos
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return View(contratosPaginados);
         }
 
         // GET: Contratos/Details/5

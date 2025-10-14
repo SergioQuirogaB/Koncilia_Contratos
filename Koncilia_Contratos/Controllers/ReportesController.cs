@@ -22,18 +22,18 @@ namespace Koncilia_Contratos.Controllers
             var contratos = await _context.Contratos.ToListAsync();
 
             // Estadísticas generales
-            ViewBag.TotalContratos = contratos.Count;
-            ViewBag.ContratosActivos = contratos.Count(c => c.Estado == "Activo");
-            ViewBag.ContratosPorVencer = contratos.Count(c => c.DiasRestantes > 0 && c.DiasRestantes <= 30 && c.Estado == "Activo");
-            ViewBag.ContratosVencidos = contratos.Count(c => c.EstaVencido && c.Estado == "Activo");
+            ViewBag.TotalContratos = contratos?.Count ?? 0;
+            ViewBag.ContratosActivos = contratos?.Count(c => c.Estado == "Activo") ?? 0;
+            ViewBag.ContratosPorVencer = contratos?.Count(c => c.DiasRestantes > 0 && c.DiasRestantes <= 30 && c.Estado == "Activo") ?? 0;
+            ViewBag.ContratosVencidos = contratos?.Count(c => c.EstaVencido && c.Estado == "Activo") ?? 0;
             
             // Valores totales
-            ViewBag.ValorTotalPesos = contratos.Sum(c => c.ValorPesos);
-            ViewBag.ValorTotalFacturado = contratos.Sum(c => c.ValorFacturado ?? 0);
-            ViewBag.ValorTotalPendiente = contratos.Sum(c => c.ValorPendiente ?? 0);
+            ViewBag.ValorTotalPesos = contratos?.Sum(c => c.ValorPesos) ?? 0;
+            ViewBag.ValorTotalFacturado = contratos?.Sum(c => c.ValorFacturado ?? 0) ?? 0;
+            ViewBag.ValorTotalPendiente = contratos?.Sum(c => c.ValorPendiente ?? 0) ?? 0;
 
             // Porcentaje de ejecución promedio
-            var contratosConEjecucion = contratos.Where(c => c.PorcentajeEjecucion.HasValue).ToList();
+            var contratosConEjecucion = contratos?.Where(c => c.PorcentajeEjecucion.HasValue).ToList() ?? new List<Contrato>();
             ViewBag.PromedioEjecucion = contratosConEjecucion.Any() 
                 ? contratosConEjecucion.Average(c => c.PorcentajeEjecucion!.Value) 
                 : 0;
@@ -41,14 +41,14 @@ namespace Koncilia_Contratos.Controllers
             // Contratos por estado (para gráfica)
             ViewBag.ContratosPorEstado = contratos
                 .GroupBy(c => c.Estado)
-                .Select(g => new { Estado = g.Key, Cantidad = g.Count() })
+                .Select(g => new { Estado = g.Key ?? "Sin Estado", Cantidad = g.Count() })
                 .ToList();
 
             // Contratos por categoría (para gráfica)
             ViewBag.ContratosPorCategoria = contratos
                 .Where(c => !string.IsNullOrEmpty(c.Categoria))
                 .GroupBy(c => c.Categoria)
-                .Select(g => new { Categoria = g.Key, Cantidad = g.Count(), Valor = g.Sum(c => c.ValorPesos) })
+                .Select(g => new { Categoria = g.Key ?? "Sin Categoría", Cantidad = g.Count(), Valor = g.Sum(c => c.ValorPesos) })
                 .OrderByDescending(x => x.Valor)
                 .ToList();
 
@@ -62,7 +62,7 @@ namespace Koncilia_Contratos.Controllers
             // Contratos por empresa (para gráfica)
             ViewBag.ContratosPorEmpresa = contratos
                 .GroupBy(c => c.Empresa)
-                .Select(g => new { Empresa = g.Key, Cantidad = g.Count(), Valor = g.Sum(c => c.ValorPesos) })
+                .Select(g => new { Empresa = g.Key ?? "Sin Empresa", Cantidad = g.Count(), Valor = g.Sum(c => c.ValorPesos) })
                 .OrderByDescending(x => x.Valor)
                 .Take(10)
                 .ToList();
@@ -70,7 +70,7 @@ namespace Koncilia_Contratos.Controllers
             // Top 10 clientes por valor
             ViewBag.TopClientes = contratos
                 .GroupBy(c => c.Cliente)
-                .Select(g => new { Cliente = g.Key, Cantidad = g.Count(), Valor = g.Sum(c => c.ValorPesos) })
+                .Select(g => new { Cliente = g.Key ?? "Sin Cliente", Cantidad = g.Count(), Valor = g.Sum(c => c.ValorPesos) })
                 .OrderByDescending(x => x.Valor)
                 .Take(10)
                 .ToList();

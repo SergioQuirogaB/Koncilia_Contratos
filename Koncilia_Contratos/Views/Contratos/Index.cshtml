@@ -213,6 +213,129 @@
             </table>
         </div>
     </div>
+    
+    <!-- Paginación -->
+    @if (ViewData["TotalPages"] != null)
+    {
+        <div class="mt-6 flex flex-col gap-4">
+            <!-- Selector de registros por página y total -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="text-sm text-gray-700">
+                        Mostrando 
+                        <span class="font-semibold">@(((int)ViewData["CurrentPage"] - 1) * (int)ViewData["PageSize"] + 1)</span>
+                        - 
+                        <span class="font-semibold">@(Math.Min((int)ViewData["CurrentPage"] * (int)ViewData["PageSize"], (int)ViewData["TotalContratos"]))</span>
+                        de 
+                        <span class="font-semibold">@ViewData["TotalContratos"]</span>
+                        contratos
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <label class="text-sm text-gray-700">Mostrar:</label>
+                    <select id="pageSizeSelector" 
+                            class="px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                        @{
+                            var currentPageSize = ViewData["PageSize"]?.ToString() ?? "25";
+                        }
+                        <option value="25" selected="@(currentPageSize == "25")">25</option>
+                        <option value="50" selected="@(currentPageSize == "50")">50</option>
+                        <option value="100" selected="@(currentPageSize == "100")">100</option>
+                        <option value="200" selected="@(currentPageSize == "200")">200</option>
+                    </select>
+                    <span class="text-sm text-gray-700">registros</span>
+                </div>
+            </div>
+            
+            <!-- Navegación de páginas -->
+            @if ((int)ViewData["TotalPages"] > 1)
+            {
+                <div class="flex items-center justify-center gap-4">
+            
+            <div class="flex items-center space-x-2">
+                @{
+                    var currentPage = (int)ViewData["CurrentPage"];
+                    var totalPages = (int)ViewData["TotalPages"];
+                    var pageSize = (int)ViewData["PageSize"];
+                    var searchString = ViewData["CurrentFilter"]?.ToString();
+                    var estado = ViewData["CurrentEstado"]?.ToString();
+                    var anio = ViewData["CurrentAnio"];
+                }
+                
+                <!-- Botón Anterior -->
+                @if (currentPage > 1)
+                {
+                    <a asp-action="Index" 
+                       asp-route-pageNumber="@(currentPage - 1)"
+                       asp-route-pageSize="@pageSize"
+                       asp-route-searchString="@searchString"
+                       asp-route-estado="@estado"
+                       asp-route-anio="@anio"
+                       class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition">
+                        <i class="fas fa-chevron-left mr-2"></i>
+                        Anterior
+                    </a>
+                }
+                else
+                {
+                    <span class="inline-flex items-center px-4 py-2 bg-gray-100 border border-gray-200 text-gray-400 font-medium rounded-lg cursor-not-allowed">
+                        <i class="fas fa-chevron-left mr-2"></i>
+                        Anterior
+                    </span>
+                }
+                
+                <!-- Números de página -->
+                <div class="hidden md:flex items-center space-x-2">
+                    @for (int i = Math.Max(1, currentPage - 2); i <= Math.Min(totalPages, currentPage + 2); i++)
+                    {
+                        if (i == currentPage)
+                        {
+                            <span class="inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg shadow-md">
+                                @i
+                            </span>
+                        }
+                        else
+                        {
+                            <a asp-action="Index" 
+                               asp-route-pageNumber="@i"
+                               asp-route-pageSize="@pageSize"
+                               asp-route-searchString="@searchString"
+                               asp-route-estado="@estado"
+                               asp-route-anio="@anio"
+                               class="inline-flex items-center justify-center w-10 h-10 bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-blue-50 hover:border-blue-300 transition">
+                                @i
+                            </a>
+                        }
+                    }
+                </div>
+                
+                <!-- Botón Siguiente -->
+                @if (currentPage < totalPages)
+                {
+                    <a asp-action="Index" 
+                       asp-route-pageNumber="@(currentPage + 1)"
+                       asp-route-pageSize="@pageSize"
+                       asp-route-searchString="@searchString"
+                       asp-route-estado="@estado"
+                       asp-route-anio="@anio"
+                       class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition">
+                        Siguiente
+                        <i class="fas fa-chevron-right ml-2"></i>
+                    </a>
+                }
+                else
+                {
+                    <span class="inline-flex items-center px-4 py-2 bg-gray-100 border border-gray-200 text-gray-400 font-medium rounded-lg cursor-not-allowed">
+                        Siguiente
+                        <i class="fas fa-chevron-right ml-2"></i>
+                    </span>
+                }
+            </div>
+                </div>
+            }
+        </div>
+    }
 }
 else
 {
@@ -240,3 +363,16 @@ else
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+@section Scripts {
+    <script>
+        // Cambiar tamaño de página automáticamente
+        document.getElementById('pageSizeSelector')?.addEventListener('change', function() {
+            var pageSize = this.value;
+            var currentUrl = new URL(window.location);
+            currentUrl.searchParams.set('pageSize', pageSize);
+            currentUrl.searchParams.set('pageNumber', '1'); // Resetear a página 1
+            window.location.href = currentUrl.toString();
+        });
+    </script>
+}

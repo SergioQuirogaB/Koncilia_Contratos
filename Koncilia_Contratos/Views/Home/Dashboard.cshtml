@@ -127,6 +127,47 @@
     </div>
 </div>
 
+<!-- Tarjetas financieras adicionales -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+    <!-- Valor Total Activos -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden border-l-4 border-cyan-500">
+        <div class="p-5">
+            <div class="flex items-center justify-between mb-2">
+                <h5 class="text-xs font-semibold text-gray-600 uppercase tracking-wider">Valor Cartera Activa</h5>
+                <i class="fas fa-dollar-sign text-cyan-500 text-2xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-cyan-600 mb-1">@(((decimal)ViewBag.ValorTotalActivos).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h2>
+            <p class="text-xs text-gray-500">Total en contratos activos</p>
+        </div>
+    </div>
+    
+    <!-- Valor Pendiente -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden border-l-4 border-orange-500">
+        <div class="p-5">
+            <div class="flex items-center justify-between mb-2">
+                <h5 class="text-xs font-semibold text-gray-600 uppercase tracking-wider">Valor Pendiente</h5>
+                <i class="fas fa-hourglass-half text-orange-500 text-2xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-orange-600 mb-1">@(((decimal)ViewBag.ValorTotalPendiente).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h2>
+            <p class="text-xs text-gray-500">Por ejecutar</p>
+        </div>
+    </div>
+    
+    <!-- % Ejecución Promedio -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden border-l-4 border-purple-500">
+        <div class="p-5">
+            <div class="flex items-center justify-between mb-2">
+                <h5 class="text-xs font-semibold text-gray-600 uppercase tracking-wider">% Ejecución Promedio</h5>
+                <i class="fas fa-chart-line text-purple-500 text-2xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-purple-600 mb-1">@(((decimal)ViewBag.PromedioEjecucion).ToString("F1"))%</h2>
+            <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-2 rounded-full" style="width: @(((decimal)ViewBag.PromedioEjecucion).ToString("F0"))%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Contenido principal -->
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <!-- Contratos Recientes (2/3) -->
@@ -277,58 +318,47 @@
         
         <!-- Notificaciones -->
         <div class="bg-white rounded-xl shadow-md overflow-hidden">
-            <div class="px-5 py-4 border-b border-gray-200">
-                <h3 class="text-lg font-bold text-gray-900 flex items-center">
-                    <i class="fas fa-bell text-red-500 mr-2"></i>
+            <div class="px-5 py-4 bg-gradient-to-r from-purple-500 to-indigo-600 border-b border-purple-700">
+                <h3 class="text-lg font-semibold text-white flex items-center">
+                    <i class="fas fa-bell mr-2 animate-pulse"></i>
                     Notificaciones
                 </h3>
             </div>
             <div class="divide-y divide-gray-200">
-                <div class="p-4 hover:bg-gray-50 transition cursor-pointer">
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0">
-                            <div class="bg-red-100 rounded-full p-2">
-                                <i class="fas fa-exclamation-triangle text-red-600"></i>
+                @if (ViewBag.Notificaciones != null && ((List<object>)ViewBag.Notificaciones).Any())
+                {
+                    @foreach (dynamic notif in (List<object>)ViewBag.Notificaciones)
+                    {
+                        <a href="@notif.Url" class="block p-4 hover:bg-gray-50 transition">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <div class="bg-@(notif.Color)-100 rounded-full p-2 shadow-sm">
+                                        <i class="fas @notif.Icono text-@(notif.Color)-600"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <p class="text-sm font-medium text-gray-900">@notif.Titulo</p>
+                                    <p class="text-xs text-gray-500 mt-1">@notif.Descripcion</p>
+                                </div>
+                                @if (notif.Tipo == "error")
+                                {
+                                    <span class="flex-shrink-0 ml-2 bg-red-100 text-red-800 text-xs font-semibold px-2 py-1 rounded-full">!</span>
+                                }
                             </div>
-                        </div>
-                        <div class="ml-3 flex-1">
-                            <p class="text-sm font-medium text-gray-900">Contrato #003 vencido</p>
-                            <p class="text-xs text-gray-500 mt-1">Hace 2 horas</p>
-                        </div>
-                        <span class="flex-shrink-0 ml-2 bg-red-100 text-red-800 text-xs font-semibold px-2 py-1 rounded-full">!</span>
+                        </a>
+                    }
+                }
+                else
+                {
+                    <div class="p-8 text-center text-gray-400">
+                        <i class="fas fa-check-circle text-4xl mb-2"></i>
+                        <p class="text-sm">No hay notificaciones pendientes</p>
                     </div>
-                </div>
-                <div class="p-4 hover:bg-gray-50 transition cursor-pointer">
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0">
-                            <div class="bg-blue-100 rounded-full p-2">
-                                <i class="fas fa-info-circle text-blue-600"></i>
-                            </div>
-                        </div>
-                        <div class="ml-3 flex-1">
-                            <p class="text-sm font-medium text-gray-900">Nueva solicitud de contrato</p>
-                            <p class="text-xs text-gray-500 mt-1">Hace 5 horas</p>
-                        </div>
-                        <span class="flex-shrink-0 ml-2 bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded-full">1</span>
-                    </div>
-                </div>
-                <div class="p-4 hover:bg-gray-50 transition cursor-pointer">
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0">
-                            <div class="bg-green-100 rounded-full p-2">
-                                <i class="fas fa-check-circle text-green-600"></i>
-                            </div>
-                        </div>
-                        <div class="ml-3 flex-1">
-                            <p class="text-sm font-medium text-gray-900">Contrato #001 aprobado</p>
-                            <p class="text-xs text-gray-500 mt-1">Ayer</p>
-                        </div>
-                    </div>
-                </div>
+                }
             </div>
             <div class="px-5 py-3 bg-gray-50 border-t border-gray-200">
-                <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center justify-center">
-                    Ver todas las notificaciones
+                <a asp-controller="Contratos" asp-action="Index" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center justify-center">
+                    Ver todos los contratos
                     <i class="fas fa-arrow-right ml-2"></i>
                 </a>
             </div>
