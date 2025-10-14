@@ -130,8 +130,8 @@ namespace Koncilia_Contratos.Controllers
                 });
             }
 
-            // Ordenar por prioridad (errores primero)
-            ViewBag.Notificaciones = notificaciones.OrderByDescending(n => ((dynamic)n).Prioridad).Take(5).ToList();
+            // Ordenar por prioridad (errores primero) y tomar las 10 más recientes
+            ViewBag.Notificaciones = notificaciones.OrderByDescending(n => ((dynamic)n).Prioridad).Take(10).ToList();
 
             return View();
         }

@@ -2,350 +2,291 @@
     ViewData["Title"] = "Dashboard";
 }
 
-
-
-<!-- Tarjetas de estadísticas -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
-    <!-- Contratos Activos -->
-    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden">
-        <div class="p-5">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-1">Contratos Activos</p>
-                    <p class="text-3xl font-bold text-gray-900">24</p>
-                </div>
-                <div class="bg-blue-100 rounded-full p-3">
-                    <i class="fas fa-file-contract text-blue-600 text-2xl"></i>
-                </div>
+<!-- Header del Dashboard -->
+<div class="mb-8">
+    <div class="bg-gradient-to-r from-[#0c1892] via-[#0c1892] to-[#0ff2f2] rounded-2xl p-8 shadow-2xl">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2 drop-shadow-lg">
+                    ¡Bienvenido, @ViewBag.UserName! 👋
+                </h1>
+                <p class="text-blue-100 text-lg">Aquí tienes un resumen de tus contratos</p>
             </div>
-            <div class="mt-3 flex items-center text-sm">
-                <span class="text-green-600 font-semibold flex items-center">
-                    <i class="fas fa-arrow-up mr-1"></i> 12%
-                </span>
-                <span class="text-gray-600 ml-2">vs mes anterior</span>
+            <div class="hidden md:block">
+                <div class="bg-white bg-opacity-20 backdrop-blur-lg rounded-xl p-4 text-white">
+                    <i class="fas fa-calendar-alt mr-2"></i>
+                    <span class="font-semibold">@DateTime.Now.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("es-ES"))</span>
+                </div>
             </div>
         </div>
-        <div class="bg-blue-50 px-5 py-2">
-            <a href="#" class="text-xs font-medium text-blue-600 hover:text-blue-800 flex items-center">
-                Ver detalles <i class="fas fa-arrow-right ml-1"></i>
-            </a>
+    </div>
+</div>
+
+<!-- Tarjetas de estadísticas -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+    <!-- Contratos Activos -->
+    <div class="relative bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all overflow-hidden group">
+        <div class="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 rounded-full bg-white opacity-10 group-hover:scale-150 transition-transform"></div>
+        <div class="p-6 relative z-10">
+            <div class="flex items-center justify-between mb-4">
+                <div class="bg-white bg-opacity-25 backdrop-blur-sm rounded-xl p-3 group-hover:scale-110 transition-transform">
+                    <i class="fas fa-file-contract text-white text-3xl"></i>
+                </div>
+                <div class="text-right">
+                    <p class="text-blue-100 text-sm font-semibold uppercase tracking-wide mb-1">Activos</p>
+                    <p class="text-4xl font-black text-white drop-shadow-lg">@ViewBag.ContratosActivos</p>
+                </div>
+            </div>
+            <div class="pt-4 border-t border-white border-opacity-30">
+                <a asp-controller="Contratos" asp-action="Index" asp-route-estado="Activo" 
+                   class="text-white text-sm font-medium flex items-center hover:text-blue-100 transition">
+                    Ver contratos activos <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
         </div>
     </div>
     
     <!-- Contratos Completados -->
-    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden">
-        <div class="p-5">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-semibold text-green-600 uppercase tracking-wider mb-1">Completados</p>
-                    <p class="text-3xl font-bold text-gray-900">156</p>
+    <div class="relative bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all overflow-hidden group">
+        <div class="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 rounded-full bg-white opacity-10 group-hover:scale-150 transition-transform"></div>
+        <div class="p-6 relative z-10">
+            <div class="flex items-center justify-between mb-4">
+                <div class="bg-white bg-opacity-25 backdrop-blur-sm rounded-xl p-3 group-hover:scale-110 transition-transform">
+                    <i class="fas fa-check-circle text-white text-3xl"></i>
                 </div>
-                <div class="bg-green-100 rounded-full p-3">
-                    <i class="fas fa-check-circle text-green-600 text-2xl"></i>
+                <div class="text-right">
+                    <p class="text-green-100 text-sm font-semibold uppercase tracking-wide mb-1">Completados</p>
+                    <p class="text-4xl font-black text-white drop-shadow-lg">@ViewBag.ContratosCompletados</p>
                 </div>
             </div>
-            <div class="mt-3 flex items-center text-sm">
-                <span class="text-green-600 font-semibold flex items-center">
-                    <i class="fas fa-arrow-up mr-1"></i> 8%
-                </span>
-                <span class="text-gray-600 ml-2">vs mes anterior</span>
+            <div class="pt-4 border-t border-white border-opacity-30">
+                <a asp-controller="Contratos" asp-action="Index" asp-route-estado="Finalizado" 
+                   class="text-white text-sm font-medium flex items-center hover:text-green-100 transition">
+                    Ver completados <i class="fas fa-arrow-right ml-2"></i>
+                </a>
             </div>
-        </div>
-        <div class="bg-green-50 px-5 py-2">
-            <a href="#" class="text-xs font-medium text-green-600 hover:text-green-800 flex items-center">
-                Ver detalles <i class="fas fa-arrow-right ml-1"></i>
-            </a>
         </div>
     </div>
     
-    <!-- Pendientes de Revisión -->
-    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden">
-        <div class="p-5">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-semibold text-yellow-600 uppercase tracking-wider mb-1">Pendientes</p>
-                    <p class="text-3xl font-bold text-gray-900">8</p>
+    <!-- Pendientes -->
+    <div class="relative bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all overflow-hidden group">
+        <div class="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 rounded-full bg-white opacity-10 group-hover:scale-150 transition-transform"></div>
+        <div class="p-6 relative z-10">
+            <div class="flex items-center justify-between mb-4">
+                <div class="bg-white bg-opacity-25 backdrop-blur-sm rounded-xl p-3 group-hover:scale-110 transition-transform">
+                    <i class="fas fa-clock text-white text-3xl"></i>
                 </div>
-                <div class="bg-yellow-100 rounded-full p-3">
-                    <i class="fas fa-clock text-yellow-600 text-2xl"></i>
+                <div class="text-right">
+                    <p class="text-orange-100 text-sm font-semibold uppercase tracking-wide mb-1">Pendientes</p>
+                    <p class="text-4xl font-black text-white drop-shadow-lg">@ViewBag.ContratosPendientes</p>
                 </div>
             </div>
-            <div class="mt-3 flex items-center text-sm">
-                <span class="text-red-600 font-semibold flex items-center">
-                    <i class="fas fa-arrow-down mr-1"></i> 3%
-                </span>
-                <span class="text-gray-600 ml-2">vs mes anterior</span>
+            <div class="pt-4 border-t border-white border-opacity-30">
+                <a asp-controller="Contratos" asp-action="Index" 
+                   class="text-white text-sm font-medium flex items-center hover:text-orange-100 transition">
+                    Ver pendientes <i class="fas fa-arrow-right ml-2"></i>
+                </a>
             </div>
-        </div>
-        <div class="bg-yellow-50 px-5 py-2">
-            <a href="#" class="text-xs font-medium text-yellow-600 hover:text-yellow-800 flex items-center">
-                Ver detalles <i class="fas fa-arrow-right ml-1"></i>
-            </a>
         </div>
     </div>
     
     <!-- Vencidos -->
-    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden">
-        <div class="p-5">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-semibold text-red-600 uppercase tracking-wider mb-1">Vencidos</p>
-                    <p class="text-3xl font-bold text-gray-900">3</p>
+    <div class="relative bg-gradient-to-br from-red-500 to-rose-600 rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all overflow-hidden group">
+        <div class="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 rounded-full bg-white opacity-10 group-hover:scale-150 transition-transform"></div>
+        <div class="p-6 relative z-10">
+            <div class="flex items-center justify-between mb-4">
+                <div class="bg-white bg-opacity-25 backdrop-blur-sm rounded-xl p-3 group-hover:scale-110 transition-transform">
+                    <i class="fas fa-exclamation-triangle text-white text-3xl"></i>
                 </div>
-                <div class="bg-red-100 rounded-full p-3">
-                    <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+                <div class="text-right">
+                    <p class="text-red-100 text-sm font-semibold uppercase tracking-wide mb-1">Vencidos</p>
+                    <p class="text-4xl font-black text-white drop-shadow-lg">@ViewBag.ContratosVencidos</p>
                 </div>
             </div>
-            <div class="mt-3 flex items-center text-sm">
-                <span class="text-red-600 font-semibold flex items-center">
-                    <i class="fas fa-exclamation-circle mr-1"></i> ¡Atención!
-                </span>
-                <span class="text-gray-600 ml-2">Requiere acción</span>
+            <div class="pt-4 border-t border-white border-opacity-30">
+                <a asp-controller="Contratos" asp-action="Index" 
+                   class="text-white text-sm font-medium flex items-center hover:text-red-100 transition">
+                    Ver vencidos <i class="fas fa-arrow-right ml-2"></i>
+                </a>
             </div>
         </div>
-        <div class="bg-red-50 px-5 py-2">
-            <a href="#" class="text-xs font-medium text-red-600 hover:text-red-800 flex items-center">
-                Ver detalles <i class="fas fa-arrow-right ml-1"></i>
+    </div>
+</div>
+
+<!-- Tarjetas financieras -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8">
+    <!-- Valor Total Activos -->
+    <div class="bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-1 hover:shadow-2xl transition-all">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-3">
+                <div class="bg-white bg-opacity-25 backdrop-blur-sm rounded-xl p-3">
+                    <i class="fas fa-dollar-sign text-white text-2xl"></i>
+                </div>
+                <div class="text-right">
+                    <p class="text-cyan-100 text-xs font-semibold uppercase tracking-wider mb-1">Cartera Activa</p>
+                    <h2 class="text-2xl font-black text-white drop-shadow-lg">
+                        @(((decimal)ViewBag.ValorTotalActivos).ToString("C0", new System.Globalization.CultureInfo("es-CO")))
+                    </h2>
+                </div>
+            </div>
+            <div class="pt-3 border-t border-white border-opacity-30">
+                <p class="text-cyan-100 text-xs">Total en contratos activos</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Valor Pendiente -->
+    <div class="bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-1 hover:shadow-2xl transition-all">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-3">
+                <div class="bg-white bg-opacity-25 backdrop-blur-sm rounded-xl p-3">
+                    <i class="fas fa-hourglass-half text-white text-2xl"></i>
+                </div>
+                <div class="text-right">
+                    <p class="text-orange-100 text-xs font-semibold uppercase tracking-wider mb-1">Pendiente</p>
+                    <h2 class="text-2xl font-black text-white drop-shadow-lg">
+                        @(((decimal)ViewBag.ValorTotalPendiente).ToString("C0", new System.Globalization.CultureInfo("es-CO")))
+                    </h2>
+                </div>
+            </div>
+            <div class="pt-3 border-t border-white border-opacity-30">
+                <p class="text-orange-100 text-xs">Por ejecutar en contratos</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- % Ejecución Promedio -->
+    <div class="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-1 hover:shadow-2xl transition-all">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-3">
+                <div class="bg-white bg-opacity-25 backdrop-blur-sm rounded-xl p-3">
+                    <i class="fas fa-chart-line text-white text-2xl"></i>
+                </div>
+                <div class="text-right">
+                    <p class="text-purple-100 text-xs font-semibold uppercase tracking-wider mb-1">Ejecución</p>
+                    <h2 class="text-2xl font-black text-white drop-shadow-lg">
+                        @(((decimal)ViewBag.PromedioEjecucion).ToString("F1"))%
+                    </h2>
+                </div>
+            </div>
+            <div class="pt-3 border-t border-white border-opacity-30">
+                <div class="w-full bg-white bg-opacity-30 rounded-full h-2">
+                    <div class="bg-white h-2 rounded-full shadow-lg transition-all" style="width: @(((decimal)ViewBag.PromedioEjecucion).ToString("F0"))%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Acciones Rápidas -->
+<div class="mb-6">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border-t-4 border-[#0ff2f2]">
+        <div class="px-6 py-4 bg-gradient-to-r from-[#0c1892] to-[#0ff2f2]">
+            <h3 class="text-lg font-bold text-white flex items-center">
+                <i class="fas fa-bolt mr-2"></i>
+                Acciones Rápidas
+            </h3>
+        </div>
+        <div class="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <a asp-controller="Contratos" asp-action="Create" 
+               class="flex flex-col items-center justify-center px-6 py-6 bg-gradient-to-br from-[#0c1892] to-blue-600 hover:from-[#0c1892] hover:to-[#0ff2f2] text-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all">
+                <i class="fas fa-plus-circle text-4xl mb-3"></i>
+                <span class="font-bold text-center">Nuevo Contrato</span>
+            </a>
+            <a asp-controller="Contratos" asp-action="Index" 
+               class="flex flex-col items-center justify-center px-6 py-6 bg-white hover:bg-gradient-to-br hover:from-blue-50 hover:to-cyan-50 border-2 border-gray-200 hover:border-[#0c1892] text-gray-700 hover:text-[#0c1892] rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+                <i class="fas fa-list-ul text-4xl mb-3"></i>
+                <span class="font-bold text-center">Ver Contratos</span>
+            </a>
+            <a asp-controller="Contratos" asp-action="Importar" 
+               class="flex flex-col items-center justify-center px-6 py-6 bg-white hover:bg-gradient-to-br hover:from-green-50 hover:to-emerald-50 border-2 border-gray-200 hover:border-green-500 text-gray-700 hover:text-green-600 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+                <i class="fas fa-file-upload text-4xl mb-3"></i>
+                <span class="font-bold text-center">Importar Excel</span>
+            </a>
+            <a asp-controller="Reportes" asp-action="Index" 
+               class="flex flex-col items-center justify-center px-6 py-6 bg-white hover:bg-gradient-to-br hover:from-purple-50 hover:to-indigo-50 border-2 border-gray-200 hover:border-purple-500 text-gray-700 hover:text-purple-600 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+                <i class="fas fa-chart-bar text-4xl mb-3"></i>
+                <span class="font-bold text-center">Reportes</span>
             </a>
         </div>
     </div>
 </div>
 
-<!-- Tarjetas financieras adicionales -->
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
-    <!-- Valor Total Activos -->
-    <div class="bg-white rounded-xl shadow-md overflow-hidden border-l-4 border-cyan-500">
-        <div class="p-5">
-            <div class="flex items-center justify-between mb-2">
-                <h5 class="text-xs font-semibold text-gray-600 uppercase tracking-wider">Valor Cartera Activa</h5>
-                <i class="fas fa-dollar-sign text-cyan-500 text-2xl"></i>
-            </div>
-            <h2 class="text-2xl font-bold text-cyan-600 mb-1">@(((decimal)ViewBag.ValorTotalActivos).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h2>
-            <p class="text-xs text-gray-500">Total en contratos activos</p>
-        </div>
-    </div>
-    
-    <!-- Valor Pendiente -->
-    <div class="bg-white rounded-xl shadow-md overflow-hidden border-l-4 border-orange-500">
-        <div class="p-5">
-            <div class="flex items-center justify-between mb-2">
-                <h5 class="text-xs font-semibold text-gray-600 uppercase tracking-wider">Valor Pendiente</h5>
-                <i class="fas fa-hourglass-half text-orange-500 text-2xl"></i>
-            </div>
-            <h2 class="text-2xl font-bold text-orange-600 mb-1">@(((decimal)ViewBag.ValorTotalPendiente).ToString("C0", new System.Globalization.CultureInfo("es-CO")))</h2>
-            <p class="text-xs text-gray-500">Por ejecutar</p>
-        </div>
-    </div>
-    
-    <!-- % Ejecución Promedio -->
-    <div class="bg-white rounded-xl shadow-md overflow-hidden border-l-4 border-purple-500">
-        <div class="p-5">
-            <div class="flex items-center justify-between mb-2">
-                <h5 class="text-xs font-semibold text-gray-600 uppercase tracking-wider">% Ejecución Promedio</h5>
-                <i class="fas fa-chart-line text-purple-500 text-2xl"></i>
-            </div>
-            <h2 class="text-2xl font-bold text-purple-600 mb-1">@(((decimal)ViewBag.PromedioEjecucion).ToString("F1"))%</h2>
-            <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
-                <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-2 rounded-full" style="width: @(((decimal)ViewBag.PromedioEjecucion).ToString("F0"))%"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Contenido principal -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <!-- Contratos Recientes (2/3) -->
-    <div class="lg:col-span-2">
-        <div class="bg-white rounded-xl shadow-md overflow-hidden">
-            <div class="px-5 py-4 border-b border-gray-200 flex items-center justify-between">
-                <h3 class="text-lg font-bold text-gray-900 flex items-center">
-                    <i class="fas fa-list text-blue-600 mr-2"></i>
-                    Contratos Recientes
-                </h3>
-                <a asp-controller="Contratos" asp-action="Index" 
-                   class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center">
-                    Ver todos <i class="fas fa-arrow-right ml-1"></i>
-                </a>
-            </div>
-            
-            <!-- Tabla responsive -->
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">Tipo</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">Fecha</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">#001</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Empresa ABC S.A.</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 hidden sm:table-cell">Servicio</td>
-                            <td class="px-4 py-3 whitespace-nowrap">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                    <i class="fas fa-circle text-green-500 mr-1" style="font-size: 6px;"></i>
-                                    Activo
-                                </span>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 hidden md:table-cell">15/01/2024</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm">
-                                <div class="flex space-x-2">
-                                    <button class="text-blue-600 hover:text-blue-800 transition">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="text-yellow-600 hover:text-yellow-800 transition">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">#002</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Corporación XYZ</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 hidden sm:table-cell">Suministro</td>
-                            <td class="px-4 py-3 whitespace-nowrap">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                    <i class="fas fa-circle text-yellow-500 mr-1" style="font-size: 6px;"></i>
-                                    Pendiente
-                                </span>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 hidden md:table-cell">14/01/2024</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm">
-                                <div class="flex space-x-2">
-                                    <button class="text-blue-600 hover:text-blue-800 transition">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="text-yellow-600 hover:text-yellow-800 transition">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">#003</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Industrias DEF</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 hidden sm:table-cell">Mantenimiento</td>
-                            <td class="px-4 py-3 whitespace-nowrap">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                    <i class="fas fa-circle text-red-500 mr-1" style="font-size: 6px;"></i>
-                                    Vencido
-                                </span>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 hidden md:table-cell">10/01/2024</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm">
-                                <div class="flex space-x-2">
-                                    <button class="text-blue-600 hover:text-blue-800 transition">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="text-yellow-600 hover:text-yellow-800 transition">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Panel lateral (1/3) -->
-    <div class="lg:col-span-1 space-y-6">
-        <!-- Acciones Rápidas -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden">
-            <div class="px-5 py-4 border-b border-gray-200">
-                <h3 class="text-lg font-bold text-gray-900 flex items-center">
-                    <i class="fas fa-bolt text-yellow-500 mr-2"></i>
-                    Acciones Rápidas
-                </h3>
-            </div>
-            <div class="p-5 space-y-3">
-                <a asp-controller="Contratos" asp-action="Create" 
-                   class="flex items-center justify-between w-full px-4 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg shadow-md hover:shadow-lg transition">
-                    <span class="flex items-center font-medium">
-                        <i class="fas fa-plus mr-3"></i>
-                        Nuevo Contrato
-                    </span>
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-                <a asp-controller="Contratos" asp-action="Index" 
-                   class="flex items-center justify-between w-full px-4 py-3 bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-blue-300 text-gray-700 rounded-lg transition">
-                    <span class="flex items-center font-medium">
-                        <i class="fas fa-list mr-3"></i>
-                        Ver Contratos
-                    </span>
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-                <a asp-controller="Contratos" asp-action="Importar" 
-                   class="flex items-center justify-between w-full px-4 py-3 bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-blue-300 text-gray-700 rounded-lg transition">
-                    <span class="flex items-center font-medium">
-                        <i class="fas fa-file-import mr-3"></i>
-                        Importar
-                    </span>
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-                <a asp-controller="Reportes" asp-action="Index" 
-                   class="flex items-center justify-between w-full px-4 py-3 bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-blue-300 text-gray-700 rounded-lg transition">
-                    <span class="flex items-center font-medium">
-                        <i class="fas fa-chart-bar mr-3"></i>
-                        Reportes
-                    </span>
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-        </div>
-        
-        <!-- Notificaciones -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden">
-            <div class="px-5 py-4 bg-gradient-to-r from-purple-500 to-indigo-600 border-b border-purple-700">
-                <h3 class="text-lg font-semibold text-white flex items-center">
-                    <i class="fas fa-bell mr-2 animate-pulse"></i>
-                    Notificaciones
-                </h3>
-            </div>
-            <div class="divide-y divide-gray-200">
-                @if (ViewBag.Notificaciones != null && ((List<object>)ViewBag.Notificaciones).Any())
+<!-- Notificaciones y Alertas -->
+<div class="mb-6">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border-t-4 border-purple-500">
+        <div class="px-6 py-4 bg-gradient-to-r from-purple-500 via-indigo-500 to-purple-600">
+            <h3 class="text-lg font-bold text-white flex items-center">
+                <i class="fas fa-bell mr-2 animate-pulse"></i>
+                Notificaciones y Alertas
+                @{
+                    var notificaciones = ViewBag.Notificaciones as List<object>;
+                    var contadorNotif = notificaciones?.Count ?? 0;
+                }
+                @if (contadorNotif > 0)
                 {
-                    @foreach (dynamic notif in (List<object>)ViewBag.Notificaciones)
+                    <span class="ml-2 bg-white text-purple-600 text-xs font-bold px-2.5 py-1 rounded-full shadow-md">
+                        @contadorNotif
+                    </span>
+                }
+            </h3>
+        </div>
+        <div class="p-6">
+            @if (notificaciones != null && notificaciones.Any())
+            {
+                <div class="space-y-3">
+                    @foreach (dynamic notif in notificaciones)
                     {
-                        <a href="@notif.Url" class="block p-4 hover:bg-gray-50 transition">
-                            <div class="flex items-start">
+                        <a href="@notif.Url" class="block p-5 bg-gradient-to-r @(notif.Color == "red" ? "from-red-50 to-red-100 border-l-4 border-red-500 hover:border-red-600 hover:shadow-red-200" : notif.Color == "yellow" ? "from-yellow-50 to-yellow-100 border-l-4 border-yellow-500 hover:border-yellow-600 hover:shadow-yellow-200" : "from-green-50 to-green-100 border-l-4 border-green-500 hover:border-green-600 hover:shadow-green-200") rounded-xl hover:shadow-lg transform hover:-translate-x-1 transition-all group">
+                            <div class="flex items-center gap-4">
+                                <!-- Icono -->
                                 <div class="flex-shrink-0">
-                                    <div class="bg-@(notif.Color)-100 rounded-full p-2 shadow-sm">
-                                        <i class="fas @notif.Icono text-@(notif.Color)-600"></i>
+                                    <div class="@(notif.Color == "red" ? "bg-red-500" : notif.Color == "yellow" ? "bg-yellow-500" : "bg-green-500") rounded-xl p-4 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform">
+                                        <i class="fas @notif.Icono text-white text-2xl"></i>
                                     </div>
                                 </div>
-                                <div class="ml-3 flex-1">
-                                    <p class="text-sm font-medium text-gray-900">@notif.Titulo</p>
-                                    <p class="text-xs text-gray-500 mt-1">@notif.Descripcion</p>
+                                
+                                <!-- Contenido -->
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <h4 class="text-base font-bold @(notif.Color == "red" ? "text-red-900" : notif.Color == "yellow" ? "text-yellow-900" : "text-green-900") pr-4">
+                                            @notif.Titulo
+                                        </h4>
+                                        @if (notif.Tipo == "error")
+                                        {
+                                            <span class="flex-shrink-0 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md animate-pulse">
+                                                ¡URGENTE!
+                                            </span>
+                                        }
+                                    </div>
+                                    <p class="text-sm @(notif.Color == "red" ? "text-red-700" : notif.Color == "yellow" ? "text-yellow-700" : "text-green-700") mb-3">
+                                        @notif.Descripcion
+                                    </p>
+                                    <div class="flex items-center text-xs font-semibold @(notif.Color == "red" ? "text-red-600" : notif.Color == "yellow" ? "text-yellow-600" : "text-green-600")">
+                                        <span>Ver detalles del contrato</span>
+                                        <i class="fas fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+                                    </div>
                                 </div>
-                                @if (notif.Tipo == "error")
-                                {
-                                    <span class="flex-shrink-0 ml-2 bg-red-100 text-red-800 text-xs font-semibold px-2 py-1 rounded-full">!</span>
-                                }
                             </div>
                         </a>
                     }
-                }
-                else
-                {
-                    <div class="p-8 text-center text-gray-400">
-                        <i class="fas fa-check-circle text-4xl mb-2"></i>
-                        <p class="text-sm">No hay notificaciones pendientes</p>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-12">
+                    <div class="inline-block bg-gradient-to-br from-green-100 to-emerald-100 rounded-full p-6 mb-4 shadow-lg">
+                        <i class="fas fa-check-circle text-green-500 text-6xl"></i>
                     </div>
-                }
-            </div>
-            <div class="px-5 py-3 bg-gray-50 border-t border-gray-200">
-                <a asp-controller="Contratos" asp-action="Index" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center justify-center">
-                    Ver todos los contratos
-                    <i class="fas fa-arrow-right ml-2"></i>
-                </a>
-            </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-2">¡Todo al día! 🎉</h4>
+                    <p class="text-gray-600 mb-6">No tienes notificaciones ni alertas pendientes</p>
+                    <a asp-controller="Contratos" asp-action="Index" 
+                       class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
+                        <i class="fas fa-list mr-2"></i>
+                        Ver todos los contratos
+                    </a>
+                </div>
+            }
         </div>
     </div>
 </div>

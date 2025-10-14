@@ -4,17 +4,6 @@
     ViewData["Title"] = "Gestión de Contratos";
 }
 
-<!-- Header -->
-<div class="mb-6">
-    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center mb-2">
-        <span class="bg-gradient-to-br from-purple-500 to-indigo-600 text-white p-2 rounded-lg mr-3">
-            <i class="fas fa-file-contract"></i>
-        </span>
-        Gestión de Contratos
-    </h1>
-    <p class="text-sm text-gray-600">Administra y visualiza todos tus contratos</p>
-</div>
-
 @if (TempData["Success"] != null)
 {
     <div class="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
@@ -34,112 +23,120 @@
 }
 
 <!-- Botones de acción -->
-<div class="mb-6 flex flex-wrap gap-3">
+<div class="mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
     <a asp-action="Create" 
-       class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition">
-        <i class="fas fa-plus mr-2"></i>
-        Nuevo Contrato
+       class="flex items-center justify-center px-6 py-4 bg-gradient-to-r from-[#0c1892] to-blue-600 hover:from-[#0c1892] hover:to-[#0ff2f2] text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all">
+        <i class="fas fa-plus-circle text-2xl mr-3"></i>
+        <span>Nuevo Contrato</span>
     </a>
     <a asp-action="Importar" 
-       class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition">
-        <i class="fas fa-file-excel mr-2"></i>
-        Importar
+       class="flex items-center justify-center px-6 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all">
+        <i class="fas fa-file-excel text-2xl mr-3"></i>
+        <span>Importar Excel</span>
     </a>
     <a asp-action="Exportar" 
-       class="inline-flex items-center px-4 py-2 bg-white hover:bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-700 font-medium rounded-lg transition">
-        <i class="fas fa-download mr-2"></i>
-        Exportar
+       class="flex items-center justify-center px-6 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all">
+        <i class="fas fa-download text-2xl mr-3"></i>
+        <span>Exportar a Excel</span>
     </a>
 </div>
 
 <!-- Filtros de búsqueda -->
-<div class="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-6">
-    <form asp-action="Index" method="get" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4">
-        <!-- Búsqueda -->
-        <div class="sm:col-span-2 lg:col-span-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-                <i class="fas fa-search text-gray-400 mr-1"></i> Búsqueda
-            </label>
-            <input type="text" 
-                   name="searchString" 
-                   value="@ViewData["CurrentFilter"]" 
-                   placeholder="Cliente, Empresa o N° Contrato"
-                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
-        </div>
-        
-        <!-- Estado -->
-        <div class="lg:col-span-3">
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-                <i class="fas fa-filter text-gray-400 mr-1"></i> Estado
-            </label>
-            <select name="estado" 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
-                <option value="">Todos los estados</option>
-                <option value="Activo" selected="@(ViewData["CurrentEstado"]?.ToString() == "Activo")">Activo</option>
-                <option value="Inactivo" selected="@(ViewData["CurrentEstado"]?.ToString() == "Inactivo")">Inactivo</option>
-                <option value="Finalizado" selected="@(ViewData["CurrentEstado"]?.ToString() == "Finalizado")">Finalizado</option>
-                <option value="Suspendido" selected="@(ViewData["CurrentEstado"]?.ToString() == "Suspendido")">Suspendido</option>
-            </select>
-        </div>
-        
-        <!-- Año -->
-        <div class="lg:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-                <i class="fas fa-calendar text-gray-400 mr-1"></i> Año
-            </label>
-            <input type="number" 
-                   name="anio" 
-                   value="@ViewData["CurrentAnio"]" 
-                   placeholder="2024" 
-                   min="2000" 
-                   max="2100"
-                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
-        </div>
-        
-        <!-- Botones -->
-        <div class="sm:col-span-2 lg:col-span-3 flex items-end gap-2">
-            <button type="submit" 
-                    class="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition">
-                <i class="fas fa-search mr-2"></i>
-                Buscar
-            </button>
-            <a asp-action="Index" 
-               class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-lg transition">
-                <i class="fas fa-times"></i>
-            </a>
-        </div>
-    </form>
+<div class="bg-white rounded-2xl shadow-xl overflow-hidden border-t-4 mb-6">
+    <div class="p-6">
+        <form asp-action="Index" method="get" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4">
+            <!-- Búsqueda -->
+            <div class="sm:col-span-2 lg:col-span-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-search text-[#0c1892] mr-1"></i> Búsqueda
+                </label>
+                <input type="text" 
+                       name="searchString" 
+                       value="@ViewData["CurrentFilter"]" 
+                       placeholder="Cliente, Empresa o N° Contrato"
+                       class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0c1892] focus:border-[#0c1892] transition shadow-sm">
+            </div>
+            
+            <!-- Estado -->
+            <div class="lg:col-span-3">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-tasks text-[#0c1892] mr-1"></i> Estado
+                </label>
+                <select name="estado" 
+                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0c1892] focus:border-[#0c1892] transition shadow-sm">
+                    <option value="">Todos los estados</option>
+                    <option value="Activo" selected="@(ViewData["CurrentEstado"]?.ToString() == "Activo")">Activo</option>
+                    <option value="Inactivo" selected="@(ViewData["CurrentEstado"]?.ToString() == "Inactivo")">Inactivo</option>
+                    <option value="Finalizado" selected="@(ViewData["CurrentEstado"]?.ToString() == "Finalizado")">Finalizado</option>
+                    <option value="Suspendido" selected="@(ViewData["CurrentEstado"]?.ToString() == "Suspendido")">Suspendido</option>
+                </select>
+            </div>
+            
+            <!-- Año -->
+            <div class="lg:col-span-2">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-calendar text-[#0c1892] mr-1"></i> Año
+                </label>
+                <input type="number" 
+                       name="anio" 
+                       value="@ViewData["CurrentAnio"]" 
+                       placeholder="2024" 
+                       min="2000" 
+                       max="2100"
+                       class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0c1892] focus:border-[#0c1892] transition shadow-sm">
+            </div>
+            
+            <!-- Botones -->
+            <div class="sm:col-span-2 lg:col-span-3 flex items-end gap-2">
+                <button type="submit" 
+                        class="flex-1 px-6 py-3 bg-gradient-to-r from-[#0c1892] to-blue-600 hover:from-[#0c1892] hover:to-[#0ff2f2] text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
+                    <i class="fas fa-search mr-2"></i>
+                    Buscar
+                </button>
+                <a asp-action="Index" 
+                   class="px-4 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold rounded-xl shadow-md hover:shadow-lg transition">
+                    <i class="fas fa-times"></i>
+                </a>
+            </div>
+        </form>
+    </div>
 </div>
 
 <!-- Tabla de contratos -->
 @if (Model.Any())
 {
-    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border-t-4 border-indigo-500">
+        <div class="px-6 py-4 bg-gradient-to-r from-indigo-50 to-purple-50">
+            <h3 class="text-lg font-bold text-gray-900 flex items-center">
+                <i class="fas fa-table text-indigo-600 mr-2"></i>
+                Lista de Contratos
+            </h3>
+        </div>
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
+                <thead class="bg-gradient-to-r from-[#0c1892] to-indigo-600">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Año</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Empresa</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden md:table-cell">Cliente</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">N° Contrato</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden lg:table-cell">Valor</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden xl:table-cell">Categoría</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden sm:table-cell">F. Inicio</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden lg:table-cell">F. Vencimiento</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden xl:table-cell">Ejecución</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Estado</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Acciones</th>
+                        <th class="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Año</th>
+                        <th class="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Empresa</th>
+                        <th class="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wider hidden md:table-cell">Cliente</th>
+                        <th class="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">N° Contrato</th>
+                        <th class="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wider hidden lg:table-cell">Valor</th>
+                        <th class="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wider hidden xl:table-cell">Categoría</th>
+                        <th class="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wider hidden sm:table-cell">F. Inicio</th>
+                        <th class="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wider hidden lg:table-cell">F. Vencimiento</th>
+                        <th class="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wider hidden xl:table-cell">Ejecución</th>
+                        <th class="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Estado</th>
+                        <th class="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach (var item in Model)
                     {
-                        <tr class="hover:bg-blue-50 transition @(item.EstaVencido && item.Estado == "Activo" ? "bg-red-50" : "")">
-                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">@item.Anio</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">@item.Empresa</td>
+                        <tr class="hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 transition-all @(item.EstaVencido && item.Estado == "Activo" ? "bg-gradient-to-r from-red-50 to-rose-50" : "")">
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-gray-900">@item.Anio</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-semibold text-gray-900">@item.Empresa</td>
                             <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 hidden md:table-cell">@item.Cliente</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-blue-600">@item.NumeroContrato</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-[#0c1892]">@item.NumeroContrato</td>
                             <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 hidden lg:table-cell">
                                 @item.ValorPesos.ToString("C0", new System.Globalization.CultureInfo("es-CO"))
                             </td>
@@ -232,10 +229,10 @@
                     </div>
                 </div>
                 
-                <div class="flex items-center gap-2">
-                    <label class="text-sm text-gray-700">Mostrar:</label>
+                <div class="flex items-center gap-3">
+                    <label class="text-sm font-semibold text-gray-700">Mostrar:</label>
                     <select id="pageSizeSelector" 
-                            class="px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                            class="px-4 py-2 border-2 border-gray-300 rounded-xl text-sm font-bold text-gray-700 bg-white hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 focus:outline-none focus:ring-2 focus:ring-[#0c1892] focus:border-[#0c1892] transition-all shadow-md">
                         @{
                             var currentPageSize = ViewData["PageSize"]?.ToString() ?? "25";
                         }
@@ -244,7 +241,7 @@
                         <option value="100" selected="@(currentPageSize == "100")">100</option>
                         <option value="200" selected="@(currentPageSize == "200")">200</option>
                     </select>
-                    <span class="text-sm text-gray-700">registros</span>
+                    <span class="text-sm font-semibold text-gray-700">registros</span>
                 </div>
             </div>
             
@@ -272,14 +269,14 @@
                        asp-route-searchString="@searchString"
                        asp-route-estado="@estado"
                        asp-route-anio="@anio"
-                       class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition">
+                       class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#0c1892] to-blue-600 hover:from-[#0c1892] hover:to-[#0ff2f2] text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-x-1 transition-all">
                         <i class="fas fa-chevron-left mr-2"></i>
                         Anterior
                     </a>
                 }
                 else
                 {
-                    <span class="inline-flex items-center px-4 py-2 bg-gray-100 border border-gray-200 text-gray-400 font-medium rounded-lg cursor-not-allowed">
+                    <span class="inline-flex items-center px-6 py-3 bg-gray-100 border-2 border-gray-200 text-gray-400 font-bold rounded-xl cursor-not-allowed opacity-60">
                         <i class="fas fa-chevron-left mr-2"></i>
                         Anterior
                     </span>
@@ -291,7 +288,7 @@
                     {
                         if (i == currentPage)
                         {
-                            <span class="inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg shadow-md">
+                            <span class="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-[#0c1892] to-[#0ff2f2] text-white font-black rounded-xl shadow-lg text-base">
                                 @i
                             </span>
                         }
@@ -303,7 +300,7 @@
                                asp-route-searchString="@searchString"
                                asp-route-estado="@estado"
                                asp-route-anio="@anio"
-                               class="inline-flex items-center justify-center w-10 h-10 bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-blue-50 hover:border-blue-300 transition">
+                               class="inline-flex items-center justify-center w-12 h-12 bg-white border-2 border-gray-300 text-gray-700 font-bold rounded-xl hover:bg-gradient-to-br hover:from-blue-50 hover:to-cyan-50 hover:border-[#0c1892] hover:text-[#0c1892] transition-all transform hover:scale-110">
                                 @i
                             </a>
                         }
@@ -319,14 +316,14 @@
                        asp-route-searchString="@searchString"
                        asp-route-estado="@estado"
                        asp-route-anio="@anio"
-                       class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition">
+                       class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#0c1892] to-blue-600 hover:from-[#0c1892] hover:to-[#0ff2f2] text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:translate-x-1 transition-all">
                         Siguiente
                         <i class="fas fa-chevron-right ml-2"></i>
                     </a>
                 }
                 else
                 {
-                    <span class="inline-flex items-center px-4 py-2 bg-gray-100 border border-gray-200 text-gray-400 font-medium rounded-lg cursor-not-allowed">
+                    <span class="inline-flex items-center px-6 py-3 bg-gray-100 border-2 border-gray-200 text-gray-400 font-bold rounded-xl cursor-not-allowed opacity-60">
                         Siguiente
                         <i class="fas fa-chevron-right ml-2"></i>
                     </span>
@@ -339,25 +336,27 @@
 }
 else
 {
-    <div class="bg-white rounded-xl shadow-md p-8 sm:p-12 text-center">
-        <div class="flex justify-center mb-4">
-            <div class="bg-blue-100 rounded-full p-6">
-                <i class="fas fa-folder-open text-blue-600 text-5xl"></i>
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border-t-4 border-[#0c1892]">
+        <div class="p-12 sm:p-16 text-center">
+            <div class="flex justify-center mb-6">
+                <div class="bg-gradient-to-br from-blue-100 to-cyan-100 rounded-full p-8 shadow-xl">
+                    <i class="fas fa-folder-open text-[#0c1892] text-6xl"></i>
+                </div>
             </div>
-        </div>
-        <h3 class="text-xl font-bold text-gray-900 mb-2">No se encontraron contratos</h3>
-        <p class="text-gray-600 mb-6">Comienza creando tu primer contrato o importando contratos desde un archivo Excel.</p>
-        <div class="flex flex-col sm:flex-row gap-3 justify-center">
-            <a asp-action="Create" 
-               class="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition">
-                <i class="fas fa-plus mr-2"></i>
-                Crear Contrato
-            </a>
-            <a asp-action="Importar" 
-               class="inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-700 font-medium rounded-lg transition">
-                <i class="fas fa-file-import mr-2"></i>
-                Importar Contratos
-            </a>
+            <h3 class="text-2xl font-bold text-gray-900 mb-3">No se encontraron contratos</h3>
+            <p class="text-gray-600 mb-8 text-lg">Comienza creando tu primer contrato o importando contratos desde un archivo Excel.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a asp-action="Create" 
+                   class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[#0c1892] to-blue-600 hover:from-[#0c1892] hover:to-[#0ff2f2] text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all">
+                    <i class="fas fa-plus-circle text-xl mr-3"></i>
+                    Crear Contrato
+                </a>
+                <a asp-action="Importar" 
+                   class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all">
+                    <i class="fas fa-file-excel text-xl mr-3"></i>
+                    Importar Contratos
+                </a>
+            </div>
         </div>
     </div>
 }
