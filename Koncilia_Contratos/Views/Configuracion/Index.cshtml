@@ -1,18 +1,18 @@
-@model Dictionary<string, List<Koncilia_Contratos.Models.Configuracion>>
+@model IEnumerable<Koncilia_Contratos.Models.ApplicationUser>
 
 @{
-    ViewData["Title"] = "Configuración del Sistema";
+    ViewData["Title"] = "Gestión de Usuarios";
 }
 
 <!-- Header -->
 <div class="mb-6">
     <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center mb-2">
-        <span class="bg-gradient-to-br from-gray-600 to-gray-800 text-white p-2 rounded-lg mr-3">
-            <i class="fas fa-cog"></i>
+        <span class="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-2 rounded-lg mr-3">
+            <i class="fas fa-users"></i>
         </span>
-        Configuración del Sistema
+        Gestión de Usuarios
     </h1>
-    <p class="text-sm text-gray-600">Gestiona los parámetros y ajustes del sistema</p>
+    <p class="text-sm text-gray-600">Administra los usuarios del sistema</p>
 </div>
 
 @if (TempData["Success"] != null)
@@ -33,91 +33,164 @@
     </div>
 }
 
-<!-- Botón nueva configuración -->
+@if (TempData["Error"] != null)
+{
+    <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                <i class="fas fa-exclamation-circle text-red-500"></i>
+            </div>
+            <div class="ml-3">
+                <p class="text-sm text-red-700">@TempData["Error"]</p>
+            </div>
+            <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                    class="ml-auto -mx-1.5 -my-1.5 text-red-500 hover:text-red-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+}
+
+<!-- Botón Nuevo Usuario -->
 <div class="mb-6">
     <a asp-action="Create" 
        class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition">
-        <i class="fas fa-plus mr-2"></i>
-        Nueva Configuración
+        <i class="fas fa-user-plus mr-2"></i>
+        Nuevo Usuario
     </a>
 </div>
 
-<!-- Categorías de configuración -->
+<!-- Estadísticas de usuarios -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6">
+    <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg overflow-hidden">
+        <div class="p-5 text-white">
+            <div class="flex items-center justify-between mb-2">
+                <h5 class="text-sm font-semibold uppercase tracking-wider opacity-90">Total Usuarios</h5>
+                <i class="fas fa-users text-2xl opacity-75"></i>
+            </div>
+            <h2 class="text-4xl font-bold">@Model.Count()</h2>
+        </div>
+    </div>
+    
+    <div class="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl shadow-lg overflow-hidden">
+        <div class="p-5 text-white">
+            <div class="flex items-center justify-between mb-2">
+                <h5 class="text-sm font-semibold uppercase tracking-wider opacity-90">Usuarios Activos</h5>
+                <i class="fas fa-user-check text-2xl opacity-75"></i>
+            </div>
+            <h2 class="text-4xl font-bold">@Model.Count()</h2>
+        </div>
+    </div>
+    
+    <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg overflow-hidden">
+        <div class="p-5 text-white">
+            <div class="flex items-center justify-between mb-2">
+                <h5 class="text-sm font-semibold uppercase tracking-wider opacity-90">Registrados Hoy</h5>
+                <i class="fas fa-user-plus text-2xl opacity-75"></i>
+            </div>
+            <h2 class="text-4xl font-bold">@Model.Count(u => u.FechaRegistro.Date == DateTime.Today)</h2>
+        </div>
+    </div>
+</div>
+
+<!-- Lista de usuarios -->
 @if (Model.Any())
 {
-    <div class="space-y-6">
-        @foreach (var categoria in Model)
-        {
-            <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                <div class="px-4 py-3 bg-gradient-to-r from-gray-600 to-gray-800 border-b border-gray-900">
-                    <h3 class="text-lg font-semibold text-white flex items-center">
-                        <i class="fas fa-folder mr-2"></i>
-                        @categoria.Key
-                    </h3>
-                </div>
-                
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Clave</th>
-                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Valor</th>
-                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden md:table-cell">Descripción</th>
-                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach (var item in categoria.Value)
-                            {
-                                <tr class="hover:bg-gray-50 transition">
-                                    <td class="px-4 py-3 whitespace-nowrap">
-                                        <span class="text-sm font-semibold text-gray-900">@item.Clave</span>
-                                    </td>
-                                    <td class="px-4 py-3 whitespace-nowrap">
-                                        <span class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-md text-sm font-medium">
-                                            @item.Valor
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm text-gray-600 hidden md:table-cell">
-                                        @item.Descripcion
-                                    </td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm">
-                                        <div class="flex space-x-2">
-                                            <a asp-action="Edit" asp-route-id="@item.Id" 
-                                               class="text-yellow-600 hover:text-yellow-800 transition p-1" 
-                                               title="Editar">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <a asp-action="Delete" asp-route-id="@item.Id" 
-                                               class="text-red-600 hover:text-red-800 transition p-1" 
-                                               title="Eliminar">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 border-b border-blue-700">
+            <h3 class="text-lg font-semibold text-white flex items-center">
+                <i class="fas fa-list mr-2"></i>
+                Listado de Usuarios
+            </h3>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Nombre</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Email</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden md:table-cell">Teléfono</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden lg:table-cell">Fecha Registro</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach (var usuario in Model)
+                    {
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10">
+                                        <div class="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-semibold">
+                                            @((!string.IsNullOrEmpty(usuario.Nombre) ? usuario.Nombre[0].ToString().ToUpper() : "U") + (!string.IsNullOrEmpty(usuario.Apellido) ? usuario.Apellido[0].ToString().ToUpper() : ""))
                                         </div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        }
+                                    </div>
+                                    <div class="ml-3">
+                                        <div class="text-sm font-semibold text-gray-900">
+                                            @(usuario.Nombre ?? "") @(usuario.Apellido ?? "")
+                                        </div>
+                                        <div class="text-xs text-gray-500">@usuario.UserName</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <i class="fas fa-envelope text-gray-400 mr-2"></i>
+                                    <span class="text-sm text-gray-900">@usuario.Email</span>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap hidden md:table-cell">
+                                @if (!string.IsNullOrEmpty(usuario.PhoneNumber))
+                                {
+                                    <div class="flex items-center">
+                                        <i class="fas fa-phone text-gray-400 mr-2"></i>
+                                        <span class="text-sm text-gray-900">@usuario.PhoneNumber</span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-xs text-gray-400 italic">Sin teléfono</span>
+                                }
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 hidden lg:table-cell">
+                                <div class="flex items-center">
+                                    <i class="fas fa-calendar text-gray-400 mr-2"></i>
+                                    @usuario.FechaRegistro.ToString("dd/MM/yyyy")
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm">
+                                <div class="flex space-x-2">
+                                    <a asp-action="Edit" asp-route-id="@usuario.Id" 
+                                       class="inline-flex items-center px-3 py-1 bg-yellow-100 hover:bg-yellow-200 text-yellow-700 rounded-md transition" 
+                                       title="Editar usuario">
+                                        <i class="fas fa-edit mr-1"></i>
+                                        <span class="hidden sm:inline">Editar</span>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@usuario.Id" 
+                                       class="inline-flex items-center px-3 py-1 bg-red-100 hover:bg-red-200 text-red-700 rounded-md transition" 
+                                       title="Eliminar usuario">
+                                        <i class="fas fa-trash mr-1"></i>
+                                        <span class="hidden sm:inline">Eliminar</span>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 }
 else
 {
     <div class="bg-white rounded-xl shadow-md p-8 sm:p-12 text-center">
         <div class="flex justify-center mb-4">
-            <div class="bg-gray-100 rounded-full p-6">
-                <i class="fas fa-cog text-gray-600 text-5xl"></i>
+            <div class="bg-blue-100 rounded-full p-6">
+                <i class="fas fa-users text-blue-600 text-5xl"></i>
             </div>
         </div>
-        <h3 class="text-xl font-bold text-gray-900 mb-2">No hay configuraciones registradas</h3>
-        <p class="text-gray-600 mb-6">Comienza creando tu primera configuración del sistema.</p>
-        <a asp-action="Create" 
-           class="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition">
-            <i class="fas fa-plus mr-2"></i>
-            Crear Configuración
-        </a>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">No hay usuarios registrados</h3>
+        <p class="text-gray-600 mb-6">Los usuarios se registran desde la página de registro del sistema.</p>
     </div>
 }

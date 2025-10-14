@@ -53,8 +53,9 @@ namespace Koncilia_Contratos.Controllers
                 contratos = contratos.Where(c => c.Anio == anio.Value);
             }
 
-            // Ordenar
-            contratos = contratos.OrderByDescending(c => c.FechaInicio);
+            // Ordenar por año descendente (más reciente primero) y luego por fecha de inicio
+            contratos = contratos.OrderByDescending(c => c.Anio)
+                                .ThenByDescending(c => c.FechaInicio);
 
             // Calcular total de registros y páginas
             var totalContratos = await contratos.CountAsync();

@@ -1,26 +1,26 @@
-@model Koncilia_Contratos.Models.Configuracion
+@model Koncilia_Contratos.Models.ApplicationUser
 
 @{
-    ViewData["Title"] = "Crear Configuración";
+    ViewData["Title"] = "Crear Usuario";
 }
 
 <!-- Header -->
 <div class="mb-6">
     <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center mb-2">
-        <span class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-2 rounded-lg mr-3">
-            <i class="fas fa-plus-circle"></i>
+        <span class="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-2 rounded-lg mr-3">
+            <i class="fas fa-user-plus"></i>
         </span>
-        Nueva Configuración
+        Crear Nuevo Usuario
     </h1>
-    <p class="text-sm text-gray-600">Crea un nuevo parámetro de configuración del sistema</p>
+    <p class="text-sm text-gray-600">Registra un nuevo usuario en el sistema</p>
 </div>
 
-<div class="max-w-3xl mx-auto">
+<div class="max-w-4xl mx-auto">
     <div class="bg-white rounded-xl shadow-md overflow-hidden">
-        <div class="px-4 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 border-b border-blue-700">
+        <div class="px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 border-b border-blue-700">
             <h3 class="text-lg font-semibold text-white flex items-center">
-                <i class="fas fa-cog mr-2"></i>
-                Nueva Configuración del Sistema
+                <i class="fas fa-user mr-2"></i>
+                Información del Nuevo Usuario
             </h3>
         </div>
         
@@ -37,63 +37,145 @@
                     </div>
                 </div>
                 
-                <!-- Categoría -->
-                <div>
-                    <label asp-for="Categoria" class="block text-sm font-medium text-gray-700 mb-2">
-                        <i class="fas fa-folder text-gray-400 mr-1"></i> Categoría
-                    </label>
-                    <select asp-for="Categoria" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
-                        <option value="">Seleccionar categoría...</option>
-                        <option value="General">General</option>
-                        <option value="Email">Email</option>
-                        <option value="Sistema">Sistema</option>
-                        <option value="Reportes">Reportes</option>
-                        <option value="Notificaciones">Notificaciones</option>
-                    </select>
-                    <span asp-validation-for="Categoria" class="text-red-600 text-xs mt-1 block"></span>
+                <!-- Información Personal -->
+                <div class="border-b border-gray-200 pb-4">
+                    <h4 class="text-md font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-id-card text-blue-600 mr-2"></i>
+                        Información Personal
+                    </h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Nombre -->
+                        <div>
+                            <label asp-for="Nombre" class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-user text-gray-400 mr-1"></i> Nombre <span class="text-red-500">*</span>
+                            </label>
+                            <input asp-for="Nombre" 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                   required />
+                            <span asp-validation-for="Nombre" class="text-red-600 text-xs mt-1 block"></span>
+                        </div>
+                        
+                        <!-- Apellido -->
+                        <div>
+                            <label asp-for="Apellido" class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-user text-gray-400 mr-1"></i> Apellido <span class="text-red-500">*</span>
+                            </label>
+                            <input asp-for="Apellido" 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                   required />
+                            <span asp-validation-for="Apellido" class="text-red-600 text-xs mt-1 block"></span>
+                        </div>
+                    </div>
                 </div>
                 
-                <!-- Clave -->
-                <div>
-                    <label asp-for="Clave" class="block text-sm font-medium text-gray-700 mb-2">
-                        <i class="fas fa-key text-gray-400 mr-1"></i> Clave
-                    </label>
-                    <input asp-for="Clave" 
-                           placeholder="ej. DiasAlertaVencimiento"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
-                    <span asp-validation-for="Clave" class="text-red-600 text-xs mt-1 block"></span>
-                    <p class="text-xs text-gray-500 mt-1">Identificador único para esta configuración</p>
+                <!-- Información de Cuenta -->
+                <div class="border-b border-gray-200 pb-4">
+                    <h4 class="text-md font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-key text-green-600 mr-2"></i>
+                        Información de Cuenta
+                    </h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Nombre de Usuario -->
+                        <div>
+                            <label asp-for="UserName" class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-at text-gray-400 mr-1"></i> Nombre de Usuario <span class="text-red-500">*</span>
+                            </label>
+                            <input asp-for="UserName" 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                   required />
+                            <span asp-validation-for="UserName" class="text-red-600 text-xs mt-1 block"></span>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div>
+                            <label asp-for="Email" class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-envelope text-gray-400 mr-1"></i> Email <span class="text-red-500">*</span>
+                            </label>
+                            <input asp-for="Email" type="email"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                   required />
+                            <span asp-validation-for="Email" class="text-red-600 text-xs mt-1 block"></span>
+                        </div>
+                    </div>
                 </div>
                 
-                <!-- Valor -->
-                <div>
-                    <label asp-for="Valor" class="block text-sm font-medium text-gray-700 mb-2">
-                        <i class="fas fa-tag text-gray-400 mr-1"></i> Valor
-                    </label>
-                    <input asp-for="Valor" 
-                           placeholder="ej. 30"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
-                    <span asp-validation-for="Valor" class="text-red-600 text-xs mt-1 block"></span>
+                <!-- Información de Contacto -->
+                <div class="border-b border-gray-200 pb-4">
+                    <h4 class="text-md font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-phone text-purple-600 mr-2"></i>
+                        Información de Contacto
+                    </h4>
+                    
+                    <!-- Teléfono -->
+                    <div>
+                        <label asp-for="PhoneNumber" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-phone text-gray-400 mr-1"></i> Teléfono
+                        </label>
+                        <input asp-for="PhoneNumber" type="tel"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" 
+                               placeholder="Ej: +57 300 123 4567" />
+                        <span asp-validation-for="PhoneNumber" class="text-red-600 text-xs mt-1 block"></span>
+                    </div>
                 </div>
                 
-                <!-- Descripción -->
+                <!-- Contraseña -->
                 <div>
-                    <label asp-for="Descripcion" class="block text-sm font-medium text-gray-700 mb-2">
-                        <i class="fas fa-align-left text-gray-400 mr-1"></i> Descripción
-                    </label>
-                    <textarea asp-for="Descripcion" 
-                              rows="4" 
-                              placeholder="Descripción de la configuración"
-                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"></textarea>
-                    <span asp-validation-for="Descripcion" class="text-red-600 text-xs mt-1 block"></span>
+                    <h4 class="text-md font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-lock text-red-600 mr-2"></i>
+                        Contraseña
+                    </h4>
+                    
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4 rounded-r-lg">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-info-circle text-blue-500"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-blue-700">La contraseña debe tener al menos 6 caracteres. El usuario podrá cambiarla después del primer inicio de sesión.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Contraseña -->
+                        <div>
+                            <label for="Password" class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-key text-gray-400 mr-1"></i> Contraseña <span class="text-red-500">*</span>
+                            </label>
+                            <input type="password" 
+                                   id="Password" 
+                                   name="Password"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" 
+                                   placeholder="Ingrese contraseña"
+                                   required />
+                            <p class="text-xs text-gray-500 mt-1">Mínimo 6 caracteres</p>
+                            <span class="text-red-600 text-xs mt-1 block" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+                        </div>
+                        
+                        <!-- Confirmar Contraseña -->
+                        <div>
+                            <label for="ConfirmarPassword" class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-key text-gray-400 mr-1"></i> Confirmar Contraseña <span class="text-red-500">*</span>
+                            </label>
+                            <input type="password" 
+                                   id="ConfirmarPassword" 
+                                   name="ConfirmarPassword"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" 
+                                   placeholder="Confirme la contraseña"
+                                   required />
+                            <span class="text-red-600 text-xs mt-1 block" data-valmsg-for="ConfirmarPassword" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Botones -->
                 <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200">
                     <button type="submit" 
                             class="flex-1 sm:flex-initial inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition">
-                        <i class="fas fa-save mr-2"></i>
-                        Guardar Configuración
+                        <i class="fas fa-user-plus mr-2"></i>
+                        Crear Usuario
                     </button>
                     <a asp-action="Index" 
                        class="flex-1 sm:flex-initial inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-700 font-semibold rounded-lg transition">
@@ -109,3 +191,4 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+

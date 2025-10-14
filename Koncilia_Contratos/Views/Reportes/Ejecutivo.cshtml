@@ -243,76 +243,76 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <script>
-        @{
-            var evolucionLabels = string.Join(",", ((IEnumerable<dynamic>)ViewBag.EvolucionAnual).Select(x => $"'{x.Anio}'"));
-            var evolucionCantidades = string.Join(",", ((IEnumerable<dynamic>)ViewBag.EvolucionAnual).Select(x => x.Cantidad.ToString()));
-            var evolucionValores = string.Join(",", ((IEnumerable<dynamic>)ViewBag.EvolucionAnual).Select(x => Math.Round(x.Valor / 1000000.0, 2).ToString()));
-            var evolucionFacturados = string.Join(",", ((IEnumerable<dynamic>)ViewBag.EvolucionAnual).Select(x => Math.Round(x.Facturado / 1000000.0, 2).ToString()));
-        }
+        // Datos de evolución anual
+        var evolucionData = @Html.Raw(Json.Serialize(ViewBag.EvolucionAnual ?? new List<object>()));
         
-        // Gráfica de Evolución Anual
-        const ctxEvolucion = document.getElementById('chartEvolucion').getContext('2d');
-        new Chart(ctxEvolucion, {
-            type: 'line',
-            data: {
-                labels: [@Html.Raw(evolucionLabels)],
-                datasets: [{
-                    label: 'Cantidad de Contratos',
-                    data: [@Html.Raw(evolucionCantidades)],
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    tension: 0.4,
-                    yAxisID: 'y',
-                    fill: true
-                }, {
-                    label: 'Valor Total (Millones COP)',
-                    data: [@Html.Raw(evolucionValores)],
-                    borderColor: '#10b981',
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                    tension: 0.4,
-                    yAxisID: 'y1',
-                    fill: true
-                }, {
-                    label: 'Facturado (Millones COP)',
-                    data: [@Html.Raw(evolucionFacturados)],
-                    borderColor: '#f59e0b',
-                    backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                    tension: 0.4,
-                    yAxisID: 'y1',
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                interaction: {
-                    mode: 'index',
-                    intersect: false
+        if (evolucionData && evolucionData.length > 0) {
+            // Gráfica de Evolución Anual
+            const ctxEvolucion = document.getElementById('chartEvolucion').getContext('2d');
+            new Chart(ctxEvolucion, {
+                type: 'line',
+                data: {
+                    labels: evolucionData.map(x => x.anio.toString()),
+                    datasets: [{
+                        label: 'Cantidad de Contratos',
+                        data: evolucionData.map(x => x.cantidad),
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.4,
+                        yAxisID: 'y',
+                        fill: true
+                    }, {
+                        label: 'Valor Total (Millones COP)',
+                        data: evolucionData.map(x => Math.round(x.valor / 1000000)),
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        tension: 0.4,
+                        yAxisID: 'y1',
+                        fill: true
+                    }, {
+                        label: 'Facturado (Millones COP)',
+                        data: evolucionData.map(x => Math.round(x.facturado / 1000000)),
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        tension: 0.4,
+                        yAxisID: 'y1',
+                        fill: true
+                    }]
                 },
-                scales: {
-                    y: {
-                        type: 'linear',
-                        display: true,
-                        position: 'left',
-                        title: {
-                            display: true,
-                            text: 'Cantidad de Contratos'
-                        }
+                options: {
+                    responsive: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
                     },
-                    y1: {
-                        type: 'linear',
-                        display: true,
-                        position: 'right',
-                        title: {
+                    scales: {
+                        y: {
+                            type: 'linear',
                             display: true,
-                            text: 'Valor (Millones COP)'
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Cantidad de Contratos'
+                            }
                         },
-                        grid: {
-                            drawOnChartArea: false
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Valor (Millones COP)'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
+        } else {
+            document.getElementById('chartEvolucion').innerHTML = '<div class="text-center py-12 text-gray-400"><i class="fas fa-chart-line text-5xl mb-3"></i><p>No hay datos disponibles</p></div>';
+        }
     </script>
 
     <style>
