@@ -1,0 +1,42 @@
+/* Estilos personalizados para Koncilia Contratos con Tailwind CSS */
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+/* Body */
+body {
+    min-height: 100vh;
+}
+
+/* Desactivar estilos de Bootstrap que puedan interferir */
+.container,
+.container-fluid {
+    all: unset;
+}
+
+/* Asegurar que Tailwind tenga prioridad */
+[class*="bg-"],
+[class*="text-"],
+[class*="border-"],
+[class*="rounded-"],
+[class*="shadow-"],
+[class*="p-"],
+[class*="m-"],
+[class*="flex"],
+[class*="grid"] {
+    all: revert;
+}
