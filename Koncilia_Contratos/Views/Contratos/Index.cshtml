@@ -6,20 +6,30 @@
 
 @if (TempData["Success"] != null)
 {
-    <div class="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
-        <div class="flex items-center">
-            <div class="flex-shrink-0">
-                <i class="fas fa-check-circle text-green-500"></i>
-            </div>
-            <div class="ml-3">
-                <p class="text-sm text-green-700">@TempData["Success"]</p>
-            </div>
-            <button onclick="this.parentElement.parentElement.parentElement.remove()" 
-                    class="ml-auto -mx-1.5 -my-1.5 text-green-500 hover:text-green-700">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+
+            Toast.fire({
+                icon: 'success',
+                title: '@TempData["Success"]',
+                customClass: {
+                    popup: 'rounded-2xl shadow-2xl',
+                    title: 'text-lg font-bold text-green-800'
+                }
+            });
+        });
+    </script>
 }
 
 <!-- Botones de acción -->
@@ -197,11 +207,12 @@
                                        title="Editar">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" 
-                                       class="text-red-600 hover:text-red-800 transition" 
-                                       title="Eliminar">
+                                    <button onclick="confirmarEliminacion(@item.Id, '@item.NumeroContrato', '@item.Cliente')" 
+                                            class="text-red-600 hover:text-red-800 transition" 
+                                            title="Eliminar"
+                                            type="button">
                                         <i class="fas fa-trash"></i>
-                                    </a>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -373,5 +384,59 @@ else
             currentUrl.searchParams.set('pageNumber', '1'); // Resetear a página 1
             window.location.href = currentUrl.toString();
         });
+        
+        // Función para confirmar eliminación con SweetAlert2
+        function confirmarEliminacion(id, numeroContrato, cliente) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                html: `
+                    <div class="text-left">
+                        <p class="mb-2">Estás a punto de eliminar el contrato:</p>
+                        <div class="bg-gray-100 p-3 rounded-lg mb-3">
+                            <p class="font-bold text-gray-800">N° Contrato: ${numeroContrato}</p>
+                            <p class="text-gray-600">Cliente: ${cliente}</p>
+                        </div>
+                        <p class="text-red-600 font-semibold">Esta acción no se puede deshacer.</p>
+                    </div>
+                `,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: '<i class="fas fa-trash mr-2"></i>Sí, eliminar',
+                cancelButtonText: '<i class="fas fa-times mr-2"></i>Cancelar',
+                reverseButtons: true,
+                customClass: {
+                    popup: 'rounded-2xl',
+                    confirmButton: 'px-6 py-3 rounded-lg font-bold shadow-lg',
+                    cancelButton: 'px-6 py-3 rounded-lg font-bold shadow-lg'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Crear y enviar formulario para eliminar
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '@Url.Action("Delete", "Contratos")';
+                    
+                    // Agregar token antiforgery
+                    const tokenInput = document.createElement('input');
+                    tokenInput.type = 'hidden';
+                    tokenInput.name = '__RequestVerificationToken';
+                    tokenInput.value = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+                    form.appendChild(tokenInput);
+                    
+                    // Agregar ID del contrato
+                    const idInput = document.createElement('input');
+                    idInput.type = 'hidden';
+                    idInput.name = 'id';
+                    idInput.value = id;
+                    form.appendChild(idInput);
+                    
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
     </script>
+    @Html.AntiForgeryToken()
 }

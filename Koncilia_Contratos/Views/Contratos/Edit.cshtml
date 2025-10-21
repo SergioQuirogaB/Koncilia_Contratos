@@ -49,7 +49,11 @@
                 <!-- Empresa -->
                 <div class="sm:col-span-2 lg:col-span-1">
                     <label asp-for="Empresa" class="block text-sm font-medium text-gray-700 mb-2"></label>
-                    <input asp-for="Empresa" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                    <select asp-for="Empresa" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        <option value="">-- Seleccione una empresa --</option>
+                        <option value="KONCILIA">KONCILIA</option>
+                        <option value="SKIT">SKIT</option>
+                    </select>
                     <span asp-validation-for="Empresa" class="text-red-600 text-xs mt-1 block"></span>
                 </div>
                 
@@ -70,7 +74,14 @@
                 <!-- Categoría -->
                 <div>
                     <label asp-for="Categoria" class="block text-sm font-medium text-gray-700 mb-2"></label>
-                    <input asp-for="Categoria" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                    <select asp-for="Categoria" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        <option value="">-- Seleccione una categoría --</option>
+                        <option value="PROYECTO">PROYECTO</option>
+                        <option value="SOPORTE">SOPORTE</option>
+                        <option value="BOLSA DE HORAS">BOLSA DE HORAS</option>
+                        <option value="KONCILIA">KONCILIA</option>
+                        <option value="ARRENDAMIENTO">ARRENDAMIENTO</option>
+                    </select>
                     <span asp-validation-for="Categoria" class="text-red-600 text-xs mt-1 block"></span>
                 </div>
                 
