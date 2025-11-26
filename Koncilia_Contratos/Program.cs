@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Koncilia_Contratos.Data;
 using Koncilia_Contratos.Models;
+using Koncilia_Contratos.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,12 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
+
+// Registrar servicios personalizados
+builder.Services.AddScoped<IEmailService, EmailService>();
+
+// Registrar servicio en segundo plano para verificar cumpleaños
+builder.Services.AddHostedService<BirthdayBackgroundService>();
 
 var app = builder.Build();
 

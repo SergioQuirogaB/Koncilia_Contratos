@@ -1,0 +1,283 @@
+@model IEnumerable<Koncilia_Contratos.Models.Empleado>
+
+@{
+    ViewData["Title"] = "Gestión de Cumpleaños";
+}
+
+@if (TempData["Success"] != null)
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+
+            Toast.fire({
+                icon: 'success',
+                title: '@TempData["Success"]',
+                customClass: {
+                    popup: 'rounded-2xl shadow-2xl',
+                    title: 'text-lg font-bold text-green-800'
+                }
+            });
+        });
+    </script>
+}
+
+@if (TempData["Error"] != null)
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '@TempData["Error"]',
+                customClass: {
+                    popup: 'rounded-2xl shadow-2xl'
+                }
+            });
+        });
+    </script>
+}
+
+<!-- Botón de acción -->
+<div class="mb-6">
+    <a asp-action="Create" 
+       class="inline-flex items-center justify-center px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all">
+        <i class="fas fa-plus-circle text-2xl mr-3"></i>
+        <span>Nuevo Empleado</span>
+    </a>
+</div>
+
+<!-- Filtros de búsqueda -->
+<div class="bg-white rounded-2xl shadow-xl overflow-hidden border-t-4 mb-6">
+    <div class="p-6">
+        <form asp-action="Index" method="get" class="flex flex-col sm:flex-row gap-4">
+            <!-- Búsqueda -->
+            <div class="flex-1">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-search text-blue-600 mr-1"></i> Búsqueda
+                </label>
+                <input type="text" 
+                       name="searchString" 
+                       value="@ViewData["CurrentFilter"]" 
+                       placeholder="Nombre, apellido o correo"
+                       class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition shadow-sm">
+            </div>
+            
+            <!-- Botones -->
+            <div class="flex items-end gap-2">
+                <button type="submit" 
+                        class="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
+                    <i class="fas fa-search mr-2"></i>
+                    Buscar
+                </button>
+                <a asp-action="Index" 
+                   class="px-4 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold rounded-xl shadow-md hover:shadow-lg transition">
+                    <i class="fas fa-times"></i>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Tabla de empleados -->
+@if (Model.Any())
+{
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border-t-4 border-blue-500">
+        <div class="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50">
+            <h3 class="text-lg font-bold text-gray-900 flex items-center">
+                <i class="fas fa-birthday-cake text-blue-600 mr-2"></i>
+                Lista de Empleados
+            </h3>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gradient-to-r from-blue-600 to-indigo-600">
+                    <tr>
+                        <th class="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Nombre</th>
+                        <th class="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Correo</th>
+                        <th class="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Fecha Cumpleaños</th>
+                        <th class="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Próximo Cumpleaños</th>
+                        <th class="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Días Restantes</th>
+                        <th class="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all @(item.CumpleAniosHoy ? "bg-gradient-to-r from-yellow-50 to-orange-50 border-l-4 border-yellow-500" : "")">
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10">
+                                        <div class="h-10 w-10 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white font-bold">
+                                            @item.Nombre.Substring(0, 1)@item.Apellido.Substring(0, 1)
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-bold text-gray-900">@item.NombreCompleto</div>
+                                        @if (item.CumpleAniosHoy)
+                                        {
+                                            <div class="text-xs text-yellow-600 font-semibold">
+                                                <i class="fas fa-birthday-cake mr-1"></i>¡Cumple años hoy!
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">@item.CorreoElectronico</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
+                                @item.FechaCumpleanos.ToString("dd/MM")
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
+                                @item.ProximoCumpleanos.ToString("dd/MM/yyyy")
+                                @if (item.ProximoCumpleanos.Year == DateTime.Today.Year + 1)
+                                {
+                                    <span class="text-xs text-gray-500">(próximo año)</span>
+                                }
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                @if (item.CumpleAniosHoy)
+                                {
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        <i class="fas fa-birthday-cake mr-1"></i>
+                                        ¡Hoy!
+                                    </span>
+                                }
+                                else if (item.DiasParaCumpleanos <= 7)
+                                {
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                                        <i class="fas fa-clock mr-1"></i>
+                                        @item.DiasParaCumpleanos días
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-sm text-gray-600">@item.DiasParaCumpleanos días</span>
+                                }
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm">
+                                <div class="flex space-x-2">
+                                    <a asp-action="Details" asp-route-id="@item.Id" 
+                                       class="text-blue-600 hover:text-blue-800 transition" 
+                                       title="Detalles">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" 
+                                       class="text-yellow-600 hover:text-yellow-800 transition" 
+                                       title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    @if (item.CumpleAniosHoy)
+                                    {
+                                        <form asp-action="EnviarCorreo" asp-route-id="@item.Id" method="post" style="display:inline;">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" 
+                                                    class="text-green-600 hover:text-green-800 transition" 
+                                                    title="Enviar correo de cumpleaños">
+                                                <i class="fas fa-envelope"></i>
+                                            </button>
+                                        </form>
+                                    }
+                                    <button onclick="confirmarEliminacion(@item.Id, '@item.NombreCompleto')" 
+                                            class="text-red-600 hover:text-red-800 transition" 
+                                            title="Eliminar"
+                                            type="button">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border-t-4 border-blue-500">
+        <div class="p-12 sm:p-16 text-center">
+            <div class="flex justify-center mb-6">
+                <div class="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full p-8 shadow-xl">
+                    <i class="fas fa-birthday-cake text-blue-600 text-6xl"></i>
+                </div>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-3">No se encontraron empleados</h3>
+            <p class="text-gray-600 mb-8 text-lg">Comienza agregando empleados para gestionar sus cumpleaños.</p>
+            <a asp-action="Create" 
+               class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all">
+                <i class="fas fa-plus-circle text-xl mr-3"></i>
+                Agregar Empleado
+            </a>
+        </div>
+    </div>
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+@section Scripts {
+    <script>
+        // Función para confirmar eliminación con SweetAlert2
+        function confirmarEliminacion(id, nombreCompleto) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                html: `
+                    <div class="text-left">
+                        <p class="mb-2">Estás a punto de eliminar al empleado:</p>
+                        <div class="bg-gray-100 p-3 rounded-lg mb-3">
+                            <p class="font-bold text-gray-800">${nombreCompleto}</p>
+                        </div>
+                        <p class="text-red-600 font-semibold">Esta acción no se puede deshacer.</p>
+                    </div>
+                `,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: '<i class="fas fa-trash mr-2"></i>Sí, eliminar',
+                cancelButtonText: '<i class="fas fa-times mr-2"></i>Cancelar',
+                reverseButtons: true,
+                customClass: {
+                    popup: 'rounded-2xl',
+                    confirmButton: 'px-6 py-3 rounded-lg font-bold shadow-lg',
+                    cancelButton: 'px-6 py-3 rounded-lg font-bold shadow-lg'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Crear y enviar formulario para eliminar
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '@Url.Action("Delete", "Cumpleanos")';
+                    
+                    // Agregar token antiforgery
+                    const tokenInput = document.createElement('input');
+                    tokenInput.type = 'hidden';
+                    tokenInput.name = '__RequestVerificationToken';
+                    tokenInput.value = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+                    form.appendChild(tokenInput);
+                    
+                    // Agregar ID del empleado
+                    const idInput = document.createElement('input');
+                    idInput.type = 'hidden';
+                    idInput.name = 'id';
+                    idInput.value = id;
+                    form.appendChild(idInput);
+                    
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
+    </script>
+    @Html.AntiForgeryToken()
+}
+

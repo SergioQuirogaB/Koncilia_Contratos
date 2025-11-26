@@ -1,0 +1,108 @@
+@model Koncilia_Contratos.Models.Empleado
+
+@{
+    ViewData["Title"] = "Detalles del Empleado";
+}
+
+<div class="mb-6">
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center mb-2">
+        <span class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-2 rounded-lg mr-3">
+            <i class="fas fa-user"></i>
+        </span>
+        Detalles del Empleado
+    </h1>
+    <p class="text-sm text-gray-600">Información completa del empleado</p>
+</div>
+
+<div class="bg-white rounded-xl shadow-xl overflow-hidden">
+    <div class="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-200">
+        <h3 class="text-lg font-bold text-gray-900 flex items-center">
+            <i class="fas fa-user text-blue-600 mr-2"></i>
+            Información Personal
+        </h3>
+    </div>
+    <div class="p-6">
+        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <dt class="text-sm font-semibold text-gray-700 mb-2">Nombre</dt>
+                <dd class="text-base text-gray-900 font-bold">@Model.Nombre</dd>
+            </div>
+            
+            <div>
+                <dt class="text-sm font-semibold text-gray-700 mb-2">Apellido</dt>
+                <dd class="text-base text-gray-900 font-bold">@Model.Apellido</dd>
+            </div>
+            
+            <div class="sm:col-span-2">
+                <dt class="text-sm font-semibold text-gray-700 mb-2">Nombre Completo</dt>
+                <dd class="text-lg text-gray-900 font-bold">@Model.NombreCompleto</dd>
+            </div>
+            
+            <div class="sm:col-span-2">
+                <dt class="text-sm font-semibold text-gray-700 mb-2">Correo Electrónico</dt>
+                <dd class="text-base text-gray-900">
+                    <a href="mailto:@Model.CorreoElectronico" class="text-blue-600 hover:text-blue-800 underline">
+                        <i class="fas fa-envelope mr-2"></i>@Model.CorreoElectronico
+                    </a>
+                </dd>
+            </div>
+        </dl>
+    </div>
+    
+    <div class="px-6 py-4 bg-gradient-to-r from-yellow-50 to-orange-50 border-t border-yellow-200">
+        <h3 class="text-lg font-bold text-gray-900 flex items-center mb-4">
+            <i class="fas fa-birthday-cake text-yellow-600 mr-2"></i>
+            Información de Cumpleaños
+        </h3>
+        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <dt class="text-sm font-semibold text-gray-700 mb-2">Fecha de Cumpleaños</dt>
+                <dd class="text-base text-gray-900 font-bold">@Model.FechaCumpleanos.ToString("dd/MM")</dd>
+            </div>
+            
+            <div>
+                <dt class="text-sm font-semibold text-gray-700 mb-2">Próximo Cumpleaños</dt>
+                <dd class="text-base text-gray-900 font-bold">@Model.ProximoCumpleanos.ToString("dd/MM/yyyy")</dd>
+            </div>
+            
+            <div>
+                <dt class="text-sm font-semibold text-gray-700 mb-2">Días para Cumpleaños</dt>
+                <dd class="text-base text-gray-900 font-bold">
+                    @if (Model.CumpleAniosHoy)
+                    {
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                            <i class="fas fa-birthday-cake mr-1"></i>
+                            ¡Hoy es su cumpleaños!
+                        </span>
+                    }
+                    else
+                    {
+                        <span>@Model.DiasParaCumpleanos días</span>
+                    }
+                </dd>
+            </div>
+        </dl>
+    </div>
+    
+    <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex flex-col sm:flex-row gap-3">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="flex-1 sm:flex-initial inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition">
+            <i class="fas fa-edit mr-2"></i>
+            Editar
+        </a>
+        @if (Model.CumpleAniosHoy)
+        {
+            <form asp-action="EnviarCorreo" asp-route-id="@Model.Id" method="post" class="flex-1 sm:flex-initial">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="w-full inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition">
+                    <i class="fas fa-envelope mr-2"></i>
+                    Enviar Correo de Cumpleaños
+                </button>
+            </form>
+        }
+        <a asp-action="Index" class="flex-1 sm:flex-initial inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-700 font-semibold rounded-lg transition">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Volver a la Lista
+        </a>
+    </div>
+</div>
+

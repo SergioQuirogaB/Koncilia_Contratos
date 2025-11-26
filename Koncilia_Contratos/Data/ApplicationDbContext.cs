@@ -13,6 +13,7 @@ namespace Koncilia_Contratos.Data
 
         public DbSet<Contrato> Contratos { get; set; }
         public DbSet<Configuracion> Configuraciones { get; set; }
+        public DbSet<Empleado> Empleados { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

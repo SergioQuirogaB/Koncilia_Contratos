@@ -73,7 +73,11 @@
                     <!-- Logo -->
                     <div class="flex-shrink-0 flex items-center">
                         <a asp-controller="Home" asp-action="Index" class="flex items-center space-x-2 group">
-                            <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent hidden sm:block">
+                            <img src="~/images/Koncilia.png" 
+                                 alt="Logo Koncilia" 
+                                 class="h-6 sm:h-8 w-auto object-contain transition-transform group-hover:scale-105"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent hidden sm:block" style="display: none;">
                                 Koncilia
                             </span>
                         </a>
@@ -81,11 +85,6 @@
                     
                     <!-- Menú desktop -->
                     <div class="hidden md:ml-6 md:flex md:space-x-4">
-                        <a asp-controller="Home" asp-action="Index" 
-                           class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
-                            <i class="fas fa-home mr-2"></i>
-                            <span>Inicio</span>
-                        </a>
                         
                         @if (User.Identity.IsAuthenticated)
                         {
@@ -103,6 +102,11 @@
                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
                                 <i class="fas fa-chart-bar mr-2"></i>
                                 <span>Reportes</span>
+                            </a>
+                            <a asp-controller="Cumpleanos" asp-action="Index" 
+                               class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+                                <i class="fas fa-birthday-cake mr-2"></i>
+                                <span>Cumpleaños</span>
                             </a>
                             <a asp-controller="Configuracion" asp-action="Index" 
                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
@@ -148,10 +152,6 @@
         <!-- Menú mobile -->
         <div id="mobileMenu" class="hidden md:hidden border-t border-gray-200">
             <div class="px-2 pt-2 pb-3 space-y-1">
-                <a asp-controller="Home" asp-action="Index" 
-                   class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
-                    <i class="fas fa-home mr-2"></i> Inicio
-                </a>
                 
                 @if (User.Identity.IsAuthenticated)
                 {
@@ -166,6 +166,10 @@
                     <a asp-controller="Reportes" asp-action="Index" 
                        class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
                         <i class="fas fa-chart-bar mr-2"></i> Reportes
+                    </a>
+                    <a asp-controller="Cumpleanos" asp-action="Index" 
+                       class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+                        <i class="fas fa-birthday-cake mr-2"></i> Cumpleaños
                     </a>
                     <a asp-controller="Configuracion" asp-action="Index" 
                        class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
