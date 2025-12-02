@@ -107,16 +107,28 @@ namespace Koncilia_Contratos.Services
                 {
                     _logger.LogInformation($"Se encontraron {empleadosCumpleanos.Count} empleado(s) que cumple(n) años hoy.");
 
+                    // Obtener todos los correos de empleados para enviar copia (BCC)
+                    var todosLosEmpleados = await dbContext.Empleados
+                        .Where(e => !string.IsNullOrEmpty(e.CorreoElectronico))
+                        .Select(e => e.CorreoElectronico)
+                        .ToListAsync();
+
                     foreach (var empleado in empleadosCumpleanos)
                     {
                         try
                         {
+                            // Crear lista de BCC excluyendo al empleado que cumple años
+                            var bccEmails = todosLosEmpleados
+                                .Where(e => e != empleado.CorreoElectronico)
+                                .ToList();
+
                             await emailService.SendBirthdayEmailAsync(
                                 empleado.CorreoElectronico, 
                                 empleado.Nombre, 
-                                empleado.Apellido);
+                                empleado.Apellido,
+                                bccEmails);
 
-                            _logger.LogInformation($"Correo de cumpleaños enviado exitosamente a {empleado.NombreCompleto} ({empleado.CorreoElectronico})");
+                            _logger.LogInformation($"Correo de cumpleaños enviado exitosamente a {empleado.NombreCompleto} ({empleado.CorreoElectronico}) con copia a {bccEmails.Count} empleado(s)");
                         }
                         catch (Exception ex)
                         {

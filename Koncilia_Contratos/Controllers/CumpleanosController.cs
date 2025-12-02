@@ -183,9 +183,20 @@ namespace Koncilia_Contratos.Controllers
 
             try
             {
-                await _emailService.SendBirthdayEmailAsync(empleado.CorreoElectronico, empleado.Nombre, empleado.Apellido);
-                TempData["Success"] = $"Correo de cumpleaños enviado exitosamente a {empleado.NombreCompleto}.";
-                _logger.LogInformation($"Correo de cumpleaños enviado manualmente a {empleado.NombreCompleto} ({empleado.CorreoElectronico})");
+                // Obtener todos los correos de empleados para enviar copia (BCC)
+                var todosLosEmpleados = await _context.Empleados
+                    .Where(e => !string.IsNullOrEmpty(e.CorreoElectronico))
+                    .Select(e => e.CorreoElectronico)
+                    .ToListAsync();
+
+                // Crear lista de BCC excluyendo al empleado que cumple años
+                var bccEmails = todosLosEmpleados
+                    .Where(e => e != empleado.CorreoElectronico)
+                    .ToList();
+
+                await _emailService.SendBirthdayEmailAsync(empleado.CorreoElectronico, empleado.Nombre, empleado.Apellido, bccEmails);
+                TempData["Success"] = $"Correo de cumpleaños enviado exitosamente a {empleado.NombreCompleto} con copia a {bccEmails.Count} empleado(s).";
+                _logger.LogInformation($"Correo de cumpleaños enviado manualmente a {empleado.NombreCompleto} ({empleado.CorreoElectronico}) con copia a {bccEmails.Count} empleado(s)");
             }
             catch (Exception ex)
             {

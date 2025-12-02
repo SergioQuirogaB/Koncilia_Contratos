@@ -129,6 +129,9 @@
                                             <div class="text-xs text-yellow-600 font-semibold">
                                                 <i class="fas fa-birthday-cake mr-1"></i>¡Cumple años hoy!
                                             </div>
+                                            <div class="text-xs text-green-600 font-semibold mt-1">
+                                                <i class="fas fa-envelope mr-1"></i>Correo se enviará automáticamente
+                                            </div>
                                         }
                                     </div>
                                 </div>
@@ -176,17 +179,6 @@
                                        title="Editar">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    @if (item.CumpleAniosHoy)
-                                    {
-                                        <form asp-action="EnviarCorreo" asp-route-id="@item.Id" method="post" style="display:inline;">
-                                            @Html.AntiForgeryToken()
-                                            <button type="submit" 
-                                                    class="text-green-600 hover:text-green-800 transition" 
-                                                    title="Enviar correo de cumpleaños">
-                                                <i class="fas fa-envelope"></i>
-                                            </button>
-                                        </form>
-                                    }
                                     <button onclick="confirmarEliminacion(@item.Id, '@item.NombreCompleto')" 
                                             class="text-red-600 hover:text-red-800 transition" 
                                             title="Eliminar"
