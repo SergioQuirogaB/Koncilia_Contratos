@@ -2,6 +2,8 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 using Microsoft.AspNetCore.Hosting;
+using Koncilia_Contratos.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Koncilia_Contratos.Services
 {
@@ -10,12 +12,14 @@ namespace Koncilia_Contratos.Services
         private readonly IConfiguration _configuration;
         private readonly ILogger<EmailService> _logger;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IServiceProvider _serviceProvider;
 
-        public EmailService(IConfiguration configuration, ILogger<EmailService> logger, IWebHostEnvironment webHostEnvironment)
+        public EmailService(IConfiguration configuration, ILogger<EmailService> logger, IWebHostEnvironment webHostEnvironment, IServiceProvider serviceProvider)
         {
             _configuration = configuration;
             _logger = logger;
             _webHostEnvironment = webHostEnvironment;
+            _serviceProvider = serviceProvider;
         }
 
         public async Task SendBirthdayEmailAsync(string toEmail, string nombre, string apellido, List<string>? bccEmails = null)
@@ -23,96 +27,91 @@ namespace Koncilia_Contratos.Services
             var nombreCompleto = $"{nombre} {apellido}";
             var subject = $"¡Feliz Cumpleaños {nombre}! 🎉";
             
-            // Buscar el GIF en la carpeta birthday
-            var gifPath = Path.Combine(_webHostEnvironment.WebRootPath, "images", "birthday");
-            var gifFiles = Directory.GetFiles(gifPath, "*.gif");
-            var gifFileName = gifFiles.Length > 0 ? Path.GetFileName(gifFiles[0]) : null;
+            // Seleccionar una imagen aleatoria de los disponibles (.gif, .png, .jpg, .jpeg)
+            string? imageFileName = null;
+            try
+            {
+                var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", "birthday");
+                if (Directory.Exists(imagePath))
+                {
+                    var imageFiles = Directory.GetFiles(imagePath)
+                        .Where(f => {
+                            var ext = Path.GetExtension(f).ToLower();
+                            return ext == ".gif" || ext == ".png" || ext == ".jpg" || ext == ".jpeg";
+                        })
+                        .ToArray();
+                    
+                    if (imageFiles.Length > 0)
+                    {
+                        // Seleccionar una imagen aleatoria
+                        var random = new Random();
+                        var randomIndex = random.Next(0, imageFiles.Length);
+                        imageFileName = Path.GetFileName(imageFiles[randomIndex]);
+                        _logger.LogInformation($"Imagen aleatoria seleccionada: {imageFileName} (de {imageFiles.Length} disponibles)");
+                    }
+                    else
+                    {
+                        _logger.LogWarning("No se encontraron archivos de imagen en la carpeta de cumpleaños");
+                    }
+                }
+                else
+                {
+                    _logger.LogWarning("La carpeta de imágenes de cumpleaños no existe");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al seleccionar imagen aleatoria: {Message}", ex.Message);
+            }
+            
+            // Si no hay imagen, no enviar correo
+            if (string.IsNullOrEmpty(imageFileName))
+            {
+                _logger.LogWarning($"No se puede enviar correo a {toEmail}: No hay imagen disponible");
+                return;
+            }
             
             var body = $@"
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <style>
+        * {{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }}
         body {{
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 600px;
-            margin: 0 auto;
+            margin: 0;
             padding: 20px;
-        }}
-        .header {{
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-            border-radius: 10px 10px 0 0;
-        }}
-        .content {{
-            background: #f9f9f9;
-            padding: 30px;
-            border-radius: 0 0 10px 10px;
-        }}
-        .message {{
-            font-size: 18px;
-            margin-bottom: 20px;
+            background: #ffffff;
         }}
         .gif-container {{
             text-align: center;
-            margin: 20px 0;
+            margin: 0;
+            padding: 0;
         }}
         .gif-container img {{
             max-width: 100%;
             height: auto;
-            border-radius: 10px;
-        }}
-        .signature {{
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px solid #ddd;
-            font-style: italic;
-            color: #666;
+            display: block;
+            margin: 0 auto;
         }}
     </style>
 </head>
 <body>
-    <div class='header'>
-        <h1>🎉 ¡Feliz Cumpleaños! 🎂</h1>
-    </div>
-    <div class='content'>
-        <p class='message'>
-            <strong>¡Hola {nombre}!</strong>
-        </p>
-        <p>
-            Queremos desearte un <strong>¡Feliz Cumpleaños!</strong> en este día tan especial. 
-            Esperamos que este nuevo año de vida esté lleno de alegría, éxito y muchas 
-            bendiciones.
-        </p>
-        {(gifFileName != null ? $@"
-        <div class='gif-container'>
-            <img src='cid:birthday-gif' alt='Feliz Cumpleaños' />
-        </div>
-        " : "")}
-        <p>
-            Que todos tus sueños se hagan realidad y que este día esté lleno de momentos 
-            inolvidables junto a tus seres queridos.
-        </p>
-        <p>
-            ¡Que disfrutes mucho tu día! 🎈🎊
-        </p>
-        <div class='signature'>
-            <p>Con mucho cariño,</p>
-            <p><strong>Equipo Koncilia</strong></p>
-        </div>
+    <div class='gif-container'>
+        <img src='cid:birthday-image' alt='Feliz Cumpleaños' />
     </div>
 </body>
 </html>";
 
-            await SendEmailWithAttachmentAsync(toEmail, subject, body, gifFileName, bccEmails);
+            await SendEmailWithAttachmentAsync(toEmail, subject, body, imageFileName, bccEmails);
         }
 
-        private async Task<bool> SendEmailWithAttachmentAsync(string toEmail, string subject, string body, string? gifFileName, List<string>? bccEmails = null)
+        private async Task<bool> SendEmailWithAttachmentAsync(string toEmail, string subject, string body, string? imageFileName, List<string>? bccEmails = null)
         {
             try
             {
@@ -151,21 +150,21 @@ namespace Koncilia_Contratos.Services
                 var bodyBuilder = new BodyBuilder();
                 bodyBuilder.HtmlBody = body;
 
-                // Agregar el GIF como attachment inline si existe
-                if (!string.IsNullOrEmpty(gifFileName))
+                // Agregar la imagen como attachment inline si existe
+                if (!string.IsNullOrEmpty(imageFileName))
                 {
-                    var gifPath = Path.Combine(_webHostEnvironment.WebRootPath, "images", "birthday", gifFileName);
-                    if (File.Exists(gifPath))
+                    var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", "birthday", imageFileName);
+                    if (File.Exists(imagePath))
                     {
-                        var attachment = bodyBuilder.LinkedResources.Add(gifPath);
-                        attachment.ContentId = "birthday-gif";
+                        var attachment = bodyBuilder.LinkedResources.Add(imagePath);
+                        attachment.ContentId = "birthday-image";
                         attachment.ContentDisposition = new ContentDisposition(ContentDisposition.Inline);
-                        attachment.ContentDisposition.FileName = gifFileName;
-                        _logger.LogInformation($"GIF agregado al correo: {gifFileName}");
+                        attachment.ContentDisposition.FileName = imageFileName;
+                        _logger.LogInformation($"Imagen agregada al correo: {imageFileName}");
                     }
                     else
                     {
-                        _logger.LogWarning($"GIF no encontrado en la ruta: {gifPath}");
+                        _logger.LogWarning($"Imagen no encontrada en la ruta: {imagePath}");
                     }
                 }
 

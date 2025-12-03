@@ -48,12 +48,17 @@
     </script>
 }
 
-<!-- Botón de acción -->
-<div class="mb-6">
+<!-- Botones de acción -->
+<div class="mb-6 flex flex-wrap gap-4">
     <a asp-action="Create" 
        class="inline-flex items-center justify-center px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all">
         <i class="fas fa-plus-circle text-2xl mr-3"></i>
         <span>Nuevo Empleado</span>
+    </a>
+    <a asp-controller="BirthdayGifs" asp-action="Index" 
+       class="inline-flex items-center justify-center px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all">
+        <i class="fas fa-image text-2xl mr-3"></i>
+        <span>Gestión de Plantillas GIF</span>
     </a>
 </div>
 
