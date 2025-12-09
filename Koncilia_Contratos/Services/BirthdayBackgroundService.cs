@@ -12,8 +12,9 @@ namespace Koncilia_Contratos.Services
         private readonly ILogger<BirthdayBackgroundService> _logger;
         private readonly IConfiguration _configuration;
 
-        // Hora configurada para enviar correos (por defecto 8:00 AM)
-        private readonly TimeSpan _scheduledTime = new TimeSpan(9, 0, 0); // 8:00 AM
+        // Hora configurada para enviar correos (por defecto 9:00 AM hora Bogotá)
+        private readonly TimeSpan _scheduledTime = new TimeSpan(9, 0, 0);
+        private const string DefaultTimeZoneId = "SA Pacific Standard Time"; // Bogotá/Lima/Quito (UTC-5 sin DST)
 
         public BirthdayBackgroundService(IServiceProvider serviceProvider, ILogger<BirthdayBackgroundService> logger, IConfiguration configuration)
         {
@@ -26,8 +27,29 @@ namespace Koncilia_Contratos.Services
         {
             _logger.LogInformation("Servicio de verificación de cumpleaños iniciado.");
             
+            // Zona horaria: configurable y con valor por defecto en Bogotá
+            var timeZoneId = _configuration["Birthday:TimeZoneId"] ?? DefaultTimeZoneId;
+            TimeZoneInfo? timeZone;
+
+            try
+            {
+                timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
+                _logger.LogInformation("Zona horaria para cumpleaños: {TimeZoneId} (UTC{Offset})",
+                    timeZone.Id, timeZone.BaseUtcOffset);
+            }
+            catch (TimeZoneNotFoundException)
+            {
+                _logger.LogWarning("Zona horaria {TimeZoneId} no encontrada. Usando {DefaultTimeZoneId}.", timeZoneId, DefaultTimeZoneId);
+                timeZone = TimeZoneInfo.FindSystemTimeZoneById(DefaultTimeZoneId);
+            }
+            catch (InvalidTimeZoneException ex)
+            {
+                _logger.LogWarning(ex, "Zona horaria {TimeZoneId} inválida. Usando {DefaultTimeZoneId}.", timeZoneId, DefaultTimeZoneId);
+                timeZone = TimeZoneInfo.FindSystemTimeZoneById(DefaultTimeZoneId);
+            }
+
             // Leer la hora configurada desde appsettings.json si existe
-            var horaConfigurada = _configuration["Birthday:CheckTime"]; // Formato: "08:00"
+            var horaConfigurada = _configuration["Birthday:CheckTime"]; // Formato: "09:00"
             var scheduledTime = _scheduledTime;
             
             if (!string.IsNullOrEmpty(horaConfigurada))
@@ -46,7 +68,7 @@ namespace Koncilia_Contratos.Services
             // Ejecutar verificación inicial (con manejo de errores)
             try
             {
-                await CheckBirthdaysAsync();
+                await CheckBirthdaysAsync(timeZone);
             }
             catch (Exception ex)
             {
@@ -58,24 +80,31 @@ namespace Koncilia_Contratos.Services
             {
                 try
                 {
-                    // Calcular el tiempo hasta la próxima ejecución programada
-                    var ahora = DateTime.Now;
-                    var proximaEjecucion = ahora.Date.Add(scheduledTime);
+                    // Calcular el tiempo hasta la próxima ejecución programada usando zona horaria configurada
+                    var ahoraUtc = DateTime.UtcNow;
+                    var ahoraZona = TimeZoneInfo.ConvertTimeFromUtc(ahoraUtc, timeZone);
+
+                    var proximaEjecucionZona = ahoraZona.Date.Add(scheduledTime);
                     
                     // Si la hora programada ya pasó hoy, programar para mañana
-                    if (proximaEjecucion <= ahora)
+                    if (proximaEjecucionZona <= ahoraZona)
                     {
-                        proximaEjecucion = proximaEjecucion.AddDays(1);
+                        proximaEjecucionZona = proximaEjecucionZona.AddDays(1);
                     }
 
-                    var tiempoRestante = proximaEjecucion - ahora;
-                    _logger.LogInformation($"Próxima verificación de cumpleaños programada para: {proximaEjecucion:yyyy-MM-dd HH:mm:ss} (en {tiempoRestante.TotalHours:F2} horas)");
+                    // Convertir la próxima ejecución a UTC para calcular el delay real
+                    var proximaEjecucionUtc = TimeZoneInfo.ConvertTimeToUtc(proximaEjecucionZona, timeZone);
+                    var tiempoRestante = proximaEjecucionUtc - ahoraUtc;
+
+                    _logger.LogInformation(
+                        "Próxima verificación de cumpleaños programada para: {FechaZona} (hora local configurada) | UTC: {FechaUtc} (en {Horas:F2} horas)",
+                        proximaEjecucionZona, proximaEjecucionUtc, tiempoRestante.TotalHours);
 
                     // Esperar hasta la hora programada
                     await Task.Delay(tiempoRestante, stoppingToken);
 
                     // Ejecutar verificación
-                    await CheckBirthdaysAsync();
+                    await CheckBirthdaysAsync(timeZone);
                 }
                 catch (Exception ex)
                 {
@@ -87,7 +116,7 @@ namespace Koncilia_Contratos.Services
             }
         }
 
-        private async Task CheckBirthdaysAsync()
+        private async Task CheckBirthdaysAsync(TimeZoneInfo timeZone)
         {
             try
             {
@@ -95,7 +124,8 @@ namespace Koncilia_Contratos.Services
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
 
-                var hoy = DateTime.Today;
+                // Usar la fecha de Bogotá (o la zona configurada) para evitar desfases con la región del App Service
+                var hoy = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone).Date;
                 
                 // Obtener empleados que cumplen años hoy
                 var empleadosCumpleanos = await dbContext.Empleados

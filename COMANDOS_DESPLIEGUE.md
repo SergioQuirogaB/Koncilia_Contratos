@@ -71,3 +71,5 @@ Get-Item "Koncilia_Contratos_Azure_Deploy.zip" | Select-Object Name, @{Name="Siz
    - Reiniciar el App Service
    - Limpiar caché del navegador (Ctrl+Shift+Delete o Ctrl+F5)
 
+
+
