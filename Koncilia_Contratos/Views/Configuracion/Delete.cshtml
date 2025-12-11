@@ -5,136 +5,72 @@
 }
 
 <!-- Header -->
-<div class="mb-6">
-    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center mb-2">
-        <span class="bg-gradient-to-br from-red-500 to-red-600 text-white p-2 rounded-lg mr-3">
-            <i class="fas fa-user-times"></i>
-        </span>
+<div class="mb-5">
+    <h1 class="text-xl sm:text-2xl font-semibold text-gray-900 flex items-center gap-2 mb-1">
+        <i class="fas fa-trash text-[#0c1791]"></i>
         Eliminar Usuario
     </h1>
-    <p class="text-sm text-gray-600">Confirma la eliminación del usuario del sistema</p>
+    <p class="text-xs text-gray-600">Confirma la eliminación del usuario seleccionado</p>
 </div>
 
-<!-- Alerta de Advertencia -->
-<div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
-    <div class="flex items-start">
-        <div class="flex-shrink-0">
-            <i class="fas fa-exclamation-triangle text-red-500 text-2xl"></i>
-        </div>
-        <div class="ml-3">
-            <h3 class="text-lg font-semibold text-red-800 mb-1">¡Atención!</h3>
-            <p class="text-sm text-red-700">¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.</p>
-            <p class="text-sm text-red-700 mt-2">El usuario perderá acceso al sistema y todos sus datos asociados se eliminarán permanentemente.</p>
-        </div>
+<!-- Alerta de advertencia -->
+<div class="bg-red-50 border-l-4 border-red-500 p-3 rounded-lg mb-4">
+    <div class="flex items-center gap-2">
+        <i class="fas fa-exclamation-triangle text-red-500"></i>
+        <p class="text-xs text-red-700">¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.</p>
     </div>
 </div>
 
-<div class="max-w-4xl mx-auto">
-    <div class="bg-white rounded-xl shadow-md overflow-hidden">
-        <div class="px-4 py-3 bg-gradient-to-r from-red-500 to-red-600 border-b border-red-700">
-            <h3 class="text-lg font-semibold text-white flex items-center">
-                <i class="fas fa-user mr-2"></i>
-                Información del Usuario a Eliminar
-            </h3>
-        </div>
-        
-        <div class="p-6">
-            <!-- Avatar y Nombre Principal -->
-            <div class="flex items-center mb-6 pb-6 border-b border-gray-200">
-                <div class="flex-shrink-0 h-20 w-20">
-                    <div class="h-20 w-20 rounded-full bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
-                        @((!string.IsNullOrEmpty(Model.Nombre) ? Model.Nombre[0].ToString().ToUpper() : "U") + (!string.IsNullOrEmpty(Model.Apellido) ? Model.Apellido[0].ToString().ToUpper() : ""))
-                    </div>
-                </div>
-                <div class="ml-4">
-                    <h2 class="text-2xl font-bold text-gray-900">
-                        @(Model.Nombre ?? "") @(Model.Apellido ?? "")
-                    </h2>
-                    <p class="text-sm text-gray-500">@Model.UserName</p>
-                </div>
+<!-- Información del Usuario -->
+<div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-4">
+    <div class="px-5 py-3 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-[#f6fbff]">
+        <h3 class="text-base font-semibold text-gray-900 flex items-center gap-2">
+            <i class="fas fa-info-circle text-[#0c1791]"></i>
+            Información del Usuario
+        </h3>
+    </div>
+    <div class="p-4">
+        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <dt class="text-xs font-semibold text-gray-500 mb-1">Nombre Completo</dt>
+                <dd class="text-sm font-semibold text-gray-900">@(Model.Nombre ?? "") @(Model.Apellido ?? "")</dd>
             </div>
-            
-            <!-- Información Personal -->
-            <div class="mb-6">
-                <h4 class="text-md font-semibold text-gray-800 mb-4 flex items-center">
-                    <i class="fas fa-id-card text-blue-600 mr-2"></i>
-                    Información Personal
-                </h4>
-                <dl class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-gray-50 rounded-lg p-4">
-                        <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Nombre</dt>
-                        <dd class="text-base font-semibold text-gray-900">@(Model.Nombre ?? "N/A")</dd>
-                    </div>
-                    <div class="bg-gray-50 rounded-lg p-4">
-                        <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Apellido</dt>
-                        <dd class="text-base font-semibold text-gray-900">@(Model.Apellido ?? "N/A")</dd>
-                    </div>
-                </dl>
+
+            <div>
+                <dt class="text-xs font-semibold text-gray-500 mb-1">Nombre de Usuario</dt>
+                <dd class="text-sm font-semibold text-[#0c1791]">@Model.UserName</dd>
             </div>
-            
-            <!-- Información de Cuenta -->
-            <div class="mb-6">
-                <h4 class="text-md font-semibold text-gray-800 mb-4 flex items-center">
-                    <i class="fas fa-key text-green-600 mr-2"></i>
-                    Información de Cuenta
-                </h4>
-                <dl class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-gray-50 rounded-lg p-4">
-                        <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">
-                            <i class="fas fa-at mr-1"></i> Nombre de Usuario
-                        </dt>
-                        <dd class="text-base font-semibold text-gray-900">@Model.UserName</dd>
-                    </div>
-                    <div class="bg-gray-50 rounded-lg p-4">
-                        <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">
-                            <i class="fas fa-envelope mr-1"></i> Email
-                        </dt>
-                        <dd class="text-base font-semibold text-gray-900">@Model.Email</dd>
-                    </div>
-                </dl>
+
+            <div>
+                <dt class="text-xs font-semibold text-gray-500 mb-1">Email</dt>
+                <dd class="text-sm font-semibold text-gray-900">@Model.Email</dd>
             </div>
-            
-            <!-- Información de Contacto -->
-            <div class="mb-6">
-                <h4 class="text-md font-semibold text-gray-800 mb-4 flex items-center">
-                    <i class="fas fa-phone text-purple-600 mr-2"></i>
-                    Información de Contacto
-                </h4>
-                <dl class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-gray-50 rounded-lg p-4">
-                        <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">
-                            <i class="fas fa-phone mr-1"></i> Teléfono
-                        </dt>
-                        <dd class="text-base font-semibold text-gray-900">@(Model.PhoneNumber ?? "N/A")</dd>
-                    </div>
-                    <div class="bg-gray-50 rounded-lg p-4">
-                        <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">
-                            <i class="fas fa-calendar mr-1"></i> Fecha de Registro
-                        </dt>
-                        <dd class="text-base font-semibold text-gray-900">@Model.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</dd>
-                    </div>
-                </dl>
+
+            <div>
+                <dt class="text-xs font-semibold text-gray-500 mb-1">Teléfono</dt>
+                <dd class="text-sm font-semibold text-gray-900">@(Model.PhoneNumber ?? "N/A")</dd>
             </div>
-            
-            <!-- Formulario de Confirmación -->
-            <form asp-action="Delete" method="post" class="pt-6 border-t border-gray-200">
-                <input type="hidden" asp-for="Id" />
-                
-                <!-- Botones -->
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <button type="submit" 
-                            class="flex-1 sm:flex-initial inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition">
-                        <i class="fas fa-trash mr-2"></i>
-                        Confirmar Eliminación
-                    </button>
-                    <a asp-action="Index" 
-                       class="flex-1 sm:flex-initial inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 border-2 border-gray-300 hover:border-gray-400 text-gray-700 font-semibold rounded-lg transition">
-                        <i class="fas fa-times mr-2"></i>
-                        Cancelar
-                    </a>
-                </div>
-            </form>
-        </div>
+
+            <div>
+                <dt class="text-xs font-semibold text-gray-500 mb-1">Fecha de Registro</dt>
+                <dd class="text-sm font-semibold text-gray-900">@Model.FechaRegistro.ToString("dd/MM/yyyy")</dd>
+            </div>
+        </dl>
     </div>
 </div>
+
+<!-- Formulario de eliminación -->
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="flex flex-col sm:flex-row gap-3">
+        <button type="submit" class="flex items-center justify-center gap-2 px-5 py-2.5 bg-red-600 text-white font-semibold rounded-lg shadow-sm hover:shadow-md hover:bg-red-700 transition text-sm">
+            <i class="fas fa-trash"></i>
+            Confirmar Eliminación
+        </button>
+        <a asp-action="Index" class="flex items-center justify-center gap-2 px-5 py-2.5 bg-white hover:bg-gray-50 border border-gray-200 hover:border-gray-300 text-gray-700 font-semibold rounded-lg shadow-sm hover:shadow-md transition text-sm">
+            <i class="fas fa-times"></i>
+            Cancelar
+        </a>
+    </div>
+</form>
 

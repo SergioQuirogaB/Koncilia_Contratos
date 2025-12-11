@@ -2,80 +2,98 @@
     ViewData["Title"] = "Importar Contratos";
 }
 
-<div class="container">
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <h1 class="display-4">@ViewData["Title"]</h1>
-            <hr />
+<!-- Header -->
+<div class="mb-5">
+    <h1 class="text-xl sm:text-2xl font-semibold text-gray-900 flex items-center gap-2 mb-1">
+        <i class="fas fa-file-upload text-[#0c1791]"></i>
+        Importar Contratos
+    </h1>
+    <p class="text-xs text-gray-600">Importa contratos desde un archivo Excel</p>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+    <!-- Formulario de importación -->
+    <div class="lg:col-span-2">
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="px-5 py-3 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-[#f6fbff]">
+                <h3 class="text-base font-semibold text-gray-900 flex items-center gap-2">
+                    <i class="fas fa-file-excel text-[#0c1791]"></i>
+                    Importar desde Excel
+                </h3>
+            </div>
+            <div class="p-4">
+                <form asp-action="Importar" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="bg-red-50 border-l-4 border-red-500 p-3 rounded-lg mb-4">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-exclamation-circle text-red-500"></i>
+                            <p class="text-xs text-red-700">Por favor corrija los errores antes de continuar.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="archivo" class="block text-xs font-semibold text-gray-700 mb-1.5">Selecciona el archivo Excel:</label>
+                        <input type="file" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0c1791]/20 focus:border-[#0c1791] transition text-sm" id="archivo" name="archivo" accept=".xlsx,.xls" required />
+                    </div>
+
+                    <div class="bg-blue-50 border-l-4 border-[#0c1791] p-3 rounded-lg mb-4">
+                        <h5 class="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                            <i class="fas fa-info-circle text-[#0c1791]"></i>
+                            Instrucciones:
+                        </h5>
+                        <ul class="text-xs text-gray-700 space-y-1 mb-2 ml-5 list-disc">
+                            <li>El archivo debe ser formato Excel (.xlsx o .xls)</li>
+                            <li>La primera fila debe contener los encabezados</li>
+                            <li>Las columnas deben estar en el siguiente orden:</li>
+                        </ul>
+                        <ol class="text-xs text-gray-700 space-y-0.5 ml-5 list-decimal">
+                            <li>Año</li>
+                            <li>Empresa</li>
+                            <li>Cliente</li>
+                            <li>Número de Contrato</li>
+                            <li>Valor en Pesos (sin IVA)</li>
+                            <li>Valor en Dólares</li>
+                            <li>Descripción</li>
+                            <li>Categoría</li>
+                            <li>Valor Mensual</li>
+                            <li>Observaciones</li>
+                            <li>Fecha de Inicio (dd/mm/aaaa)</li>
+                            <li>Fecha de Vencimiento (dd/mm/aaaa)</li>
+                            <li>Valor Facturado</li>
+                            <li>Estado</li>
+                            <li>Número de Horas</li>
+                            <li>Número de Factura</li>
+                            <li>Número de Póliza</li>
+                            <li>Fecha de Vencimiento de la Póliza (dd/mm/aaaa)</li>
+                        </ol>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button type="submit" class="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#0c1791] text-white font-semibold rounded-lg shadow-sm hover:shadow-md hover:bg-[#0a1478] transition text-sm">
+                            <i class="fas fa-upload"></i>
+                            Importar Contratos
+                        </button>
+                        <a asp-action="Index" class="flex items-center justify-center gap-2 px-5 py-2.5 bg-white hover:bg-gray-50 border border-gray-200 hover:border-gray-300 text-gray-700 font-semibold rounded-lg shadow-sm hover:shadow-md transition text-sm">
+                            <i class="fas fa-times"></i>
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card mb-3">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0">Importar desde Excel</h5>
-                </div>
-                <div class="card-body">
-                    <form asp-action="Importar" method="post" enctype="multipart/form-data">
-                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-                        
-                        <div class="mb-3">
-                            <label for="archivo" class="form-label">Selecciona el archivo Excel:</label>
-                            <input type="file" class="form-control" id="archivo" name="archivo" accept=".xlsx,.xls" required />
-                        </div>
-
-                        <div class="alert alert-info" role="alert">
-                            <h5 class="alert-heading">Instrucciones:</h5>
-                            <ul>
-                                <li>El archivo debe ser formato Excel (.xlsx o .xls)</li>
-                                <li>La primera fila debe contener los encabezados</li>
-                                <li>Las columnas deben estar en el siguiente orden:</li>
-                            </ul>
-                            <ol>
-                                <li>Año</li>
-                                <li>Empresa</li>
-                                <li>Cliente</li>
-                                <li>Número de Contrato</li>
-                                <li>Valor en Pesos (sin IVA)</li>
-                                <li>Valor en Dólares</li>
-                                <li>Descripción</li>
-                                <li>Categoría</li>
-                                <li>Valor Mensual</li>
-                                <li>Observaciones</li>
-                                <li>Fecha de Inicio (dd/mm/aaaa)</li>
-                                <li>Fecha de Vencimiento (dd/mm/aaaa)</li>
-                                <li>Valor Facturado</li>
-                                <li>Estado</li>
-                                <li>Número de Horas</li>
-                                <li>Número de Factura</li>
-                                <li>Número de Póliza</li>
-                                <li>Fecha de Vencimiento de la Póliza (dd/mm/aaaa)</li>
-                            </ol>
-                        </div>
-
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-success btn-lg">
-                                <i class="bi bi-upload"></i> Importar Contratos
-                            </button>
-                            <a asp-action="Index" class="btn btn-secondary btn-lg">
-                                <i class="bi bi-x-circle"></i> Cancelar
-                            </a>
-                        </div>
-                    </form>
-                </div>
+    <!-- Panel lateral -->
+    <div>
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="px-5 py-3 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-[#f6fbff]">
+                <h3 class="text-base font-semibold text-gray-900 flex items-center gap-2">
+                    <i class="fas fa-file-download text-[#0c1791]"></i>
+                    Plantilla de Ejemplo
+                </h3>
             </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Plantilla de Ejemplo</h5>
-                </div>
-                <div class="card-body">
-                    <p>Para facilitar la importación, asegúrate de que tu archivo Excel tenga exactamente las 18 columnas en el orden especificado.</p>
-                    <p class="mb-0"><strong>Nota:</strong> Los campos numéricos deben tener valores válidos. Las fechas deben estar en formato de fecha de Excel.</p>
-                </div>
+            <div class="p-4">
+                <p class="text-xs text-gray-700 mb-3">Para facilitar la importación, asegúrate de que tu archivo Excel tenga exactamente las 18 columnas en el orden especificado.</p>
+                <p class="text-xs text-gray-700"><strong>Nota:</strong> Los campos numéricos deben tener valores válidos. Las fechas deben estar en formato de fecha de Excel.</p>
             </div>
         </div>
     </div>
@@ -83,6 +101,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 }
 

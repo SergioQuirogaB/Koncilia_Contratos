@@ -73,3 +73,5 @@ Get-Item "Koncilia_Contratos_Azure_Deploy.zip" | Select-Object Name, @{Name="Siz
 
 
 
+
+

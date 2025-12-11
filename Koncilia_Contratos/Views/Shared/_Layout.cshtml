@@ -14,6 +14,9 @@
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
     <script>
         tailwind.config = {
             theme: {
@@ -65,53 +68,66 @@
 </head>
 <body class="bg-gray-50 min-h-screen">
     <!-- Navegación -->
-    <nav class="bg-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
+    <nav class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50 relative overflow-hidden">
+        <!-- Canvas para particles.js -->
+        <div id="particles-nav" class="absolute inset-0 pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex justify-between h-12">
                 <!-- Logo y menú principal -->
                 <div class="flex">
                     <!-- Logo -->
                     <div class="flex-shrink-0 flex items-center">
-                        <a asp-controller="Home" asp-action="Index" class="flex items-center space-x-2 group">
+                        <a asp-controller="Home" asp-action="Index" class="flex items-center gap-2 group">
                             <img src="~/images/Koncilia.png" 
                                  alt="Logo Koncilia" 
-                                 class="h-6 sm:h-8 w-auto object-contain transition-transform group-hover:scale-105"
+                                 class="h-5 sm:h-6 w-auto object-contain transition-transform group-hover:scale-105"
                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                            <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent hidden sm:block" style="display: none;">
+                            <span class="text-lg font-semibold text-[#0c1791] hidden sm:block" style="display: none;">
                                 Koncilia
                             </span>
                         </a>
                     </div>
                     
                     <!-- Menú desktop -->
-                    <div class="hidden md:ml-6 md:flex md:space-x-4">
+                    <div class="hidden md:ml-6 md:flex md:space-x-1">
                         
                         @if (User.Identity.IsAuthenticated)
                         {
                             <a asp-controller="Home" asp-action="Dashboard" 
-                               class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
-                                <i class="fas fa-tachometer-alt mr-2"></i>
-                                <span>Dashboard</span>
+                               class="relative inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 hover:text-[#0c1791] rounded-lg transition-all duration-200 group">
+                                <span class="absolute left-0 top-0 bottom-0 w-1 bg-[#0c1791] rounded-r-full transform scale-y-0 group-hover:scale-y-100 transition-transform duration-200"></span>
+                                <span class="absolute inset-0 bg-gradient-to-r from-[#0c1791]/5 to-[#0ff2f2]/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"></span>
+                                <i class="fas fa-tachometer-alt text-sm relative z-10"></i>
+                                <span class="relative z-10">Dashboard</span>
                             </a>
                             <a asp-controller="Contratos" asp-action="Index" 
-                               class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
-                                <i class="fas fa-file-contract mr-2"></i>
-                                <span>Contratos</span>
+                               class="relative inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 hover:text-[#0c1791] rounded-lg transition-all duration-200 group">
+                                <span class="absolute left-0 top-0 bottom-0 w-1 bg-[#0c1791] rounded-r-full transform scale-y-0 group-hover:scale-y-100 transition-transform duration-200"></span>
+                                <span class="absolute inset-0 bg-gradient-to-r from-[#0c1791]/5 to-[#0ff2f2]/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"></span>
+                                <i class="fas fa-file-contract text-sm relative z-10"></i>
+                                <span class="relative z-10">Contratos</span>
                             </a>
                             <a asp-controller="Reportes" asp-action="Index" 
-                               class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
-                                <i class="fas fa-chart-bar mr-2"></i>
-                                <span>Reportes</span>
+                               class="relative inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 hover:text-[#0c1791] rounded-lg transition-all duration-200 group">
+                                <span class="absolute left-0 top-0 bottom-0 w-1 bg-[#0c1791] rounded-r-full transform scale-y-0 group-hover:scale-y-100 transition-transform duration-200"></span>
+                                <span class="absolute inset-0 bg-gradient-to-r from-[#0c1791]/5 to-[#0ff2f2]/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"></span>
+                                <i class="fas fa-chart-bar text-sm relative z-10"></i>
+                                <span class="relative z-10">Reportes</span>
                             </a>
                             <a asp-controller="Cumpleanos" asp-action="Index" 
-                               class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
-                                <i class="fas fa-birthday-cake mr-2"></i>
-                                <span>Cumpleaños</span>
+                               class="relative inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 hover:text-[#0c1791] rounded-lg transition-all duration-200 group">
+                                <span class="absolute left-0 top-0 bottom-0 w-1 bg-[#0c1791] rounded-r-full transform scale-y-0 group-hover:scale-y-100 transition-transform duration-200"></span>
+                                <span class="absolute inset-0 bg-gradient-to-r from-[#0c1791]/5 to-[#0ff2f2]/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"></span>
+                                <i class="fas fa-birthday-cake text-sm relative z-10"></i>
+                                <span class="relative z-10">Cumpleaños</span>
                             </a>
                             <a asp-controller="Configuracion" asp-action="Index" 
-                               class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
-                                <i class="fas fa-users mr-2"></i>
-                                <span>Usuarios</span>
+                               class="relative inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 hover:text-[#0c1791] rounded-lg transition-all duration-200 group">
+                                <span class="absolute left-0 top-0 bottom-0 w-1 bg-[#0c1791] rounded-r-full transform scale-y-0 group-hover:scale-y-100 transition-transform duration-200"></span>
+                                <span class="absolute inset-0 bg-gradient-to-r from-[#0c1791]/5 to-[#0ff2f2]/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"></span>
+                                <i class="fas fa-users text-sm relative z-10"></i>
+                                <span class="relative z-10">Usuarios</span>
                             </a>
                         }
                     </div>
@@ -122,17 +138,17 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <!-- Usuario desktop -->
-                        <div class="hidden md:flex items-center space-x-4">
-                            <div class="flex items-center space-x-2 text-gray-700">
-                                <div class="bg-blue-100 p-2 rounded-full">
-                                    <i class="fas fa-user text-blue-600"></i>
+                        <div class="hidden md:flex items-center gap-3">
+                            <div class="flex items-center gap-2 text-gray-700">
+                                <div class="bg-[#0c1791]/10 p-1.5 rounded-full">
+                                    <i class="fas fa-user text-[#0c1791] text-xs"></i>
                                 </div>
-                                <span class="text-sm font-medium">@User.Identity.Name</span>
+                                <span class="text-sm font-semibold">@User.Identity.Name</span>
                             </div>
                             <form method="post" action="@Url.Action("Logout", "Account")">
                                 <button type="submit" 
-                                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 rounded-lg shadow-md hover:shadow-lg">
-                                    <i class="fas fa-sign-out-alt mr-2"></i>
+                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg shadow-sm hover:shadow-md transition">
+                                    <i class="fas fa-sign-out-alt text-sm"></i>
                                     <span>Salir</span>
                                 </button>
                             </form>
@@ -142,8 +158,8 @@
                     <!-- Botón menú mobile -->
                     <button type="button" 
                             onclick="toggleMobileMenu()"
-                            class="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-blue-50 focus:outline-none">
-                        <i class="fas fa-bars text-xl"></i>
+                            class="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:text-[#0c1791] hover:bg-[#f6fbff] focus:outline-none transition">
+                        <i class="fas fa-bars text-base"></i>
                     </button>
                 </div>
             </div>
@@ -156,38 +172,53 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <a asp-controller="Home" asp-action="Dashboard" 
-                       class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
-                        <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+                       class="relative flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-700 hover:text-[#0c1791] rounded-lg transition-all duration-200 group">
+                        <span class="absolute left-0 top-0 bottom-0 w-1 bg-[#0c1791] rounded-r-full transform scale-y-0 group-hover:scale-y-100 transition-transform duration-200"></span>
+                        <span class="absolute inset-0 bg-gradient-to-r from-[#0c1791]/5 to-[#0ff2f2]/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"></span>
+                        <i class="fas fa-tachometer-alt text-sm relative z-10"></i> 
+                        <span class="relative z-10">Dashboard</span>
                     </a>
                     <a asp-controller="Contratos" asp-action="Index" 
-                       class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
-                        <i class="fas fa-file-contract mr-2"></i> Contratos
+                       class="relative flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-700 hover:text-[#0c1791] rounded-lg transition-all duration-200 group">
+                        <span class="absolute left-0 top-0 bottom-0 w-1 bg-[#0c1791] rounded-r-full transform scale-y-0 group-hover:scale-y-100 transition-transform duration-200"></span>
+                        <span class="absolute inset-0 bg-gradient-to-r from-[#0c1791]/5 to-[#0ff2f2]/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"></span>
+                        <i class="fas fa-file-contract text-sm relative z-10"></i> 
+                        <span class="relative z-10">Contratos</span>
                     </a>
                     <a asp-controller="Reportes" asp-action="Index" 
-                       class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
-                        <i class="fas fa-chart-bar mr-2"></i> Reportes
+                       class="relative flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-700 hover:text-[#0c1791] rounded-lg transition-all duration-200 group">
+                        <span class="absolute left-0 top-0 bottom-0 w-1 bg-[#0c1791] rounded-r-full transform scale-y-0 group-hover:scale-y-100 transition-transform duration-200"></span>
+                        <span class="absolute inset-0 bg-gradient-to-r from-[#0c1791]/5 to-[#0ff2f2]/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"></span>
+                        <i class="fas fa-chart-bar text-sm relative z-10"></i> 
+                        <span class="relative z-10">Reportes</span>
                     </a>
                     <a asp-controller="Cumpleanos" asp-action="Index" 
-                       class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
-                        <i class="fas fa-birthday-cake mr-2"></i> Cumpleaños
+                       class="relative flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-700 hover:text-[#0c1791] rounded-lg transition-all duration-200 group">
+                        <span class="absolute left-0 top-0 bottom-0 w-1 bg-[#0c1791] rounded-r-full transform scale-y-0 group-hover:scale-y-100 transition-transform duration-200"></span>
+                        <span class="absolute inset-0 bg-gradient-to-r from-[#0c1791]/5 to-[#0ff2f2]/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"></span>
+                        <i class="fas fa-birthday-cake text-sm relative z-10"></i> 
+                        <span class="relative z-10">Cumpleaños</span>
                     </a>
                     <a asp-controller="Configuracion" asp-action="Index" 
-                       class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
-                        <i class="fas fa-users mr-2"></i> Usuarios
+                       class="relative flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-700 hover:text-[#0c1791] rounded-lg transition-all duration-200 group">
+                        <span class="absolute left-0 top-0 bottom-0 w-1 bg-[#0c1791] rounded-r-full transform scale-y-0 group-hover:scale-y-100 transition-transform duration-200"></span>
+                        <span class="absolute inset-0 bg-gradient-to-r from-[#0c1791]/5 to-[#0ff2f2]/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"></span>
+                        <i class="fas fa-users text-sm relative z-10"></i> 
+                        <span class="relative z-10">Usuarios</span>
                     </a>
                     
                     <!-- Usuario mobile -->
                     <div class="border-t border-gray-200 pt-3 mt-3">
-                        <div class="flex items-center px-3 py-2">
-                            <div class="bg-blue-100 p-2 rounded-full">
-                                <i class="fas fa-user text-blue-600"></i>
+                        <div class="flex items-center gap-2 px-3 py-2">
+                            <div class="bg-[#0c1791]/10 p-1.5 rounded-full">
+                                <i class="fas fa-user text-[#0c1791] text-xs"></i>
                             </div>
-                            <span class="ml-2 text-sm font-medium text-gray-700">@User.Identity.Name</span>
+                            <span class="text-sm font-semibold text-gray-700">@User.Identity.Name</span>
                         </div>
                         <form method="post" action="@Url.Action("Logout", "Account")" class="px-3 py-2">
                             <button type="submit" 
-                                    class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-red-500 to-red-600 rounded-lg shadow-md">
-                                <i class="fas fa-sign-out-alt mr-2"></i> Cerrar Sesión
+                                    class="w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg shadow-sm hover:shadow-md transition">
+                                <i class="fas fa-sign-out-alt text-sm"></i> Cerrar Sesión
                             </button>
                         </form>
                     </div>
@@ -208,7 +239,7 @@
                 <div class="text-sm text-gray-600">
                     &copy; 2025 Koncilia Contratos. Todos los derechos reservados.
                 </div>
-                <p class="text-sm text-gray-600">Versión 1.5.1</p>
+                <p class="text-sm text-gray-600">Versión 2.0.0</p>
             </div>
         </div>
     </footer>
@@ -226,6 +257,96 @@
             
             if (!button && !menu.contains(event.target) && !menu.classList.contains('hidden')) {
                 menu.classList.add('hidden');
+            }
+        });
+        
+        // Inicializar particles.js en el navbar
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof particlesJS !== 'undefined') {
+                particlesJS('particles-nav', {
+                    particles: {
+                        number: {
+                            value: 30,
+                            density: {
+                                enable: true,
+                                value_area: 800
+                            }
+                        },
+                        color: {
+                            value: '#0c1791'
+                        },
+                        shape: {
+                            type: 'circle',
+                            stroke: {
+                                width: 0,
+                                color: '#000000'
+                            }
+                        },
+                        opacity: {
+                            value: 0.3,
+                            random: true,
+                            anim: {
+                                enable: true,
+                                speed: 1,
+                                opacity_min: 0.1,
+                                sync: false
+                            }
+                        },
+                        size: {
+                            value: 2,
+                            random: true,
+                            anim: {
+                                enable: true,
+                                speed: 2,
+                                size_min: 0.5,
+                                sync: false
+                            }
+                        },
+                        line_linked: {
+                            enable: true,
+                            distance: 150,
+                            color: '#0c1791',
+                            opacity: 0.2,
+                            width: 1
+                        },
+                        move: {
+                            enable: true,
+                            speed: 1,
+                            direction: 'none',
+                            random: true,
+                            straight: false,
+                            out_mode: 'out',
+                            bounce: false,
+                            attract: {
+                                enable: false,
+                                rotateX: 600,
+                                rotateY: 1200
+                            }
+                        }
+                    },
+                    interactivity: {
+                        detect_on: 'canvas',
+                        events: {
+                            onhover: {
+                                enable: true,
+                                mode: 'grab'
+                            },
+                            onclick: {
+                                enable: false
+                            },
+                            resize: true
+                        },
+                        modes: {
+                            grab: {
+                                distance: 140,
+                                line_linked: {
+                                    opacity: 0.4
+                                }
+                            }
+                        }
+                    },
+                    retina_detect: true
+                });
             }
         });
     </script>

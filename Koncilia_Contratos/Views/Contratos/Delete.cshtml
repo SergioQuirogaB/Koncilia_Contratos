@@ -4,66 +4,83 @@
     ViewData["Title"] = "Eliminar Contrato";
 }
 
-<div class="container">
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <h1 class="display-4 text-danger">@ViewData["Title"]</h1>
-            <hr />
-        </div>
-    </div>
+<!-- Header -->
+<div class="mb-5">
+    <h1 class="text-xl sm:text-2xl font-semibold text-gray-900 flex items-center gap-2 mb-1">
+        <i class="fas fa-trash text-[#0c1791]"></i>
+        Eliminar Contrato
+    </h1>
+    <p class="text-xs text-gray-600">Confirma la eliminación del contrato seleccionado</p>
+</div>
 
-    <div class="alert alert-danger" role="alert">
-        <h4 class="alert-heading">¡Atención!</h4>
-        <p>¿Estás seguro de que deseas eliminar este contrato? Esta acción no se puede deshacer.</p>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card mb-3">
-                <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0">Información del Contrato</h5>
-                </div>
-                <div class="card-body">
-                    <dl class="row">
-                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Anio)</dt>
-                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Anio)</dd>
-
-                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Empresa)</dt>
-                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Empresa)</dd>
-
-                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Cliente)</dt>
-                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Cliente)</dd>
-
-                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.NumeroContrato)</dt>
-                        <dd class="col-sm-9">@Html.DisplayFor(model => model.NumeroContrato)</dd>
-
-                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.ValorPesos)</dt>
-                        <dd class="col-sm-9">@Model.ValorPesos.ToString("C0", new System.Globalization.CultureInfo("es-CO"))</dd>
-
-                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Estado)</dt>
-                        <dd class="col-sm-9">
-                            <span class="badge @(Model.Estado == "Activo" ? "bg-success" : Model.Estado == "Finalizado" ? "bg-secondary" : Model.Estado == "Suspendido" ? "bg-warning" : "bg-danger")">
-                                @Html.DisplayFor(model => model.Estado)
-                            </span>
-                        </dd>
-                    </dl>
-                </div>
-            </div>
-
-            <form asp-action="Delete" method="post">
-                <input type="hidden" asp-for="Id" />
-                <button type="submit" class="btn btn-danger btn-lg">
-                    <i class="bi bi-trash"></i> Confirmar Eliminación
-                </button>
-                <a asp-action="Index" class="btn btn-secondary btn-lg">
-                    <i class="bi bi-x-circle"></i> Cancelar
-                </a>
-            </form>
-        </div>
+<!-- Alerta de advertencia -->
+<div class="bg-red-50 border-l-4 border-red-500 p-3 rounded-lg mb-4">
+    <div class="flex items-center gap-2">
+        <i class="fas fa-exclamation-triangle text-red-500"></i>
+        <p class="text-xs text-red-700">¿Estás seguro de que deseas eliminar este contrato? Esta acción no se puede deshacer.</p>
     </div>
 </div>
 
-@section Scripts {
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-}
+<!-- Información del Contrato -->
+<div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-4">
+    <div class="px-5 py-3 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-[#f6fbff]">
+        <h3 class="text-base font-semibold text-gray-900 flex items-center gap-2">
+            <i class="fas fa-info-circle text-[#0c1791]"></i>
+            Información del Contrato
+        </h3>
+    </div>
+    <div class="p-4">
+        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <dt class="text-xs font-semibold text-gray-500 mb-1">@Html.DisplayNameFor(model => model.Anio)</dt>
+                <dd class="text-sm font-semibold text-gray-900">@Html.DisplayFor(model => model.Anio)</dd>
+            </div>
+
+            <div>
+                <dt class="text-xs font-semibold text-gray-500 mb-1">@Html.DisplayNameFor(model => model.Empresa)</dt>
+                <dd class="text-sm font-semibold text-gray-900">@Html.DisplayFor(model => model.Empresa)</dd>
+            </div>
+
+            <div>
+                <dt class="text-xs font-semibold text-gray-500 mb-1">@Html.DisplayNameFor(model => model.Cliente)</dt>
+                <dd class="text-sm font-semibold text-gray-900">@Html.DisplayFor(model => model.Cliente)</dd>
+            </div>
+
+            <div>
+                <dt class="text-xs font-semibold text-gray-500 mb-1">@Html.DisplayNameFor(model => model.NumeroContrato)</dt>
+                <dd class="text-sm font-semibold text-[#0c1791]">@Html.DisplayFor(model => model.NumeroContrato)</dd>
+            </div>
+
+            <div>
+                <dt class="text-xs font-semibold text-gray-500 mb-1">@Html.DisplayNameFor(model => model.ValorPesos)</dt>
+                <dd class="text-sm font-semibold text-gray-900">@Model.ValorPesos.ToString("C0", new System.Globalization.CultureInfo("es-CO"))</dd>
+            </div>
+
+            <div>
+                <dt class="text-xs font-semibold text-gray-500 mb-1">@Html.DisplayNameFor(model => model.Estado)</dt>
+                <dd class="text-sm">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium @(Model.Estado == "Activo" ? "bg-green-100 text-green-800" : Model.Estado == "Finalizado" ? "bg-gray-100 text-gray-800" : Model.Estado == "Suspendido" ? "bg-yellow-100 text-yellow-800" : "bg-red-100 text-red-800")">
+                        <i class="fas fa-circle mr-1" style="font-size: 6px;"></i>
+                        @Html.DisplayFor(model => model.Estado)
+                    </span>
+                </dd>
+            </div>
+        </dl>
+    </div>
+</div>
+
+<!-- Formulario de eliminación -->
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="flex flex-col sm:flex-row gap-3">
+        <button type="submit" class="flex items-center justify-center gap-2 px-5 py-2.5 bg-red-600 text-white font-semibold rounded-lg shadow-sm hover:shadow-md hover:bg-red-700 transition text-sm">
+            <i class="fas fa-trash"></i>
+            Confirmar Eliminación
+        </button>
+        <a asp-action="Index" class="flex items-center justify-center gap-2 px-5 py-2.5 bg-white hover:bg-gray-50 border border-gray-200 hover:border-gray-300 text-gray-700 font-semibold rounded-lg shadow-sm hover:shadow-md transition text-sm">
+            <i class="fas fa-times"></i>
+            Cancelar
+        </a>
+    </div>
+</form>
 
