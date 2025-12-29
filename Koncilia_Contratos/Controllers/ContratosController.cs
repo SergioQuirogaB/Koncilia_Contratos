@@ -105,7 +105,7 @@ namespace Koncilia_Contratos.Controllers
         // POST: Contratos/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Anio,Empresa,Cliente,NumeroContrato,ValorPesos,ValorDolares,Descripcion,Categoria,ValorMensual,Observaciones,FechaInicio,FechaVencimiento,ValorFacturado,PorcentajeEjecucion,ValorPendiente,Estado,NumeroHoras,NumeroFactura,NumeroPoliza,FechaVencimientoPoliza")] Contrato contrato)
+        public async Task<IActionResult> Create([Bind("Id,Anio,Empresa,Cliente,NumeroContrato,ValorPesos,ValorDolares,Descripcion,Categoria,ValorMensual,Observaciones,FechaInicio,FechaVencimiento,ValorFacturado,PorcentajeEjecucion,ValorPendiente,Estado,NumeroHoras,NumeroFactura,NumeroPoliza,FechaVencimientoPoliza,TipoDocumento,Numero,Valor")] Contrato contrato)
         {
             if (ModelState.IsValid)
             {
@@ -143,7 +143,7 @@ namespace Koncilia_Contratos.Controllers
         // POST: Contratos/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Anio,Empresa,Cliente,NumeroContrato,ValorPesos,ValorDolares,Descripcion,Categoria,ValorMensual,Observaciones,FechaInicio,FechaVencimiento,ValorFacturado,PorcentajeEjecucion,ValorPendiente,Estado,NumeroHoras,NumeroFactura,NumeroPoliza,FechaVencimientoPoliza")] Contrato contrato)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Anio,Empresa,Cliente,NumeroContrato,ValorPesos,ValorDolares,Descripcion,Categoria,ValorMensual,Observaciones,FechaInicio,FechaVencimiento,ValorFacturado,PorcentajeEjecucion,ValorPendiente,Estado,NumeroHoras,NumeroFactura,NumeroPoliza,FechaVencimientoPoliza,TipoDocumento,Numero,Valor")] Contrato contrato)
         {
             if (id != contrato.Id)
             {

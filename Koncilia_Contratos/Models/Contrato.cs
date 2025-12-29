@@ -99,6 +99,19 @@ namespace Koncilia_Contratos.Models
         [DataType(DataType.Date)]
         public DateTime? FechaVencimientoPoliza { get; set; }
 
+        [Display(Name = "Tipo de Documento")]
+        [StringLength(50)]
+        public string? TipoDocumento { get; set; } // Contrato, Oferta Mercantil, Otrosí
+
+        [Display(Name = "Número")]
+        [StringLength(100)]
+        public string? Numero { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
+        [Display(Name = "Valor")]
+        [DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = false)]
+        public decimal? Valor { get; set; }
+
         // Propiedad calculada
         [NotMapped]
         public int DiasRestantes
